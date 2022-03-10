@@ -5,14 +5,13 @@ import Draw from "../1.1.splash/partials/Draw";
 import Title from "../1.1.splash/partials/Title";
 
 
-
 const Login = () => {
     return (
-        <BackgroundContainer>
-            <Title/>
-            <Draw/>
-            <AreaLogin/>
-        </BackgroundContainer>
+            <BackgroundContainer>
+                <Title/>
+                <Draw/>
+                <AreaLogin/>
+            </BackgroundContainer>
     )
 }
 

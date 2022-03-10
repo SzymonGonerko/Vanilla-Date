@@ -1,5 +1,14 @@
 import React from "react";
 import injectSheet from "react-jss";
+import {
+    BrowserRouter as Router,
+    NavLink,
+    Switch,
+    Route,
+    Link,
+    useRouteMatch,
+    useParams
+} from "react-router-dom";
 
 const styles = {
     '@keyframes animateHeart': {
@@ -17,12 +26,16 @@ const styles = {
         width: "50%",
         height: "20%",
         animation: "$animateHeart 2.5s infinite",
-    }
+    },
+    link: {display: "block", height: "100%", width: "100%"}
 }
 
 const Box = ({classes}) => {
-
-    return <a className={classes.splash} href=""/>
+    return (
+            <div className={classes.splash}>
+                <Link className={classes.link} to="/login"/>
+            </div>
+        )
 }
 
 const ButtonSplash = injectSheet(styles)(Box)

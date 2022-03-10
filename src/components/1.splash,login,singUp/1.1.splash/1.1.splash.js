@@ -7,7 +7,6 @@ import BackgroundContainer from "./partials/BackgroundContainer";
 import Copyright from "./partials/Copyright";
 
 
-
 const Splash = () => {
     return <BackgroundContainer>
                 <Title/>
@@ -15,7 +14,8 @@ const Splash = () => {
                 <ButtonSplash/>
                 <AboutApp/>
                 <Copyright/>
-          </BackgroundContainer>
+            </BackgroundContainer>
+
 }
 
 export default Splash

@@ -71,14 +71,14 @@ const Box = ({classes}) => {
                 value={form.login}
                 className={classes.login}
                 type="text"
-                placeholder="Wpisz swój login"
+                placeholder="Wpisz login"
                 onChange={update}/>
             <input
                 name="password"
                 value={form.password}
                 className={classes.password}
                 type="password"
-                placeholder="Wpisz swoje hasło"
+                placeholder="Wpisz hasło"
                 onChange={update}/>
             <input
                 className={classes.button}
