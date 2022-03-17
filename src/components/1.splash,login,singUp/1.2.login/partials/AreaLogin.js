@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import injectSheet from "react-jss";
+import {Link} from "react-router-dom";
 
 const styles = {
     areaLogin: {
@@ -84,7 +85,7 @@ const Box = ({classes}) => {
                 className={classes.button}
                 value="Zaloguj"
                 type="submit"/>
-            <a href="">Nie masz konta? Zarejestruj się!</a>
+            <Link to="/signUp">Nie masz konta? Zarejestruj się!</Link>
         </form>
     </>
 
