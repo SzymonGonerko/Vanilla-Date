@@ -23,7 +23,6 @@ return (
         {state.registerPart === 3 ? <Authorization/> : null}
 
         {/*<Description part="3"/>*/}
-        {/*<PersonalityTestForm/>*/}
         {/*<Authorization/>*/}
     </Container>
 )

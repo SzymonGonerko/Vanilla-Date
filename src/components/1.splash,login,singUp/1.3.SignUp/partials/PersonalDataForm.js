@@ -32,18 +32,19 @@ const theme = createTheme();
 const  PersonalDataForm = () => {
     const [value, setValue] = React.useState(null);
     const {setState} = useContext(AppContext)
+    const [validate, setValidate] = useState(false)
 
 
     const [errors, setErrors] = useState({
-        name: true,
-        email: true,
-        password: true,
-        ConfirmPassword: true,
-        gender: true,
-        birth: true,
-        height: true,
-        city: true,
-        orientation: true
+        name: false,
+        email: false,
+        password: false,
+        ConfirmPassword: false,
+        gender: false,
+        birth: false,
+        height: false,
+        city: false,
+        orientation: false
     })
 
 
@@ -53,7 +54,7 @@ const  PersonalDataForm = () => {
 
         getValidate(data)
 
-        if ( Object.entries(errors).every(([key, value]) => value === false)) {
+        if ( Object.entries(errors).every(([key, value]) => value === false) && validate) {
             // console.log({
             //     email: data.get('email'),
             //     password: data.get('password'),
@@ -91,8 +92,8 @@ const  PersonalDataForm = () => {
             setErrors(prev => {return {...prev, email: prev.email = 'email nie zawiera "@" lub jest za krótki'}})
         } else {setErrors(prev => {return {...prev, email: prev.email = false}})}
 
-        if (data.get('password') !== data.get('ConfirmPassword') || [...data.get('password')].length < 3) {
-            setErrors(prev => {return {...prev, password: prev.password = 'hasła nie są takie same lub są za krótkie min. 3 znaki'}})
+        if (data.get('password') !== data.get('ConfirmPassword') || [...data.get('password')].length < 6) {
+            setErrors(prev => {return {...prev, password: prev.password = 'hasła nie są takie same lub są za krótkie min. 6 znaków'}})
         } else {setErrors(prev => {return {...prev, password: prev.password = false, ConfirmPassword: prev.ConfirmPassword = false}})}
 
         if (data.get('gender') === null) {
@@ -115,6 +116,8 @@ const  PersonalDataForm = () => {
             setErrors(prev => {return {...prev, city: prev.city = 'podaj miasto'}})
         } else {setErrors(prev => {return {...prev, city: prev.city = false}})}
 
+        setValidate(true)
+
     }
 
     return (
@@ -135,6 +138,8 @@ const  PersonalDataForm = () => {
                             InputLabelProps={{style: {fontSize: "1.3rem"}}}
                             margin="normal"
                             required
+                            helperText={errors.name}
+                            error={errors.name? true: false}
                             fullWidth
                             id="name"
                             label="Imię"
@@ -142,25 +147,26 @@ const  PersonalDataForm = () => {
                             autoComplete="name"
                             autoFocus
                         />
-                        {errors.name? <p style={{color: "red", textAlign: "center"}}>{errors.name}</p>: null}
                         <TextField
                             inputProps={{style: {fontSize: "1.3rem"}}}
                             InputLabelProps={{style: {fontSize: "1.3rem"}}}
                             margin="normal"
                             required
+                            helperText={errors.email}
+                            error={errors.email? true: false}
                             fullWidth
                             id="email"
                             label="adres e-mail"
                             name="email"
                             autoComplete="email"
                         />
-                        {errors.email? <p style={{color: "red", textAlign: "center"}}>{errors.email}</p>: null}
-
                         <TextField
                             inputProps={{style: {fontSize: "1.3rem"}}}
                             InputLabelProps={{style: {fontSize: "1.3rem"}}}
                             margin="normal"
                             required
+                            helperText={errors.password}
+                            error={errors.password? true: false}
                             fullWidth
                             name="password"
                             label="Hasło"
@@ -168,11 +174,12 @@ const  PersonalDataForm = () => {
                             id="password"
                             autoComplete="current-password"
                         />
-                        {errors.password? <p style={{color: "red",textAlign: "center"}}>{errors.password}</p>: null}
                         <TextField
                             inputProps={{style: {fontSize: "1.3rem"}}}
                             InputLabelProps={{style: {fontSize: "1.3rem"}}}
                             margin="normal"
+                            helperText={errors.password}
+                            error={errors.password? true: false}
                             required
                             fullWidth
                             name="ConfirmPassword"
@@ -180,13 +187,13 @@ const  PersonalDataForm = () => {
                             type="password"
                             id="ConfirmPassword"
                         />
-                        {errors.password? <p style={{color: "red", textAlign: "center"}}>{errors.password}</p>: null}
                         <FormControl
                             margin="normal"
                             required
                             fullWidth>
                             <FormLabel
                                 style={{fontSize: "1.3rem"}}
+                                error={errors.gender? true: false}
                                 id="demo-radio-buttons-group-label">Płeć:</FormLabel>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
@@ -198,12 +205,13 @@ const  PersonalDataForm = () => {
                                 <FormControlLabel value="meżczyzna" control={<Radio />} label="meżczyzna" />
                             </RadioGroup>
                         </FormControl>
-                        {errors.gender? <p style={{color: "red", textAlign: "center"}}>{errors.gender}</p>: null}
                         <FormControl
                             margin="normal"
                             required
                             fullWidth>
-                            <FormLabel id="demo-radio-buttons-group-label">Orientacja:</FormLabel>
+                            <FormLabel
+                                error={errors.orientation? true: false}
+                                id="demo-radio-buttons-group-label">Orientacja:</FormLabel>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
                                 name="orientation"
@@ -214,7 +222,6 @@ const  PersonalDataForm = () => {
                                 <FormControlLabel value="homo" control={<Radio />} label="homoseksualna" />
                             </RadioGroup>
                         </FormControl>
-                        {errors.orientation? <p style={{color: "red", textAlign: "center"}}>{errors.orientation}</p>: null}
                         <FormControl
                             required
                             fullWidth>
@@ -225,28 +232,27 @@ const  PersonalDataForm = () => {
                                         mask={'pl'}
                                         value={value}
                                         onChange={(newValue) => setValue(newValue)}
-                                        renderInput={(params) => <TextField {...params} name="birth" />}
+                                        renderInput={(params) => <TextField {...params} helperText={errors.birth} error={errors.birth? true: false} name="birth" />}
                                     />
                             </LocalizationProvider>
                         </FormControl>
-                        {errors.birth? <p style={{color: "red", textAlign: "center"}}>{errors.birth}</p>: null}
                         <TextField
                             margin="normal"
                             required
+                            helperText={errors.height}
+                            error={errors.height? true: false}
                             fullWidth
                             name="height"
                             label="Wzrost"
                             type="number"
                         />
-                        {errors.height? <p style={{color: "red", textAlign: "center"}}>{errors.height}</p>: null}
                         <Autocomplete
                             margin="normal"
                             disablePortal
                             fullWidth
                             options={polishCities}
-                            renderInput={(params) => <TextField {...params} name="city" required label="Miasto" />}
+                            renderInput={(params) => <TextField {...params} helperText={errors.city} error={errors.city? true: false} name="city" required label="Miasto" />}
                         />
-                        {errors.city? <p style={{color: "red", textAlign: "center"}}>{errors.city}</p>: null}
                         <Button
                             type="submit"
                             style={{marginTop: "30px", marginBottom: "30px"}}

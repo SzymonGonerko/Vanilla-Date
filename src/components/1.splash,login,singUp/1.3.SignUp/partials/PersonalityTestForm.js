@@ -132,7 +132,8 @@ const PersonalityTestForm = () => {
                     question38: data.get('question38'),
                     question39: data.get('question39'),
                     question40: data.get('question40'),
-                    question42: data.get('question41'),
+                    question41: data.get('question41'),
+                    question42: data.get('question42'),
                 }
             }))
 
@@ -146,20 +147,18 @@ const PersonalityTestForm = () => {
             <Container component="main" maxWidth="xs">
                 <Box
                     sx={{
-                        marginTop: 0,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                     }}
                 >
-                    <Box component="form" onSubmit={handleSubmit} noValidate>
+                    <Box  component="form" onSubmit={handleSubmit}>
 
                         {questions.map((el, index) => (
                             <FormControl
                                 key={index}
                                 margin="normal"
                                 style={{border: "1px solid black", borderRadius: "5px", padding: "5px" }}
-                                required
                                 fullWidth>
                                     <FormLabel
                                         style={{fontSize: "1.3rem", fontFamily: 'Roboto Serif', color: (errors.some(el => el === index + 1) ? "red": null)}}
