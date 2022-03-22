@@ -19,7 +19,7 @@ import {
 
 
 import auth from "../../../../firebase";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signOut} from "firebase/auth";
 import {getFirestore, collection, addDoc} from 'firebase/firestore'
 
 const db = getFirestore()
@@ -38,7 +38,7 @@ const [loading, setLoading] = React.useState(false);
 const [success, setSuccess] = useState(false)
 const [agree, setAgree] = useState(false)
 const {state ,setState} = useContext(AppContext)
-    const history = useHistory();
+const history = useHistory();
 
     const handleSubmit = async (event) => {
 
@@ -65,48 +65,12 @@ const {state ,setState} = useContext(AppContext)
                         orientation: state.personalDataForm.orientation
                     },
                     personalityTestForm: {
-                        question1: state.personalityTestForm.question1,
-                        question2: state.personalityTestForm.question2,
-                        question3: state.personalityTestForm.question3,
-                        question4: state.personalityTestForm.question4,
-                        question5: state.personalityTestForm.question5,
-                        question6: state.personalityTestForm.question6,
-                        question7: state.personalityTestForm.question7,
-                        question8: state.personalityTestForm.question8,
-                        question9: state.personalityTestForm.question9,
-                        question11: state.personalityTestForm.question11,
-                        question12: state.personalityTestForm.question12,
-                        question13: state.personalityTestForm.question13,
-                        question14: state.personalityTestForm.question14,
-                        question15: state.personalityTestForm.question15,
-                        question16: state.personalityTestForm.question16,
-                        question17: state.personalityTestForm.question17,
-                        question18: state.personalityTestForm.question18,
-                        question19: state.personalityTestForm.question19,
-                        question20: state.personalityTestForm.question20,
-                        question21: state.personalityTestForm.question21,
-                        question22: state.personalityTestForm.question22,
-                        question23: state.personalityTestForm.question23,
-                        question24: state.personalityTestForm.question24,
-                        question25: state.personalityTestForm.question25,
-                        question26: state.personalityTestForm.question26,
-                        question27: state.personalityTestForm.question27,
-                        question28: state.personalityTestForm.question28,
-                        question29: state.personalityTestForm.question29,
-                        question31: state.personalityTestForm.question31,
-                        question32: state.personalityTestForm.question32,
-                        question33: state.personalityTestForm.question33,
-                        question34: state.personalityTestForm.question34,
-                        question35: state.personalityTestForm.question35,
-                        question36: state.personalityTestForm.question36,
-                        question37: state.personalityTestForm.question37,
-                        question38: state.personalityTestForm.question38,
-                        question39: state.personalityTestForm.question39,
-                        question40: state.personalityTestForm.question40,
-                        question41: state.personalityTestForm.question41,
-                        question42: state.personalityTestForm.question42,
+                        ...state.personalityTestForm
                     }
                 }).then(() => {
+                    signOut(auth).then(()=> {console.log("sign out")}).
+                        catch((err) => {console.log(err.message)})
+
                     setSuccess(true)
                     // setState({registerPart: 1})
                     setTimeout(() => {history.push('/login');}, 3000)

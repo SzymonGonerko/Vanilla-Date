@@ -1,5 +1,6 @@
 import {initializeApp} from "firebase/app"
 import {getAuth} from "firebase/auth"
+import {getStorage} from "firebase/storage"
 
 import {getFirestore, collection, getDocs} from 'firebase/firestore'
 
@@ -33,3 +34,4 @@ const colRef = collection(db, 'Users')
 //     })
 
 export default auth
+export const storage = getStorage(app)

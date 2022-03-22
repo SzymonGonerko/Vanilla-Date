@@ -55,16 +55,6 @@ const  PersonalDataForm = () => {
         getValidate(data)
 
         if ( Object.entries(errors).every(([key, value]) => value === false) && validate) {
-            // console.log({
-            //     email: data.get('email'),
-            //     password: data.get('password'),
-            //     ConfirmPassword: data.get('ConfirmPassword'),
-            //     gender: data.get('gender'),
-            //     birth: data.get('birth'),
-            //     height: data.get('height'),
-            //     city: data.get('city'),
-            //     orientation: data.get('orientation')
-            // });
             setState(prev => ({
                 registerPart: prev.registerPart + 1,
                 personalDataForm: {
@@ -82,6 +72,16 @@ const  PersonalDataForm = () => {
         }
 
     };
+
+    const getUserAge = (dataBirth) => {
+        let currentData = new Date().getFullYear();
+        let userAge;
+        if (dataBirth !== null) {
+            const year = parseInt([...dataBirth].splice(6, 4).join('').toString())
+            userAge = currentData - year;
+        }
+        return userAge
+    }
 
     const getValidate = (data) => {
         if ([...data.get('name')].length < 3) {
@@ -104,8 +104,8 @@ const  PersonalDataForm = () => {
             setErrors(prev => {return {...prev, orientation: prev.orientation = 'wybierz orientację'}})
         } else {setErrors(prev => {return {...prev, orientation: prev.orientation = false}})}
 
-        if (data.get('birth') === "") {
-            setErrors(prev => {return {...prev, birth: prev.birth = 'wybierz datę urodzenia'}})
+        if (data.get('birth') === "" || getUserAge(data.get('birth')) < 18 ) {
+            setErrors(prev => {return {...prev, birth: prev.birth = 'wybierz datę urodzenia (powyżej 18 lat)'}})
         } else {setErrors(prev => {return {...prev, birth: prev.birth = false}})}
 
         if (parseInt(data.get('height')) >= 273 || parseInt(data.get('height')) <= 54 || data.get('height') === "") {

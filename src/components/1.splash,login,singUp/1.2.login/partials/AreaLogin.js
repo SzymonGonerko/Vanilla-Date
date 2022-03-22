@@ -1,6 +1,9 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import injectSheet from "react-jss";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import {signInWithEmailAndPassword} from "firebase/auth"
+import auth from "../../../../firebase"
+import {AppContext} from "../../../../App";
 
 const styles = {
     areaLogin: {
@@ -15,14 +18,14 @@ const styles = {
         fontSize: "2.3rem",
         letterSpacing: "2px"
     },
-    login: {
+    email: {
         height: "2rem",
         width: "15rem",
         padding: "20px",
         borderRadius: "5px",
         outline: "none",
         border: "none",
-        fontSize: "1.4rem",
+        fontSize: "1.2rem",
         opacity: "0.9"
     },
     password: {
@@ -32,7 +35,7 @@ const styles = {
         borderRadius: "5px",
         outline: "none",
         border: "none",
-        fontSize: "1.4rem",
+        fontSize: "1.2rem",
         opacity: "0.9"
     },
     button: {
@@ -44,13 +47,28 @@ const styles = {
         border: "none",
         fontSize: "1.7rem",
         fontFamily: 'Roboto Serif'
+    },
+    error: {
+        backgroundColor: "white",
+        color: "red",
+        padding: "5px",
+        borderRadius: "5px",
+        width: "10rem",
+        textAlign: "center",
+        opacity: "0.8"
     }
 }
 
 const Box = ({classes}) => {
+    const history = useHistory();
+    const {state ,setState} = useContext(AppContext)
     const [form, setForm] = useState({
-        login: "",
+        email: "",
         password: ""
+    })
+    const [errors, setErrors] = useState({
+        email: false,
+        password: false,
     })
 
     const update = (event) => {
@@ -59,21 +77,46 @@ const Box = ({classes}) => {
         setForm({ ...form, [fieldName]: fieldValue });
     }
 
-    const validate = (event) => {
+
+
+
+
+    const handleSubmit = (event) => {
         event.preventDefault()
         console.log(form)
+        signInWithEmailAndPassword(auth, form.email, form.password).
+        then((cred) => {
+            console.log("user loged in");
+            localStorage.setItem("uid", cred.user.uid)
+            setState(prev => ({...prev, uid: cred.user.uid}))
+            setErrors({password: false, email: false});
+            history.push('/profile')}).
+        catch((err) => (
+            console.log(err.message ,err.message.search("password")),
+            err.message.search("password")? setErrors(prev => ({...prev, password: "złe hasło" })): null,
+            err.message.search("email")? setErrors(prev => ({...prev, email: "zły email" })): null
+        ))
+
     }
 
+
+
+
+
+
+
+
     return <>
-        <form onSubmit={validate} className={classes.areaLogin}>
+        <form onSubmit={handleSubmit} className={classes.areaLogin}>
             <h1 className={classes.title}>Zaloguj się</h1>
             <input
-                name="login"
-                value={form.login}
-                className={classes.login}
+                name="email"
+                value={form.email}
+                className={classes.email}
                 type="text"
                 placeholder="email"
                 onChange={update}/>
+            {errors.email? <p className={classes.error}>{errors.email}</p>: null}
             <input
                 name="password"
                 value={form.password}
@@ -81,6 +124,7 @@ const Box = ({classes}) => {
                 type="password"
                 placeholder="hasło"
                 onChange={update}/>
+            {errors.password? <p className={classes.error}>{errors.password}</p>: null}
             <input
                 className={classes.button}
                 value="Zaloguj"
