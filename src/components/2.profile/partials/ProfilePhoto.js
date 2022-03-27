@@ -136,9 +136,6 @@ const ProfilePhoto = ({userName, userBirth}) => {
     }
 
 
-
-
-
     return (
         <header className={classes.headerProfilePhoto}>
             <h1 className={classes.title}>Profil</h1>

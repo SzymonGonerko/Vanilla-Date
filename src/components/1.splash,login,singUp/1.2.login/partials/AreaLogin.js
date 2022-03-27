@@ -61,7 +61,7 @@ const styles = {
 
 const Box = ({classes}) => {
     const history = useHistory();
-    const {state ,setState} = useContext(AppContext)
+    const {setState} = useContext(AppContext)
     const [form, setForm] = useState({
         email: "",
         password: ""

@@ -23,7 +23,7 @@ import { createUserWithEmailAndPassword, signOut} from "firebase/auth";
 import {getFirestore, collection, addDoc} from 'firebase/firestore'
 
 const db = getFirestore()
-const colRef = collection(db, 'Users')
+const colRef = collection(db, 'Users', )
 
 
 

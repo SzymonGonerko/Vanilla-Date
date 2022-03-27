@@ -5,6 +5,9 @@ import {
 } from 'firebase/firestore'
 
 import ProfilePhoto from "./partials/ProfilePhoto";
+import ProfileInfo from "./partials/ProfileInfo"
+import Logout from "./partials/Logout"
+import DeleteProfile from "./partials/DeleteProfile"
 
 const db = getFirestore()
 const colRef = collection(db, 'Users')
@@ -43,6 +46,18 @@ const Profile = () => {
         userName={user.personalDataForm? user.personalDataForm.name: null}
         userBirth={user.personalDataForm? user.personalDataForm.birth: null}
     />
+    <ProfileInfo
+        name={user.personalDataForm? user.personalDataForm.name: null}
+        birth={user.personalDataForm? user.personalDataForm.birth: null}
+        email={user.personalDataForm? user.personalDataForm.email: null}
+        city={user.personalDataForm? user.personalDataForm.city: null}
+        height={user.personalDataForm? user.personalDataForm.height: null}
+    >
+        <Logout uid={user.personalDataForm? user.personalDataForm.UID : null} />
+        <DeleteProfile uid={user.personalDataForm? user.personalDataForm.UID : null}/>
+
+    </ProfileInfo>
+
     </>)
 }
 
