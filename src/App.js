@@ -28,8 +28,13 @@ const  App = () => {
     registerPart: 1,
     personalDataForm: undefined,
     personalityTestForm: undefined,
-    uid: undefined
+    uid: undefined,
+    photo: false,
+    photoURL: undefined,
+    story: false
   })
+
+
   return (
       <AppContext.Provider value={{state, setState}}>
         <ThemeProvider theme={theme}>

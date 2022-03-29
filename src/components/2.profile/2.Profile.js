@@ -1,5 +1,4 @@
-import React, {useContext, useState, useEffect} from "react"
-import {AppContext} from "../../App";
+import React, { useState, useEffect} from "react"
 import {
     getFirestore, collection, getDocs
 } from 'firebase/firestore'
@@ -8,6 +7,7 @@ import ProfilePhoto from "./partials/ProfilePhoto";
 import ProfileInfo from "./partials/ProfileInfo"
 import Logout from "./partials/Logout"
 import Story from "./partials/Story"
+import ProfileCard from "./partials/ProfileCard"
 import DeleteProfile from "./partials/DeleteProfile"
 import Navigation from "./partials/Navigation"
 
@@ -15,7 +15,6 @@ const db = getFirestore()
 const colRef = collection(db, 'Users')
 
 const Profile = () => {
-    const {state ,setState} = useContext(AppContext);
     const [user, setUser] = useState({})
 
     useEffect(() => {
@@ -51,6 +50,11 @@ const Profile = () => {
         height={user.personalDataForm? user.personalDataForm.height: null}
     >
         <Story/>
+        <ProfileCard
+            name={user.personalDataForm? user.personalDataForm.name: null}
+            birth={user.personalDataForm? user.personalDataForm.birth: null}
+            story={user.story? user.story: null}
+        />
         <Logout uid={user.personalDataForm? user.personalDataForm.UID : null} />
         <DeleteProfile uid={user.personalDataForm? user.personalDataForm.UID : null}/>
     </ProfileInfo>

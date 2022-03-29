@@ -1,7 +1,8 @@
 import {Box, FormControlLabel, Radio, RadioGroup} from "@material-ui/core";
 import {topic} from "./topic";
 import TextareaAutosize from "@mui/material/TextareaAutosize";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
+import {AppContext} from "../../../App";
 import {createUseStyles} from "react-jss";
 import Button from "@mui/material/Button";
 import Modal from "@mui/material/Modal";
@@ -13,7 +14,6 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
 import {doc, getDocs, updateDoc, collection} from 'firebase/firestore'
 import {db} from "../../../firebase"
-let docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
 const colRef = collection(db, 'Users')
 
 
@@ -37,7 +37,7 @@ const useStyles = createUseStyles((theme) => ({
         marginBottom: "10px"
     },
     description: {
-        fontSize: "1.2rem",
+        fontSize: "1.1rem",
         fontFamily: "Roboto Serif",
         letterSpacing: "1px",
     },
@@ -57,6 +57,7 @@ const Story = () => {
     const [disable, setDisable] = useState(false)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const {state ,setState} = useContext(AppContext)
 
     useEffect(() => {
         getDocs(colRef)
@@ -65,6 +66,7 @@ const Story = () => {
                     if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
                         if (doc.data().story && doc.data().topic) {
                             setForm(prevState => ({...prevState, area: doc.data().story, topic: doc.data().topic}))
+                            setState(prev => ({...prev, story: true}))
                             setDisable(true)
                             setEdit(false)
                         }
@@ -100,12 +102,14 @@ const Story = () => {
         const selectedTopic = form.topic;
         const story = form.area;
         if (!errors.length) {
+            const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
             updateDoc(docRef, {
                 story: story,
                 topic: selectedTopic
             })
                 .then(() => {
                     console.log("Zapisano")
+                    setState(prev => ({...prev, story: true}))
                     setDisable(true)
                     setEdit(false)
                     handleClose()
@@ -147,7 +151,7 @@ const Story = () => {
                 disabled={disable}
                 style={{ width: "100%",
                     height: "20rem",
-                    fontSize: "1.2rem",
+                    fontSize: "1.1rem",
                     fontFamily: "Roboto Serif",
                     letterSpacing: "1px",
                     lineHeight: "1.7rem",

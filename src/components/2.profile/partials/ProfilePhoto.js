@@ -86,6 +86,7 @@ const useStyles = createUseStyles((theme) => ({
 }))
 
 const ProfilePhoto = ({userName, userBirth}) => {
+    const {state ,setState} = useContext(AppContext)
     const classes = useStyles();
     const [url, setUrl] = useState({ UserSVG})
     const [cover, setCover] = useState("")
@@ -94,8 +95,11 @@ const ProfilePhoto = ({userName, userBirth}) => {
 
     useEffect(() => {
         const starsRef = ref(storage, `Avatars/${localStorage.getItem("uid")}`);
-        getDownloadURL(starsRef).then((url) => {setUrl(url); setCover("cover")}).
-            catch((err) => {console.log(err.message)})
+        getDownloadURL(starsRef).then((url) => {
+            setUrl(url);
+            setState(prev => ({...prev, photo: true, photoURL: url}))
+            setCover("cover")}).
+            catch((err) => {console.log(err.message); setState(prev => ({...prev, photo: false})) })
     }, [])
 
 
@@ -122,6 +126,7 @@ const ProfilePhoto = ({userName, userBirth}) => {
             (error) => console.log(error),
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setState(prev => ({...prev, photo: true, photoURL: downloadURL}))
                     console.log("File available at", downloadURL);
                     setUrl(downloadURL);
                     setCover("cover")
@@ -129,6 +134,7 @@ const ProfilePhoto = ({userName, userBirth}) => {
             }
         );
     };
+
 
 
     const handleChange = (e) => {
