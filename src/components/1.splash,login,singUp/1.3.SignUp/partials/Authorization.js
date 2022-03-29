@@ -46,7 +46,6 @@ const history = useHistory();
         event.preventDefault();
         const email = state.personalDataForm.email;
         const password = state.personalDataForm.password;
-        console.log(state)
 
         try {
             const user = await createUserWithEmailAndPassword(auth, email, password).

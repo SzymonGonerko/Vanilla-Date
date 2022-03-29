@@ -7,7 +7,9 @@ import {
 import ProfilePhoto from "./partials/ProfilePhoto";
 import ProfileInfo from "./partials/ProfileInfo"
 import Logout from "./partials/Logout"
+import Story from "./partials/Story"
 import DeleteProfile from "./partials/DeleteProfile"
+import Navigation from "./partials/Navigation"
 
 const db = getFirestore()
 const colRef = collection(db, 'Users')
@@ -21,9 +23,9 @@ const Profile = () => {
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
+                        localStorage.setItem("doc.id", doc.id)
                         setUser({ ...doc.data()})
                     }
-                    // console.log(doc.data().personalDataForm.UID)
                 })
             })
             .catch(err => {
@@ -34,18 +36,13 @@ const Profile = () => {
 
 
 
-
-    const handleClick = () => {
-        console.log(user)
-    }
-
-
-
     return (<>
+
     <ProfilePhoto
         userName={user.personalDataForm? user.personalDataForm.name: null}
         userBirth={user.personalDataForm? user.personalDataForm.birth: null}
     />
+
     <ProfileInfo
         name={user.personalDataForm? user.personalDataForm.name: null}
         birth={user.personalDataForm? user.personalDataForm.birth: null}
@@ -53,10 +50,13 @@ const Profile = () => {
         city={user.personalDataForm? user.personalDataForm.city: null}
         height={user.personalDataForm? user.personalDataForm.height: null}
     >
+        <Story/>
         <Logout uid={user.personalDataForm? user.personalDataForm.UID : null} />
         <DeleteProfile uid={user.personalDataForm? user.personalDataForm.UID : null}/>
-
     </ProfileInfo>
+
+    <Navigation/>
+
 
     </>)
 }
