@@ -5,6 +5,8 @@ import EditSVG from "../../../images/pen-solid.svg"
 
 import {storage} from "../../../firebase";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
+import {doc, getDocs, updateDoc, collection} from 'firebase/firestore'
+import {db} from "../../../firebase"
 import {AppContext} from "../../../App";
 
 const useStyles = createUseStyles((theme) => ({
@@ -99,12 +101,12 @@ const ProfilePhoto = ({userName, userBirth}) => {
             setUrl(url);
             setState(prev => ({...prev, photo: true, photoURL: url}))
             setCover("cover")}).
-            catch((err) => {console.log(err.message); setState(prev => ({...prev, photo: false})) })
+            catch((err) => {console.log(err.message); setState(prev => ({...prev, photo: false}))})
     }, [])
 
 
 
-    const getUserAge = (dataBirth) => {
+     const getUserAge = (dataBirth) => {
         let currentData = new Date().getFullYear();
         let userAge;
         if (dataBirth !== null) {
@@ -114,11 +116,50 @@ const ProfilePhoto = ({userName, userBirth}) => {
         return userAge
     }
 
-
-
-
+// ------------------------
+    let height = 400;
+    let width = 0;
+    // --------------
     const uploadFiles = (file) => {
         if (!file) return;
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = function (event) {
+            const imgElement = document.createElement("img");
+            imgElement.src = event.target.result;
+
+
+            imgElement.onload = function (e) {
+                const canvas = document.createElement("canvas");
+                const MAX_WIDTH = 300;
+
+                const scaleSize = MAX_WIDTH / e.target.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = e.target.height * scaleSize;
+
+                const ctx = canvas.getContext("2d");
+
+                ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+
+                const srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
+
+                const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
+                updateDoc(docRef, {
+                    Avatar64: srcEncoded
+                })
+                    .then(() => {
+                        console.log("Zapisano")
+                    }).catch((err) => {console.log(err.message)})
+
+
+            };
+
+        };
+// ----------------
+
+
+
         const storageRef = ref(storage, `Avatars/${localStorage.getItem("uid")}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
         uploadTask.on(

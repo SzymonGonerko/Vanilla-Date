@@ -31,7 +31,7 @@ const  App = () => {
     uid: undefined,
     photo: false,
     photoURL: undefined,
-    story: false
+    story: false,
   })
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react"
+import React, {useState, useEffect, useContext} from "react"
 import {
     getFirestore, collection, getDocs
 } from 'firebase/firestore'
@@ -10,12 +10,15 @@ import Story from "./partials/Story"
 import ProfileCard from "./partials/ProfileCard"
 import DeleteProfile from "./partials/DeleteProfile"
 import Navigation from "./partials/Navigation"
+import {AppContext} from "../../App";
 
 const db = getFirestore()
 const colRef = collection(db, 'Users')
 
 const Profile = () => {
     const [user, setUser] = useState({})
+    const {state ,setState} = useContext(AppContext)
+
 
     useEffect(() => {
         getDocs(colRef)
@@ -24,13 +27,14 @@ const Profile = () => {
                     if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
                         localStorage.setItem("doc.id", doc.id)
                         setUser({ ...doc.data()})
+
                     }
                 })
             })
             .catch(err => {
                 console.log(err.message)
             })
-    }, [])
+    }, [] )
 
 
 
@@ -54,6 +58,9 @@ const Profile = () => {
             name={user.personalDataForm? user.personalDataForm.name: null}
             birth={user.personalDataForm? user.personalDataForm.birth: null}
             story={user.story? user.story: null}
+            Avatar64={user.Avatar64? user.Avatar64: null}
+            isUpload={state.isUpload}
+            gender={user.personalDataForm? user.personalDataForm.gender: null}
         />
         <Logout uid={user.personalDataForm? user.personalDataForm.UID : null} />
         <DeleteProfile uid={user.personalDataForm? user.personalDataForm.UID : null}/>
