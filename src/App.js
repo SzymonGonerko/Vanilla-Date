@@ -1,9 +1,10 @@
 import './App.scss';
 import React, {useState, createContext} from "react";
-import Splash from "./components/1.splash,login,singUp/1.1.splash/1.1.splash";
+import Splash from "./components/1.splash,login,singUp/1.1.splash/1.1.Splash";
 import Login from "./components/1.splash,login,singUp/1.2.login/1.2.login";
 import SignUp from "./components/1.splash,login,singUp/1.3.SignUp/1.3.SignUp";
 import Profile from "./components/2.profile/2.Profile"
+import Home from "./components/3.Home/3.Home"
 import  {ThemeProvider} from 'react-jss'
 import {
   BrowserRouter as Router,
@@ -28,8 +29,16 @@ const  App = () => {
     registerPart: 1,
     personalDataForm: undefined,
     personalityTestForm: undefined,
-    uid: undefined
+    uid: undefined,
+    photo: false,
+    photoURL: undefined,
+    story: false,
+    plot: false,
+    question: false,
+    navigation: false
   })
+
+
   return (
       <AppContext.Provider value={{state, setState}}>
         <ThemeProvider theme={theme}>
@@ -50,6 +59,10 @@ const  App = () => {
 
               <Route path="/profile">
                 <Profile/>
+              </Route>
+
+              <Route path="/Home">
+                <Home/>
               </Route>
 
             </Switch>

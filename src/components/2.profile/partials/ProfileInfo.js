@@ -1,12 +1,18 @@
 import React from "react"
 import {
     Box,
-    Container, createTheme,
+    Container, createTheme, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup, TextField,
     ThemeProvider
 } from "@material-ui/core";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 import {createUseStyles} from "react-jss";
+import LoadingButton from "@mui/lab/LoadingButton";
+import SendIcon from "@mui/icons-material/Send";
+import Autocomplete from "@mui/material/Autocomplete";
+import polishCities from "../../1.splash,login,singUp/1.3.SignUp/partials/polishCities";
+import {topic} from "./topic"
 
 const theme = createTheme();
 
@@ -17,18 +23,19 @@ const useStyles = createUseStyles((theme) => ({
         marginTop: "15px",
         marginBottom: "10px"
     },
-    separator: {
-        borderBottom: "1px solid grey",
-        width: "50%",
-        marginTop: "20px",
-        marginBottom: "20px"
-
+    description: {
+        fontSize: "1.2rem",
+        fontFamily: "Roboto Serif",
     }
 }))
 
 
 const ProfileInfo = ({name, birth, email, city, height, children}) => {
     const classes = useStyles();
+
+
+
+
 
     return (<>
         <ThemeProvider theme={theme}>
@@ -39,13 +46,12 @@ const ProfileInfo = ({name, birth, email, city, height, children}) => {
                         marginTop: 0,
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center',
                     }}
                 >
                     <ButtonGroup
                         sx={{
-                            marginBottom: "10px",
-                            marginTop: "10px",
+                            marginBottom: "5px",
+                            marginTop: "5px",
                         }}
                         color="secondary"
                         disableElevation
@@ -56,8 +62,8 @@ const ProfileInfo = ({name, birth, email, city, height, children}) => {
                     </ButtonGroup>
                     <ButtonGroup
                         sx={{
-                            marginBottom: "10px",
-                            marginTop: "10px",
+                            marginBottom: "5px",
+                            marginTop: "5px",
                         }}
                         color="secondary"
                         disableElevation
@@ -70,8 +76,8 @@ const ProfileInfo = ({name, birth, email, city, height, children}) => {
 
                     <ButtonGroup
                         sx={{
-                            marginBottom: "10px",
-                            marginTop: "10px",
+                            marginBottom: "5px",
+                            marginTop: "5px",
                         }}
                         color="secondary"
                         disableElevation
@@ -83,8 +89,8 @@ const ProfileInfo = ({name, birth, email, city, height, children}) => {
 
                     <ButtonGroup
                         sx={{
-                            marginBottom: "10px",
-                            marginTop: "10px",
+                            marginBottom: "5px",
+                            marginTop: "5px",
                         }}
                         color="secondary"
                         disableElevation
@@ -96,8 +102,8 @@ const ProfileInfo = ({name, birth, email, city, height, children}) => {
 
                     <ButtonGroup
                         sx={{
-                            marginBottom: "10px",
-                            marginTop: "10px",
+                            marginBottom: "5px",
+                            marginTop: "5px",
                         }}
                         color="secondary"
                         disableElevation
@@ -106,7 +112,7 @@ const ProfileInfo = ({name, birth, email, city, height, children}) => {
                         <Button sx={{textTransform: "capitalize"}}>Wzrost:</Button>
                         <Button sx={{textTransform: "lowercase"}}>{height} cm</Button>
                     </ButtonGroup>
-                    <span className={classes.separator} />
+
                     {children}
                 </Box>
             </Container>
