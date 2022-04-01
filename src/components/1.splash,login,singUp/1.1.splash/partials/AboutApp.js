@@ -1,14 +1,11 @@
 import React, {useContext, useState} from "react";
-import Title from "./Title";
 import {createUseStyles} from "react-jss";
 import {AppContext} from "../../../../App";
-import Button from "@mui/material/Button";
-import LogoutIcon from "@mui/icons-material/Logout";
+
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import CheckIcon from "@mui/icons-material/Check";
+
 
 const useStyles = createUseStyles((theme) => ({
     about: {

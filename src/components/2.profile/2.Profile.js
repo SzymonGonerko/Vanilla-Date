@@ -39,7 +39,6 @@ const Profile = () => {
     const {state} = useContext(AppContext)
     const [user, setUser] = useState({})
     const [open, setOpen] = React.useState(true);
-    const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
 
@@ -91,14 +90,14 @@ const Profile = () => {
     >
         <Story/>
     </ProfileInfo>
-        <ProfileCard
+    <ProfileCard
             name={user.personalDataForm? user.personalDataForm.name: null}
             birth={user.personalDataForm? user.personalDataForm.birth: null}
             gender={user.personalDataForm? user.personalDataForm.gender: null}
             plot={state.plot? state.plot:null}
-        />
-        <Logout />
-        <DeleteProfile uid={user.personalDataForm? user.personalDataForm.UID : null}/>
+    />
+    <Logout />
+    <DeleteProfile uid={user.personalDataForm? user.personalDataForm.UID : null}/>
     <Navigation/>
 
 
