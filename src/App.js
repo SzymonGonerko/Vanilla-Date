@@ -5,7 +5,6 @@ import Login from "./components/1.splash,login,singUp/1.2.login/1.2.login";
 import SignUp from "./components/1.splash,login,singUp/1.3.SignUp/1.3.SignUp";
 import Profile from "./components/2.profile/2.Profile"
 import Home from "./components/3.Home/3.Home"
-
 import  {ThemeProvider} from 'react-jss'
 import {
   BrowserRouter as Router,

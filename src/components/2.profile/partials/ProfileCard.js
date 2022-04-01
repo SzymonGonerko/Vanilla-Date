@@ -82,7 +82,7 @@ return (<>
         >
             <Box sx={style}>
                 {state.photo && state.story ? null : <Typography id="modal-modal-title" sx={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
-                    Najpierw wstaw swoje zdjęcie i uzupełnij swoją historię
+                    Najpierw wstaw swoje zdjęcie i uzupełnij historię
                 </Typography>}
 
                 {state.photo && state.story ?
