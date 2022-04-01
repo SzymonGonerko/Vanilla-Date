@@ -37,9 +37,10 @@ const useStyles = createUseStyles((theme) => ({
         marginBottom: "10px"
     },
     description: {
-        fontSize: "1.1rem",
+        fontSize: "1rem",
         fontFamily: "Roboto Serif",
-        letterSpacing: "1px",
+        color: "#9c27b0",
+        fontWeight: "bold"
     },
     error: {
         color: "orange"
@@ -101,15 +102,17 @@ const Story = () => {
         e.preventDefault()
         const selectedTopic = form.topic;
         const story = form.area;
+        const question = topic.filter((el, i) => (parseInt(form.topic) === (i + 1) ? el: null))[0]
         if (!errors.length) {
             const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
             updateDoc(docRef, {
                 story: story,
-                topic: selectedTopic
+                topic: selectedTopic,
+                question: question,
             })
                 .then(() => {
-                    console.log("Zapisano")
-                    setState(prev => ({...prev, story: true}))
+                    console.log(story)
+                    setState(prev => ({...prev, story: true, plot: story, question: question}))
                     setDisable(true)
                     setEdit(false)
                     handleClose()
@@ -128,11 +131,10 @@ const Story = () => {
 
     return (<>
         <h2 className={classes.profileTitle}>Twoja historia...</h2>
-        <Box component="form" onSubmit={handleSubmit} style={{width: "100%", border: "1px solid black" }}>
+        <Box component="form" onSubmit={handleSubmit} style={{width: "100%", border: "1px solid black",  borderRadius: "5px" }}>
             <RadioGroup
                 name="topic"
                 margin="normal"
-                defaultValue="1"
                 onChange={updateState}
                 style={{flexDirection: "row", justifyContent: "space-between", marginLeft: "11px", marginRight: "-16px" }}
             >
@@ -150,37 +152,35 @@ const Story = () => {
                 onChange={updateState}
                 disabled={disable}
                 style={{ width: "100%",
-                    height: "20rem",
-                    fontSize: "1.1rem",
+                    height: "13rem",
+                    fontSize: "1rem",
                     fontFamily: "Roboto Serif",
-                    letterSpacing: "1px",
-                    lineHeight: "1.7rem",
+                    lineHeight: "1rem",
                     outline: "none",
                     border: "none",
                     overflow: "scroll"
                 }}
             />
             {errors.length? <p className={classes.error}>{errors.length}</p>: null}
-            <Button
-                sx={{marginTop: "10px" }}
-                onClick={handleClick}
-                disabled={edit}
-                endIcon={<EditIcon />}
-                size="large"
-                fullWidth
-                variant="outlined">
-                edytuj
-            </Button>
-            <Button
-                sx={{marginTop: "10px" }}
-                onClick={handleOpen}
-                disabled={disable}
-                endIcon={<AutoStoriesIcon/>}
-                size="large"
-                fullWidth
-                variant="outlined">
-                To już koniec mojej historii
-            </Button>
+            <div style={{display: "flex", justifyContent: "space-around", marginTop: "10px", marginBottom: "10px"}}>
+                <Button
+                    onClick={handleClick}
+                    disabled={edit}
+                    endIcon={<EditIcon />}
+                    size="large"
+                    variant="outlined">
+                    edytuj
+                </Button>
+                <Button
+                    onClick={handleOpen}
+                    disabled={disable}
+                    endIcon={<AutoStoriesIcon/>}
+                    size="large"
+                    variant="outlined">
+                    koniec
+                </Button>
+            </div>
+
             <div>
 
                 <Modal
@@ -198,7 +198,7 @@ const Story = () => {
                         </Typography>
                         <div style={{display: "flex", justifyContent: "space-between"}}>
                             <Button
-                                sx={{marginTop: "30px", width: "40%", backgroundColor: "#FFCCCC"}}
+                                sx={{marginTop: "30px", width: "40%"}}
                                 size="large"
                                 startIcon={<CloseIcon />}
                                 onClick={handleSubmit}
@@ -207,7 +207,7 @@ const Story = () => {
                                 Tak
                             </Button>
                             <Button
-                                sx={{marginTop: "30px", width: "40%", backgroundColor: "lightgreen"}}
+                                sx={{marginTop: "30px", width: "40%"}}
                                 size="large"
                                 onClick={handleClose}
                                 startIcon={<CheckIcon />}

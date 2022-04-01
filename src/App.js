@@ -32,6 +32,8 @@ const  App = () => {
     photo: false,
     photoURL: undefined,
     story: false,
+    plot: false,
+    question: false
   })
 
 

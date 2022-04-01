@@ -1,5 +1,6 @@
 class Particle {
-    constructor(width, height, pixelsImage, context){
+    constructor(width, height, pixelsImage, context, color){
+        this.color = color
         this.context = context
         this.pixelsImage = pixelsImage
         this.height = height
@@ -34,7 +35,7 @@ class Particle {
     }
     draw(){
         this.context.beginPath();
-        this.context.fillStyle = "red";
+        this.context.fillStyle = this.color;
         this.context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         this.context.fill();
     }

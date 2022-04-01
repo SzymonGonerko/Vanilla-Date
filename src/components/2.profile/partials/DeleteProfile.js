@@ -97,7 +97,7 @@ const DeleteProfile = ({uid}) => {
                     </Typography>
                     <div style={{display: "flex", justifyContent: "space-between"}}>
                         <Button
-                            sx={{marginTop: "30px", width: "40%", backgroundColor: "#FFCCCC"}}
+                            sx={{marginTop: "30px", width: "40%"}}
                             size="large"
                             startIcon={<CloseIcon />}
                             onClick={handleClick}
@@ -106,7 +106,7 @@ const DeleteProfile = ({uid}) => {
                             Tak
                         </Button>
                         <Button
-                            sx={{marginTop: "30px", width: "40%", backgroundColor: "lightgreen"}}
+                            sx={{marginTop: "30px", width: "40%"}}
                             size="large"
                             onClick={handleClose}
                             startIcon={<CheckIcon />}

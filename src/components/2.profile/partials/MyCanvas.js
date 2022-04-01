@@ -1,17 +1,15 @@
-import React, {useState, useEffect, useRef, useContext} from "react"
+import React, {useState, useEffect, useRef} from "react"
 
 import {
     getFirestore, collection, getDocs
 } from 'firebase/firestore'
-import {AppContext} from "../../../App";
 import Particle from "./Particle"
 
 const db = getFirestore()
 const colRef = collection(db, 'Users')
 
 
-const MyCanvas = ({gender ,Avatar64}) => {
-
+const MyCanvas = ({gender}) => {
     const canvasRef = useRef(null)
 
     function calculateRelativeBrightness(red, green, blue){
@@ -22,16 +20,15 @@ const MyCanvas = ({gender ,Avatar64}) => {
         )/100;
     }
 
-
-
     useEffect(() => {
-
         let src
+        let avatar64Height
         getDocs(colRef)
             .then(snapshot => {
                 snapshot.docs.forEach(doc => {
                     if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
-                        src = doc.data().Avatar64
+                        src = doc.data().avatar64
+                        avatar64Height = doc.data().avatar64Height
                     }
                 })
             })
@@ -42,63 +39,66 @@ const MyCanvas = ({gender ,Avatar64}) => {
             const canvas = canvasRef.current
             const context = canvas.getContext('2d')
             const myImage = new Image();
-            myImage.src = Avatar64
-            console.log(src)
+            myImage.src = src
 
+            canvas.width = window.innerWidth;
+            canvas.height = avatar64Height;
 
-            canvas.width = 300;
-            canvas.height = window.innerHeight/1.5;
+            setTimeout(() => {
+                context.drawImage(myImage, 0, 0, canvas.width, canvas.height);
+                const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
+                context.clearRect(0, 0, canvas.width, canvas.height);
 
-            context.drawImage(myImage, 0, 0, canvas.width, canvas.height);
-            const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
-            context.clearRect(0, 0, canvas.width, canvas.height);
+                let particlesArray = [];
+                const numberOfParticles = 1500;
 
-            let particlesArray = [];
-            const numberOfParticles = 2000;
-
-            let mappedImage = [];
-            for (let y = 0; y < canvas.height; y++){
-                let row = [];
-                for (let x = 0; x < canvas.width; x++){
-                    const red = pixels.data[(y * 4 * pixels.width) + (x * 4)];
-                    const green = pixels.data[(y * 4 * pixels.width) + (x * 4 + 1)];
-                    const blue = pixels.data[(y * 4 * pixels.width) + (x * 4 + 2)];
-                    const brightness = calculateRelativeBrightness(red, green, blue);
-                    let cellBrightness;
-                    let cellColor;
-                    const cell = [
-                        cellBrightness = brightness,
-                        cellColor = 'rgb(' + red + ',' + green + ',' + blue + ')'
-                    ];
-                    row.push(cell);
+                let mappedImage = [];
+                for (let y = 0; y < canvas.height; y++){
+                    let row = [];
+                    for (let x = 0; x < canvas.width; x++){
+                        const red = pixels.data[(y * 4 * pixels.width) + (x * 4)];
+                        const green = pixels.data[(y * 4 * pixels.width) + (x * 4 + 1)];
+                        const blue = pixels.data[(y * 4 * pixels.width) + (x * 4 + 2)];
+                        const brightness = calculateRelativeBrightness(red, green, blue);
+                        let cellBrightness;
+                        let cellColor;
+                        const cell = [
+                            cellBrightness = brightness,
+                            cellColor = 'rgb(' + red + ',' + green + ',' + blue + ')'
+                        ];
+                        row.push(cell);
+                    }
+                    mappedImage.push(row);
                 }
-                mappedImage.push(row);
-            }
 
-            function init(){
-                for (let i = 0; i < numberOfParticles; i++){
-                    particlesArray.push(new Particle(canvas.width, canvas.height, mappedImage, context));
+                const color = gender === "kobieta" ? "red" : "blue"
+                function init(){
+                    for (let i = 0; i < numberOfParticles; i++){
+                        particlesArray.push(new Particle(canvas.width, canvas.height, mappedImage, context, color));
+                    }
                 }
-            }
-            init();
+                init();
 
-            function animate(){
-                context.globalAlpha = 0.8;
-                context.fillStyle = 'rgb(0, 0, 0)';
-                context.fillRect(0, 0, canvas.width, canvas.height);
-                context.globalAlpha = 0.1;
-                for (let i = 0; i < particlesArray.length; i++){
-                    particlesArray[i].update();
-                    context.globalAlpha = particlesArray[i].speed * 0.2;
-                    particlesArray[i].draw();
+                function animate(){
+                    context.globalAlpha = 0.8;
+                    context.fillStyle = 'rgb(0, 0, 0)';
+                    context.fillRect(0, 0, canvas.width, canvas.height);
+                    context.globalAlpha = 0.1;
+                    for (let i = 0; i < particlesArray.length; i++){
+                        particlesArray[i].update();
+                        context.globalAlpha = particlesArray[i].speed * 0.2;
+                        particlesArray[i].draw();
+                    }
+                    requestAnimationFrame(animate);
                 }
-                requestAnimationFrame(animate);
-            }
-            animate();
+                animate();
+
+            }, 0)
+
         }).catch((err) => {console.log(err.message)})
-    }, [Avatar64])
+    }, [])
 
-    return <canvas ref={canvasRef}/>
+    return (<canvas style={{display: "block"}} ref={canvasRef}/>)
 }
 
 export default MyCanvas
