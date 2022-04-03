@@ -60,6 +60,14 @@ const Story = () => {
     const handleClose = () => setOpen(false);
     const {state ,setState} = useContext(AppContext)
 
+    const keyPressed = (e) => {
+        console.log(e.code, e.key)
+        if(e.code == "Numpad1") {
+            console.log("Numpad1 Pressed");
+        }
+    }
+
+
     useEffect(() => {
         getDocs(colRef)
             .then(snapshot => {
@@ -151,6 +159,8 @@ const Story = () => {
                 onBlur={handleBlur}
                 onChange={updateState}
                 disabled={disable}
+                onKeyDown={keyPressed}
+                onKeyUp={keyPressed}
                 style={{ width: "100%",
                     height: "13rem",
                     fontSize: "1rem",

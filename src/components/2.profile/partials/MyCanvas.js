@@ -50,7 +50,7 @@ const MyCanvas = ({gender}) => {
                 context.clearRect(0, 0, canvas.width, canvas.height);
 
                 let particlesArray = [];
-                const numberOfParticles = 1500;
+                const numberOfParticles = 2000;
 
                 let mappedImage = [];
                 for (let y = 0; y < canvas.height; y++){
@@ -94,11 +94,11 @@ const MyCanvas = ({gender}) => {
                 animate();
 
             }, 0)
-
+            return () => {}
         }).catch((err) => {console.log(err.message)})
     }, [])
 
-    return (<canvas style={{display: "block"}} ref={canvasRef}/>)
+    return (<><canvas style={{display: "block"}} ref={canvasRef}/></>)
 }
 
 export default MyCanvas

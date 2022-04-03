@@ -10,7 +10,6 @@ import MyCanvas from "./MyCanvas"
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import {Button, CardActionArea} from '@mui/material';
-import {topic} from "./topic"
 
 import { getDocs, collection} from 'firebase/firestore'
 import {db} from "../../../firebase"
@@ -28,7 +27,7 @@ const style = {
 };
 
 
-const ProfileCard = ({name, birth, gender, plot}) => {
+const ProfileCard = ({name, birth, gender, plot, age}) => {
 
     const {state} = useContext(AppContext)
     const [open, setOpen] = useState(false);
@@ -36,16 +35,6 @@ const ProfileCard = ({name, birth, gender, plot}) => {
     const handleClose = () => setOpen(false);
     const [story, setStory] = useState(false)
     const [question, setQuestion] = useState(false)
-
-    const getUserAge = (dataBirth) => {
-        let currentData = new Date().getFullYear();
-        let userAge;
-        if (dataBirth !== null) {
-            const year = parseInt([...dataBirth].splice(6, 4).join('').toString())
-            userAge = currentData - year;
-        }
-        return userAge
-    }
 
 
     useEffect(() => {
@@ -86,11 +75,11 @@ return (<>
                 </Typography>}
 
                 {state.photo && state.story ?
-                    <Card sx={{ height: "30rem"}} style={{overflowY: "scroll", overflowX: "hidden"}}>
+                    <Card sx={{ height: "60vh"}} style={{overflowY: "scroll", overflowX: "hidden"}}>
                     <CardActionArea>
                         <CardContent>
                             <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h4" component="div">
-                                {name}, {getUserAge(birth)} lat
+                                {name}, {age} lat
                             </Typography>
                             <Typography style={{fontFamily: "Roboto Serif", fontSize: "1rem", color: "#9c27b0"}} variant="body1" color="text.secondary">
                                 {state.question? state.question: question}

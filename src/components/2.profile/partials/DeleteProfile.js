@@ -71,7 +71,7 @@ const DeleteProfile = ({uid}) => {
 
     return (<>
         <Button
-            sx={{marginTop: "10px", marginBottom: "30px", }}
+            sx={{marginTop: "10px", marginBottom: "70px", }}
             onClick={handleOpen}
             size="large"
             fullWidth

@@ -4,10 +4,10 @@ import injectSheet from "react-jss";
 const styles = {
     title: {
         fontSize: "3rem",
-        width: "90%",
         textAlign: "center",
         opacity: "0.8",
         borderRadius: "10px",
+        fontFamily: "Roboto Serif",
         lineHeight: "4rem",}
 }
 

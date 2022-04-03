@@ -88,7 +88,7 @@ const useStyles = createUseStyles((theme) => ({
 
 }))
 
-const ProfilePhoto = ({userName, userBirth}) => {
+const ProfilePhoto = ({userName, age}) => {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -112,15 +112,6 @@ const ProfilePhoto = ({userName, userBirth}) => {
 
 
 
-     const getUserAge = (dataBirth) => {
-        let currentData = new Date().getFullYear();
-        let userAge;
-        if (dataBirth !== null) {
-            const year = parseInt([...dataBirth].splice(6, 4).join('').toString())
-            userAge = currentData - year;
-        }
-        return userAge
-    }
 
     const uploadFiles = (file) => {
         if (!file) return;
@@ -149,7 +140,8 @@ const ProfilePhoto = ({userName, userBirth}) => {
                 const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
                 updateDoc(docRef, {
                     avatar64: srcEncoded,
-                    avatar64Height: canvas.height
+                    avatar64Height: canvas.height,
+                    docId: localStorage.getItem("doc.id")
                 })
                     .then(() => {
                         console.log("Zapisano")
@@ -191,7 +183,7 @@ const ProfilePhoto = ({userName, userBirth}) => {
                     onClose={handleClose}
                 >
                     <Box sx={style}>
-                       <div style={{backgroundImage: `url(${url})`, backgroundPosition: "center" ,backgroundSize: cover, height: "30rem"}}/>
+                       <div style={{backgroundImage: `url(${url})`, backgroundPosition: "center" ,backgroundSize: cover, height: "70vh"}}/>
                     </Box>
                 </Modal>
             </div>
@@ -209,7 +201,7 @@ const ProfilePhoto = ({userName, userBirth}) => {
                 onChange={(e) => handleChange(e)}
                 id="upload-photo"/>
 
-            {userBirth? <h2 className={classes.userInfo}>{userName}, {getUserAge(userBirth)} lat</h2>: null}
+            {age? <h2 className={classes.userInfo}>{userName}, {age} lat</h2>: null}
         </header>
     )
 }

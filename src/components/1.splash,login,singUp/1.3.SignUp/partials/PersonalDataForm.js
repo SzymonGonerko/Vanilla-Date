@@ -44,7 +44,7 @@ const  PersonalDataForm = () => {
         birth: false,
         height: false,
         city: false,
-        orientation: false
+        preferSex: false
     })
 
 
@@ -66,7 +66,7 @@ const  PersonalDataForm = () => {
                     birth: data.get('birth'),
                     height: data.get('height'),
                     city: data.get('city'),
-                    orientation: data.get('orientation')
+                    preferSex: data.get('preferSex')
             }
             }))
         }
@@ -100,9 +100,9 @@ const  PersonalDataForm = () => {
             setErrors(prev => {return {...prev, gender: prev.gender = 'wybierz płeć'}})
         } else {setErrors(prev => {return {...prev, gender: prev.gender = false}})}
 
-        if (data.get('orientation') === null) {
-            setErrors(prev => {return {...prev, orientation: prev.orientation = 'wybierz orientację'}})
-        } else {setErrors(prev => {return {...prev, orientation: prev.orientation = false}})}
+        if (data.get('preferSex') === null) {
+            setErrors(prev => {return {...prev, preferSex: prev.preferSex = 'wybierz orientację'}})
+        } else {setErrors(prev => {return {...prev, preferSex: prev.preferSex = false}})}
 
         if (data.get('birth') === "" || getUserAge(data.get('birth')) < 18 ) {
             setErrors(prev => {return {...prev, birth: prev.birth = 'wybierz datę urodzenia (powyżej 18 lat)'}})
@@ -210,16 +210,16 @@ const  PersonalDataForm = () => {
                             required
                             fullWidth>
                             <FormLabel
-                                error={errors.orientation? true: false}
-                                id="demo-radio-buttons-group-label">Orientacja:</FormLabel>
+                                error={errors.preferSex? true: false}
+                                id="demo-radio-buttons-group-label">interesują mnie:</FormLabel>
                             <RadioGroup
                                 aria-labelledby="demo-radio-buttons-group-label"
-                                name="orientation"
+                                name="preferSex"
                                 row
                                 margin="normal"
                             >
-                                <FormControlLabel value="hetero" control={<Radio />} label="heteroseksualna" />
-                                <FormControlLabel value="homo" control={<Radio />} label="homoseksualna" />
+                                <FormControlLabel value="female" control={<Radio />} label="kobiety" />
+                                <FormControlLabel value="male" control={<Radio />} label="mężczyźni" />
                             </RadioGroup>
                         </FormControl>
                         <FormControl

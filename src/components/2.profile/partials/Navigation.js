@@ -8,13 +8,9 @@ import PersonIcon from '@mui/icons-material/Person';
 import ChatIcon from '@mui/icons-material/Chat';
 import {AppContext} from "../../../App";
 import {useHistory} from "react-router-dom";
-import Button from "@mui/material/Button";
-import LogoutIcon from "@mui/icons-material/Logout";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import CloseIcon from "@mui/icons-material/Close";
-import CheckIcon from "@mui/icons-material/Check";
 
 const style = {color: "rgb(170, 63, 236)"}
 
@@ -30,21 +26,32 @@ const styles = {
     p: 2,
 };
 
-const Navigation = () => {
+const Navigation = ({curr}) => {
     const {state, setState} = useContext(AppContext)
-    const [value, setValue] = React.useState('Profil');
+    const [value, setValue] = React.useState(curr);
     const history = useHistory();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const handleChange = (event, newValue) => {
-        console.log(state.photo, state.story)
        if (state.photo && state.story) {
            setValue(newValue)
-           newValue === "Główna" ? history.push('/Home'): console.log("nie")
+           if (newValue === "Główna") {
+               history.push('/Home')
+               window.location.reload(true)
+           }
+           if (newValue === "Profil") {
+               history.push('/Profile')
+               window.location.reload(true)
+           }
        } else {handleOpen()}
-    };
+    }
+
+    const handleSubmit = (e) => {
+        window.location.reload()
+        console.log(e.target)
+    }
 
     return (<>
         <div>
@@ -60,32 +67,37 @@ const Navigation = () => {
                 </Box>
             </Modal>
         </div>
-
+        <form style={{position: "fixed", bottom: "0", width: "100%"}} onSubmit={handleSubmit}>
         <BottomNavigation sx={{backgroundColor: "rgb(230, 230, 230)", borderRadius: "20px 20px 0 0"}} value={value} onChange={handleChange}>
             <BottomNavigationAction
                 style={style}
+                type="submit"
                 label="Główna"
                 value="Główna"
                 icon={<HomeIcon />}
             />
             <BottomNavigationAction
                 style={style}
+                type="submit"
                 label="Pary"
                 value="Pary"
                 icon={<FavoriteIcon />}
             />
             <BottomNavigationAction
                 style={style}
+                type="submit"
                 label="Chat"
                 value="Chat"
                 icon={<ChatIcon />}
             />
             <BottomNavigationAction
                 style={style}
+                type="submit"
                 label="Profil"
                 value="Profil"
                 icon={<PersonIcon />} />
         </BottomNavigation>
+        </form>
     </>)
 }
 

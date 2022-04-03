@@ -42,6 +42,16 @@ const history = useHistory();
 
     const handleSubmit = async (event) => {
 
+        const getUserAge = (dataBirth) => {
+            let currentData = new Date().getFullYear();
+            let userAge;
+            if (dataBirth !== null) {
+                const year = parseInt([...dataBirth].splice(6, 4).join('').toString())
+                userAge = currentData - year;
+            }
+            return userAge
+        }
+
         setLoading(prev => !prev);
         event.preventDefault();
         const email = state.personalDataForm.email;
@@ -59,13 +69,12 @@ const history = useHistory();
                         ConfirmPassword: state.personalDataForm.ConfirmPassword,
                         gender: state.personalDataForm.gender,
                         birth: state.personalDataForm.birth,
+                        age: getUserAge(state.personalDataForm.birth),
                         height: state.personalDataForm.height,
                         city: state.personalDataForm.city,
-                        orientation: state.personalDataForm.orientation
+                        preferSex: state.personalDataForm.preferSex
                     },
-                    personalityTestForm: {
-                        ...state.personalityTestForm
-                    }
+                    likes: []
                 }).then(() => {
                     signOut(auth).then(()=> {console.log("sign out")}).
                         catch((err) => {console.log(err.message)})

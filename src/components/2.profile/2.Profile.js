@@ -55,13 +55,13 @@ const Profile = () => {
             .catch(err => {
                 console.log(err.message)
             }).then(() => {handleClose()})
+        console.log(caches)
     }, [] )
 
 
 
 
     return (<>
-
         <div>
             <Modal
                 open={open}
@@ -78,7 +78,7 @@ const Profile = () => {
         </div>
     <ProfilePhoto
         userName={user.personalDataForm? user.personalDataForm.name: null}
-        userBirth={user.personalDataForm? user.personalDataForm.birth: null}
+        age={user.personalDataForm? user.personalDataForm.age: null}
     />
 
     <ProfileInfo
@@ -92,13 +92,13 @@ const Profile = () => {
     </ProfileInfo>
     <ProfileCard
             name={user.personalDataForm? user.personalDataForm.name: null}
-            birth={user.personalDataForm? user.personalDataForm.birth: null}
             gender={user.personalDataForm? user.personalDataForm.gender: null}
+            age={user.personalDataForm? user.personalDataForm.age: null}
             plot={state.plot? state.plot:null}
     />
     <Logout />
     <DeleteProfile uid={user.personalDataForm? user.personalDataForm.UID : null}/>
-    <Navigation/>
+    <Navigation curr="Profil"/>
 
 
     </>)

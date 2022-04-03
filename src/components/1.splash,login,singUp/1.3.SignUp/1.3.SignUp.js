@@ -4,7 +4,6 @@ import Registration from "./partials/Registration";
 import Description from "./partials/Description";
 
 import PersonalDataForm from "./partials/PersonalDataForm";
-import PersonalityTestForm from "./partials/PersonalityTestForm";
 import {AppContext} from "../../../App";
 import Authorization from "./partials/Authorization";
 
@@ -19,11 +18,8 @@ return (
         <Registration/>
         <Description part={state.registerPart}/>
         {state.registerPart === 1 ? <PersonalDataForm/> : null}
-        {state.registerPart === 2 ? <PersonalityTestForm/>  : null}
-        {state.registerPart === 3 ? <Authorization/> : null}
+        {state.registerPart === 2 ? <Authorization/> : null}
 
-        {/*<Description part="3"/>*/}
-        {/*<Authorization/>*/}
     </Container>
 )
 }
