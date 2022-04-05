@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext} from "react"
 import {createUseStyles} from "react-jss";
 import UserSVG from "../../../images/user-solid.svg"
 import EditSVG from "../../../images/pen-solid.svg"
+import {Button} from "@mui/material";
 
 import {storage} from "../../../firebase";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
@@ -14,13 +15,14 @@ import Box from "@mui/material/Box";
 
 const style = {
     position: 'absolute',
-    top: '50%',
+    top: '5%',
     left: '50%',
-    transform: 'translate(-50%, -50%)',
+    transform: 'translate(-50%, 0)',
     width: "90%",
-    bgcolor: 'background.paper',
+    backgroundColor: "black",
     border: '2px solid #000',
     boxShadow: 24,
+    textAlign: "center"
 };
 
 const useStyles = createUseStyles((theme) => ({
@@ -184,7 +186,9 @@ const ProfilePhoto = ({userName, age}) => {
                 >
                     <Box sx={style}>
                        <div style={{backgroundImage: `url(${url})`, backgroundPosition: "center" ,backgroundSize: cover, height: "70vh"}}/>
+                        <Button fullWidth onClick={handleClose} style={{fontSize: "1.5rem", fontWeight: "bold" , fontFamily: "Roboto Serif",height: "10vh", backgroundColor: "rgb(170, 63, 236)"}} variant="contained">ok</Button>
                     </Box>
+
                 </Modal>
             </div>
             <div

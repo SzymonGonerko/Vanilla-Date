@@ -2,14 +2,19 @@ import React, {useContext, useEffect, useState} from "react";
 import Title from "../1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
 import {AppContext} from "../../App";
-import {collection, doc, getDocs, getFirestore,where, query , updateDoc, arrayUnion} from "firebase/firestore";
+import {collection, doc, getDocs, getFirestore, updateDoc, arrayUnion} from "firebase/firestore";
 import UsersCard from "./partials/UsersCard"
 import Modal from "@mui/material/Modal";
+import ButtonGroup from '@mui/material/ButtonGroup';
+import Button from '@mui/material/Button';
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import {createUseStyles} from "react-jss";
-import CloseIcon from '@mui/icons-material/Close';
+import myDraw from "../../images/draw.png"
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 
 
 const db = getFirestore()
@@ -29,27 +34,48 @@ const style = {
     p: 4,
 };
 
+
 const useStyles = createUseStyles((theme) => ({
-    buttonAccept: {
-        position: "absolute",
-        top: "80%",
-        right: "5vw",
-        borderRadius: "50px",
-        width: "5rem",
-        height: "5rem",
+    '@keyframes gradient': {
+        "0%": { backgroundPosition: "0% 50%"},
+        "50%": { backgroundPosition: "100% 50%"},
+        "100%": { backgroundPosition: "0% 50%"},
+    },
+    container: {
+        position: "relative",
+        width: "100vw",
+        height: "100vh",
         backgroundColor: "red",
-        fontSize: "2rem"
+        background: "linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab)",
+        backgroundSize: "400% 400%",
+        overflowY: "hidden",
+        animation: "$gradient 20s ease infinite",
     },
-    buttonReject: {
+    afterUsersImg: {
+        overflowY: "scroll",
+        overflowX: "hidden",
         position: "absolute",
-        top: "80%",
-        left: "5vw",
-        borderRadius: "50px",
-        width: "5rem",
-        height: "5rem",
-        backgroundColor: "green",
-        fontSize: "2rem"
+        top: "0",
+        left: "50%",
+        transform: "translate(-50%, 0)",
+        width: "100%",
+        backgroundImage: `url(${myDraw})`,
+        height: "40vh",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
     },
+    afterUsersText: {
+        position: "absolute",
+        top: "50vh",
+        left: "50%",
+        transform: "translate(-50%, 0)",
+        width: "95%",
+        fontFamily: "Roboto Serif",
+        textAlign: "center",
+        fontSize: "1.2rem"
+    }
+
 }))
 
 
@@ -57,87 +83,69 @@ const useStyles = createUseStyles((theme) => ({
 const Home = () => {
     const {state ,setState} = useContext(AppContext)
     const classes = useStyles();
-    const [users, setUsers] = useState({})
+    const [users, setUsers] = useState([])
     const [loadedUsers, setLoadedUsers] = useState(false)
     const [currentUser, setCurrentUser] = useState({})
     const [open, setOpen] = React.useState(true);
     const handleClose = () => setOpen(false);
 
-    const handleClick = () => {
-        console.log('Obecny użytkownik', currentUser.docId)
 
-        currentUser.likes.forEach(currUser => Object.entries(currUser).forEach(([currKey,currValue]) => (
-            users.forEach(el => el.likes?.forEach(item => Object.entries(item).forEach(([key, value]) => {
-                if (currentUser.docId === key && value && currKey === el.docId && currValue) {
-                    console.log(el.personalDataForm.name)
-                    updateDoc(docRef, {
-                        couples: arrayUnion(el.docId)
-                    }).then(() => {
-                        console.log("Zapisano")
-                    }).catch((err) => {console.log(err.message)})
-                }
-                }
-
-            )))
-        )))
-
-
-    }
 
     const addLike = () => {
-        console.log([...users].pop().personalDataForm.UID)
         const docId = [...users].pop().docId
         const object = {[docId]: true}
         updateDoc(docRef, {
             likes: arrayUnion(object)
-        }).then(() => {
-            console.log("Zapisano")
         }).catch((err) => {console.log(err.message)})
         setUsers(prevState => ([...prevState].splice(0,prevState.length -1)))
     }
 
     const addUnlike = () => {
-        console.log([...users].pop().personalDataForm.UID)
         const docId = [...users].pop().docId
         const object = {[docId]: false}
         updateDoc(docRef, {
             likes: arrayUnion(object)
-        }).then(() => {
-            console.log("Zapisano")
         }).catch((err) => {console.log(err.message)})
-
         setUsers(prevState => ([...prevState].splice(0,prevState.length -1)))
     }
 
 
-    useEffect(()=>{
+
+    useEffect(()=> {
         setState(prev => ({...prev, photo: true, story: true}))
         getDocs(colRef)
             .then(snapshot => {
                 const arr = []
+                let userInteractions = []
                 snapshot.docs.forEach(doc => {
                     if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
                         setCurrentUser({ ...doc.data()})
+                        doc.data().likes?.forEach(el => Object.entries(el).forEach(([key, value]) => userInteractions.push(key)))
                     }
-                    if ((doc.data().avatar64 && doc.data().story) && doc.data().personalDataForm.UID !== localStorage.getItem("uid")){
+                })
+                snapshot.docs.forEach(doc => {
+                    const isInteracted = userInteractions.some(el => (el === doc.data().docId))
+                    if (!isInteracted && doc.data().personalDataForm.UID !== localStorage.getItem("uid")){
                         arr.push({...doc.data()})
                         setUsers(arr)
                     }
                 })
+
             })
             .catch(err => {
                 console.log(err.message)
             }).then(() => {
                 setLoadedUsers(true);
                 handleClose()})
+
     },[])
 
 
     return (<>
+        <div className={classes.container}>
         <div>
             <Modal
                 open={open}
-                onClose={handleClose}
                 aria-labelledby="modal-modal-title"
             >
                 <Box sx={style}>
@@ -151,7 +159,7 @@ const Home = () => {
         <Title/>
         <div>
         <div style={{position: "relative", top: "50%", left: "0"}}>
-        {loadedUsers === true? users.map((el, i) => (
+        {loadedUsers === true? users?.map((el, i) => (
             <UsersCard
                 zIndex={i+1}
                 key={i}
@@ -164,12 +172,20 @@ const Home = () => {
                 avatar64Height={el.avatar64Height}
                 story={el.story}/>))
             :null}
+            <div className={classes.afterUsersImg}/>
+            <div className={classes.afterUsersText}>Wygląda na to, że to już wszyscy. Sprawdź swoje pary... <div ><FavoriteIcon color="secondary"/></div></div>
         </div>
         </div>
-        <button onClick={addLike} className={classes.buttonReject}><CloseIcon/></button>
-        <button onClick={addUnlike} className={classes.buttonAccept}><CloseIcon/></button>
-        <button onClick={handleClick} style={{position: "absolute", top: "80%"}}>vvvvvvvvvvvvv</button>
+
+        {users.length === 0 ? null:
+          <ButtonGroup fullWidth style={{position: "fixed", bottom: "70px", left: "50%", width: "90%",transform: "translate(-50%, 0)"}} disableElevation variant="contained">
+            <Button style={{backgroundColor: "transparent", height: "10vh"}} onClick={addUnlike}><CancelIcon/></Button>
+            <Button style={{backgroundColor: "transparent"}} onClick={addLike}><FavoriteIcon/></Button>
+          </ButtonGroup>
+        }
+
         <Navigation curr="Główna"/>
+        </div>
     </>)
 }
 

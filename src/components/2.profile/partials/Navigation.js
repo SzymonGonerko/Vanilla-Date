@@ -39,18 +39,21 @@ const Navigation = ({curr}) => {
            setValue(newValue)
            if (newValue === "Główna") {
                history.push('/Home')
-               window.location.reload(true)
+               window.location.reload()
            }
            if (newValue === "Profil") {
                history.push('/Profile')
-               window.location.reload(true)
+               window.location.reload()
+           }
+           if (newValue === "Pary") {
+               history.push('/Likes')
+               window.location.reload()
            }
        } else {handleOpen()}
     }
 
     const handleSubmit = (e) => {
-        window.location.reload()
-        console.log(e.target)
+        e.preventDefault()
     }
 
     return (<>

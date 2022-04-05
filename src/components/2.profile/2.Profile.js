@@ -55,7 +55,6 @@ const Profile = () => {
             .catch(err => {
                 console.log(err.message)
             }).then(() => {handleClose()})
-        console.log(caches)
     }, [] )
 
 
@@ -65,7 +64,6 @@ const Profile = () => {
         <div>
             <Modal
                 open={open}
-                onClose={handleClose}
                 aria-labelledby="modal-modal-title"
             >
                 <Box sx={style}>

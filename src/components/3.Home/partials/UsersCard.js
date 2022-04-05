@@ -7,7 +7,7 @@ import Typography from "@mui/material/Typography";
 
 const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height, zIndex, height}) => {
     return (<>
-        <Card sx={{height: "70vh"}}
+        <Card sx={{height: "65vh"}}
               style={{overflowY: "scroll",
                   overflowX: "hidden",
                   zIndex: zIndex,
@@ -15,7 +15,6 @@ const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height,
                   top: "0",
                   left: "50%",
                   transform: "translate(-50%, 0)",
-
                   width: "95%",
                   backgroundColor: (gender === "kobieta"? "rgb(255, 230, 252)": "rgb(232, 230, 255)")}}>
             <CardActionArea>
@@ -23,7 +22,7 @@ const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height,
                     <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h4" component="span">
                         {name},
                     </Typography>
-                    <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h5" component="span">
+                    <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h6" component="span">
                         {" "}{age} lat, {height} cm
                     </Typography>
                     <Typography style={{fontFamily: "Roboto Serif", fontSize: "1rem", color: "#9c27b0"}} variant="body1" color="text.secondary">

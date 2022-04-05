@@ -40,7 +40,9 @@ const useStyles = createUseStyles((theme) => ({
         fontSize: "1rem",
         fontFamily: "Roboto Serif",
         color: "#9c27b0",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        paddingLeft: "3px",
+        paddingRight: "3px",
     },
     error: {
         color: "orange"
@@ -52,7 +54,6 @@ const useStyles = createUseStyles((theme) => ({
 const Story = () => {
     const classes = useStyles();
     const [form, setForm] = useState({area: "", topic: 1})
-    const [errors, setErrors] = useState({length: false})
     const [open, setOpen] = useState(false);
     const [edit, setEdit] = useState(true)
     const [disable, setDisable] = useState(false)
@@ -60,12 +61,6 @@ const Story = () => {
     const handleClose = () => setOpen(false);
     const {state ,setState} = useContext(AppContext)
 
-    const keyPressed = (e) => {
-        console.log(e.code, e.key)
-        if(e.code == "Numpad1") {
-            console.log("Numpad1 Pressed");
-        }
-    }
 
 
     useEffect(() => {
@@ -92,17 +87,6 @@ const Story = () => {
         setEdit(true)
     }
 
-    const handleBlur = (e) => {
-        console.log(e.target.value.length)
-        if (e.target.value.length <= 200) {
-            setErrors(prevState => ({...prevState, length: "Tak krótko? postaraj się aby twoja opowieść była na conajmniej 200 znaków"}))
-        } else { setErrors(prevState => ({...prevState, length: false}))}
-
-        if (e.target.value.length > 1500) {
-            setErrors(prevState => ({...prevState, length: "Maksymalnie 1500 znaków"}))
-        }
-
-    }
 
 
 
@@ -111,7 +95,7 @@ const Story = () => {
         const selectedTopic = form.topic;
         const story = form.area;
         const question = topic.filter((el, i) => (parseInt(form.topic) === (i + 1) ? el: null))[0]
-        if (!errors.length) {
+        if (form.area.length >= 200 && form.area.length <= 1500) {
             const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
             updateDoc(docRef, {
                 story: story,
@@ -156,14 +140,14 @@ const Story = () => {
             <TextareaAutosize
                 name="area"
                 value={form.area}
-                onBlur={handleBlur}
                 onChange={updateState}
                 disabled={disable}
-                onKeyDown={keyPressed}
-                onKeyUp={keyPressed}
                 style={{ width: "100%",
+                    marginTop: "10px",
                     height: "13rem",
                     fontSize: "1rem",
+                    paddingLeft: "3px",
+                    paddingRight: "3px",
                     fontFamily: "Roboto Serif",
                     lineHeight: "1rem",
                     outline: "none",
@@ -171,7 +155,7 @@ const Story = () => {
                     overflow: "scroll"
                 }}
             />
-            {errors.length? <p className={classes.error}>{errors.length}</p>: null}
+            <div style={{color: (form.area.length<200?"red": "green"), textAlign: "center", fontFamily: "Roboto Serif"}}>Ilość znaków: <strong>{form.area.length}</strong>, (min. 200 max. 1500)</div>
             <div style={{display: "flex", justifyContent: "space-around", marginTop: "10px", marginBottom: "10px"}}>
                 <Button
                     onClick={handleClick}
