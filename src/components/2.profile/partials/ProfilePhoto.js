@@ -15,7 +15,7 @@ import Box from "@mui/material/Box";
 
 const style = {
     position: 'absolute',
-    top: '5%',
+    top: '3%',
     left: '50%',
     transform: 'translate(-50%, 0)',
     width: "90%",
@@ -186,7 +186,7 @@ const ProfilePhoto = ({userName, age}) => {
                 >
                     <Box sx={style}>
                        <div style={{backgroundImage: `url(${url})`, backgroundPosition: "center" ,backgroundSize: cover, height: "70vh"}}/>
-                        <Button fullWidth onClick={handleClose} style={{fontSize: "1.5rem", fontWeight: "bold" , fontFamily: "Roboto Serif",height: "10vh", backgroundColor: "rgb(170, 63, 236)"}} variant="contained">ok</Button>
+                        <Button onClick={handleClose} style={{position: "fixed", bottom: "-15vh",left: "50%", transform: "translate(-50%, 0)", borderRadius: "50%", fontSize: "1.5rem", fontWeight: "bold" , fontFamily: "Roboto Serif",height: "13vh", width: "13vh", backgroundColor: "rgb(170, 63, 236)"}} variant="contained">ok</Button>
                     </Box>
 
                 </Modal>

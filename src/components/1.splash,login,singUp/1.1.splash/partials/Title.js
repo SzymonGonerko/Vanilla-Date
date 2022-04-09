@@ -4,7 +4,7 @@ import injectSheet from "react-jss";
 const styles = {
     title: {
         fontSize: "3rem",
-        marginTop: "5px",
+        marginTop: "10px",
         textAlign: "center",
         opacity: "0.8",
         borderRadius: "10px",

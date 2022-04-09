@@ -155,7 +155,7 @@ const Story = () => {
                     overflow: "scroll"
                 }}
             />
-            <div style={{color: (form.area.length<200?"red": "green"), textAlign: "center", fontFamily: "Roboto Serif"}}>Ilość znaków: <strong>{form.area.length}</strong>, (min. 200 max. 1500)</div>
+            <div style={{color: (form.area.length<200?"red": "green"), fontSize: "0.8rem", textAlign: "center", fontFamily: "Roboto Serif"}}>Ilość znaków: <strong>{form.area.length}</strong>, (min. 200 max. 1500)</div>
             <div style={{display: "flex", justifyContent: "space-around", marginTop: "10px", marginBottom: "10px"}}>
                 <Button
                     onClick={handleClick}

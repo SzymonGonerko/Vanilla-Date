@@ -10,7 +10,7 @@ const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height,
         <Card sx={{height: "65vh"}}
               style={{overflowY: "scroll",
                   overflowX: "hidden",
-                  zIndex: zIndex,
+                  zIndex: (zIndex? zIndex: null),
                   position: "absolute",
                   top: "0",
                   left: "50%",

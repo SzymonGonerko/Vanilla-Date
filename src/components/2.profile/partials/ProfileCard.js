@@ -27,7 +27,7 @@ const style = {
 };
 
 
-const ProfileCard = ({name, birth, gender, plot, age}) => {
+const ProfileCard = ({name, gender, plot, age}) => {
 
     const {state} = useContext(AppContext)
     const [open, setOpen] = useState(false);
