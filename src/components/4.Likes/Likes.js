@@ -42,31 +42,60 @@ const itemStyles = {
     height: "10vh",
     paddingLeft: "5px"}
 
-    const buttonStyle = {
-        position: "fixed",
-        color: "black",
-        bottom: "10vh",
-        left: "50%",
-        transform: "translate(-50%, 0)",
-        borderRadius: "50%",
-        fontSize: "1.5rem",
-        fontWeight: "bold" ,
-        fontFamily: "Roboto Serif",
-        height: "13vh", 
-        width: "13vh", 
-        backgroundColor: "rgb(170, 63, 236)"
-    }
-
 const useStyles = createUseStyles((theme) => ({
+    "@keyframes anim": {
+        "0%": {
+            borderRadius: "30% 70% 70% 30% / 30% 52% 48% 70%",
+            boxShadow: "0 -2vmin 4vmin LightPink inset, 0 -4vmin 4vmin MediumPurple inset, 0 -2vmin 7vmin purple inset",
+        },
+    
+        "10%": {
+            borderRadius: "50% 50% 20% 80% / 25% 80% 20% 75%",
+        },
+    
+        "20%": {
+            borderRadius: "67% 33% 47% 53% / 37% 20% 80% 63%",
+        },
+    
+        "30%": {
+            borderRadius: "39% 61% 47% 53% / 37% 40% 60% 63%",
+            boxShadow: "0 -4vmin 8vmin hotpink inset, -1vmin -2vmin 6vmin LightPink inset, -1vmin -2vmin 4vmin MediumPurple inset, 1vmin 4vmin 8vmin purple inset",
+        },
+    
+        "40%": {
+            borderRadius: "39% 61% 82% 18% / 74% 40% 60% 26%",
+        },
+    
+        "50%": {
+            borderRadius: "100%",
+            boxShadow: "0 4vmin 16vmin hotpink inset, 0 2vmin 5vmin LightPink inset, 0 4vmin 4vmin MediumPurple inset, 0 6vmin 8vmin purple inset",
+        },
+    
+        "60%": {
+            borderRadius: "50% 50% 53% 47% / 72% 69% 31% 28%",
+        },
+    
+        "70%": {
+            borderRadius: "50% 50% 53% 47% / 26% 22% 78% 74%",
+            boxShadow: "0.5vmin 0.5vmin 4vmin LightPink inset, 1vmin -0.5vmin 2vmin MediumPurple inset, -1vmin -1vmin 16vmin purple inset",
+        },
+    
+        "80%": {
+            borderRadius: "50% 50% 53% 47% / 26% 69% 31% 74%",
+        },
+    
+        "90%": {
+            borderRadius: "20% 80% 20% 80% / 20% 80% 20% 80%",
+        },
+    },
     navContainer: {
-        // border: "1px solid black",
         position: "absolute",
-        top: "45%",
+        top: "40%",
         left: "50%",
         transform: "translate(-50%, -50%)",
         borderRadius: "5px",
         width: "95vw",
-        height: "60vh",
+        height: "55vh",
         overflowY: "scroll"
     },
     textItem: {fontFamily: "Roboto Serif", fontWeight: "bold", fontSize: "1.3rem"},
@@ -89,7 +118,24 @@ const useStyles = createUseStyles((theme) => ({
         border: "none",
         width: "30%",
         height: "50%",
+},
+
+buttonCosmicEgg: {
+    position: "fixed",
+    display: "block",
+    border: "none",
+    bottom: "5vh",
+    left: "50%",
+    transform: "translate(-50%,-50%)",
+    height: "15vh", 
+    width: "15vh", 
+    animation: "anim 30s infinite",
+	background: "radial-gradient(circle at 0% 0%, hotpink, slateblue)",
+	borderRadius: "30% 70% 53% 47% / 26% 46% 54% 74%",
+	boxShadow: "0 -2vmin 4vmin LightPink inset, 0 1vmin 4vmin MediumPurple inset, 0 -2vmin 7vmin purple inset",
+	filter: "drop-shadow(0 0 3vmin Thistle) drop-shadow(0 5vmin 4vmin Orchid) drop-shadow(2vmin -2vmin 15vmin MediumSlateBlue) drop-shadow(0 0 7vmin MediumOrchid)",
 }
+
 }))
 
 
@@ -114,8 +160,6 @@ const handleClick = (index) => {
     console.log(index)
     setClickedUser(index)
 }
-
-
     const closeUserCard = () => {
         setShowUserCard(false)
     }
@@ -204,7 +248,7 @@ const handleClick = (index) => {
 
 
         </div>
-        {showUserCard? <Button onClick={closeUserCard} style={buttonStyle}>ok</Button> :null}
+        {showUserCard? <button onClick={closeUserCard} className={classes.buttonCosmicEgg}/> :null}
         
         <Navigation curr="Pary"/>
         </ContainerGradient>
