@@ -15,7 +15,7 @@ const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height,
                   top: "0",
                   left: "50%",
                   transform: "translate(-50%, 0)",
-                  width: "95%",
+                  width: "100%",
                   backgroundColor: (gender === "kobieta"? "rgb(255, 230, 252)": "rgb(232, 230, 255)")}}>
             <CardActionArea>
                 <CardContent>

@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from "react"
 import {arrayUnion, collection, doc, getDocs, getFirestore, updateDoc} from "firebase/firestore";
 import Title from "../../components/1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
+import UsersCard from "../3.Home/partials/UsersCard"
 import {AppContext} from "../../App";
 import ContainerGradient from "../3.Home/partials/ContainerGradient"
 import Modal from "@mui/material/Modal";
@@ -11,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import {createUseStyles} from "react-jss";
 
 import CancelIcon from '@mui/icons-material/Cancel';
+import {Button} from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import ChatIcon from '@mui/icons-material/Chat';
 
@@ -39,6 +41,21 @@ const itemStyles = {
     borderRadius: "5px",
     height: "10vh",
     paddingLeft: "5px"}
+
+    const buttonStyle = {
+        position: "fixed",
+        color: "black",
+        bottom: "10vh",
+        left: "50%",
+        transform: "translate(-50%, 0)",
+        borderRadius: "50%",
+        fontSize: "1.5rem",
+        fontWeight: "bold" ,
+        fontFamily: "Roboto Serif",
+        height: "13vh", 
+        width: "13vh", 
+        backgroundColor: "rgb(170, 63, 236)"
+    }
 
 const useStyles = createUseStyles((theme) => ({
     navContainer: {
@@ -80,34 +97,27 @@ const Likes = () => {
     const {state ,setState} = useContext(AppContext)
     const [users, setUsers] = useState([])
     const classes = useStyles();
-    const [onlyOnce, setOnlyOnce] = useState(true)
-    const [loadedUsers, setLoadedUsers] = useState(false)
     const [currentUser, setCurrentUser] = useState({})
+    const [showUserCard, setShowUserCard] = useState(false)
+    const [clickedUser, setClickedUser] = useState(0)
     const [couples, setCouples] = useState([])
     const [open, setOpen] = React.useState(true);
     const handleClose = () => setOpen(false);
     
-    const handleClick = () => {
-        console.log("click")
+    const showCoupleProfile = () => {
+        setShowUserCard(true)
+        console.log(showUserCard)
     }
 
-    const getCouples = () => {
-        if (onlyOnce) {
-                currentUser.likes?.forEach(currUser => Object.entries(currUser).forEach(([currKey,currValue]) => (
-                    users.forEach(el => el.likes?.forEach(item => Object.entries(item).forEach(([key, value]) => {
-                            if (currentUser.docId === key && value && currKey === el.docId && currValue) {
-                                console.log(el.personalDataForm.name)
-                                updateDoc(docRef, {
-                                    couples: arrayUnion(el.docId)
-                                }).then(() => {
-                                    console.log("Zapisano")
-                                    setOnlyOnce(false)
-                                }).catch((err) => {console.log(err.message)})
-                            }
-                        }
-                    )))
-                )))
-        } else {return null}
+const handleClick = (index) => {
+    setShowUserCard(true)
+    console.log(index)
+    setClickedUser(index)
+}
+
+
+    const closeUserCard = () => {
+        setShowUserCard(false)
     }
 
     useEffect(()=> {
@@ -139,7 +149,6 @@ const Likes = () => {
                 currUserProfile.likes?.forEach(currUser => Object.entries(currUser).forEach(([currKey,currValue]) => (
                     users.forEach(el => el.likes?.forEach(item => Object.entries(item).forEach(([key, value]) => {
                             if (currUserProfile.docId === key && value && currKey === el.docId && currValue) {
-                                console.log(el.personalDataForm.name)
                                 setCouples(prev => [...prev, el.docId])
                                 updateDoc(docRef, {
                                     couples: arrayUnion(el.docId)
@@ -151,13 +160,12 @@ const Likes = () => {
                     )))
                 )))
                 handleClose()
-            setLoadedUsers(true)})
+                })
     },[])
 
 
     return (<>
         <ContainerGradient>
-            {console.log(couples)}
             <div>
                 <Modal
                     open={open}
@@ -179,16 +187,25 @@ const Likes = () => {
                     <li key={index} style={itemStyles} >
                         <p className={classes.textLi}>{el.personalDataForm.name}</p>
                         <div className={classes.btnContainer}>
-                            <button onClick={handleClick} className={classes.button}><PersonIcon/></button>
-                            <button onClick={handleClick} className={classes.button}><ChatIcon/></button>
-                            <button onClick={handleClick} className={classes.button}><CancelIcon/></button>
+                            <button onClick={() => handleClick(el.docId)} className={classes.button}>
+                                <PersonIcon style={{fontSize: "1.6rem"}}/>
+                            </button>
+                            <button className={classes.button}>
+                                <ChatIcon style={{fontSize: "1.6rem"}}/>
+                            </button>
+                            <button className={classes.button}>
+                                <CancelIcon style={{fontSize: "1.6rem"}}/>
+                            </button>
                         </div>
+                        {clickedUser === el.docId && showUserCard? <UsersCard name={el.personalDataForm.name} age={el.personalDataForm.age} question={el.question} story={el.story} gender={el.personalDataForm.gender} avatar64={el.avatar64} avatar64Height={el.avatar64Height} height={el.personalDataForm.height}/> :null}
                     </li>
                 :null))}
             </nav>
 
 
         </div>
+        {showUserCard? <Button onClick={closeUserCard} style={buttonStyle}>ok</Button> :null}
+        
         <Navigation curr="Pary"/>
         </ContainerGradient>
     </>)

@@ -15,6 +15,7 @@ import myDraw from "../../images/draw.png"
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ContainerGradient from "./partials/ContainerGradient"
+import zIndex from "@mui/material/styles/zIndex";
 
 
 
@@ -59,7 +60,7 @@ const useStyles = createUseStyles((theme) => ({
         width: "95%",
         fontFamily: "Roboto Serif",
         textAlign: "center",
-        fontSize: "1.2rem"
+        fontSize: "1.2rem",
     }
 }))
 
@@ -144,6 +145,9 @@ const Home = () => {
         <Title/>
         <div>
         <div style={{position: "relative", top: "50%", left: "0"}}>
+        <div className={classes.afterUsersImg}/>
+            <div className={classes.afterUsersText}>Wygląda na to, że to już wszyscy. Sprawdź swoje pary... <div><FavoriteIcon color="secondary"/></div></div>
+            <div style={{position: "relative", top: "50%", left: "50%", width: "95vw", transform: "translate(-50%, -50%)" }}>
         {loadedUsers === true? users?.map((el, i) => (
             <UsersCard
                 zIndex={i+1}
@@ -157,8 +161,8 @@ const Home = () => {
                 avatar64Height={el.avatar64Height}
                 story={el.story}/>))
             :null}
-            <div className={classes.afterUsersImg}/>
-            <div className={classes.afterUsersText}>Wygląda na to, że to już wszyscy. Sprawdź swoje pary... <div ><FavoriteIcon color="secondary"/></div></div>
+            </div>
+            
         </div>
         </div>
 
