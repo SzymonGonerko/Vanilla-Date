@@ -12,16 +12,18 @@ import Typography from "@mui/material/Typography";
 import {createUseStyles} from "react-jss";
 
 import CancelIcon from '@mui/icons-material/Cancel';
-import {Button} from "@mui/material";
 import PersonIcon from '@mui/icons-material/Person';
 import ChatIcon from '@mui/icons-material/Chat';
+import Button from '@mui/material/Button';
+import CloseIcon from '@mui/icons-material/Close';
+import CheckIcon from '@mui/icons-material/Check';
 
 
 const db = getFirestore()
 const colRef = collection(db, 'Users')
 const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
 
-const style = {
+const styleModalLoad = {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -31,7 +33,21 @@ const style = {
     border: '2px solid #000',
     boxShadow: 24,
     textAlign: "center",
+    borderRadius: "5px",
     p: 4,
+};
+
+const styleModalDelete = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: "85%",
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    borderRadius: "5px",
+    p: 2,
 };
 const itemStyles = {
     border: "1px solid black",
@@ -147,18 +163,23 @@ const Likes = () => {
     const [showUserCard, setShowUserCard] = useState(false)
     const [clickedUser, setClickedUser] = useState(0)
     const [couples, setCouples] = useState([])
-    const [open, setOpen] = React.useState(true);
-    const handleClose = () => setOpen(false);
     
-    const showCoupleProfile = () => {
-        setShowUserCard(true)
-        console.log(showUserCard)
-    }
+
+    const [openModalDelete, setOpenModalDelete] = useState(false);
+    const handleOpenModalDelete = () => setOpenModalDelete(true)
+    const handleCloseModalDelete = () => setOpenModalDelete(false)
+
+    const [openModalLoad, setOpenModalLoad] = React.useState(true);
+    const handleCloseModalLoad = () => setOpenModalLoad(false);
+    
 
 const handleClick = (index) => {
     setShowUserCard(true)
-    console.log(index)
     setClickedUser(index)
+}
+
+const deleteCouple = () => {
+    console.log("do usunięcia")
 }
     const closeUserCard = () => {
         setShowUserCard(false)
@@ -203,7 +224,7 @@ const handleClick = (index) => {
                         }
                     )))
                 )))
-                handleClose()
+                handleCloseModalLoad()
                 })
     },[])
 
@@ -212,14 +233,48 @@ const handleClick = (index) => {
         <ContainerGradient>
             <div>
                 <Modal
-                    open={open}
+                    open={openModalLoad}
                     aria-labelledby="modal-modal-title"
                 >
-                    <Box sx={style}>
+                    <Box sx={styleModalLoad}>
                         <CircularProgress />
-                        <Typography id="modal-modal-title" style={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
+                        <Typography id="modal-modal-load" style={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
                             chwila...
                         </Typography>
+                    </Box>
+                </Modal>
+                <Modal
+                    open={openModalDelete}
+                    aria-labelledby="modal-modal-delete"
+                >
+                    <Box sx={styleModalDelete}>
+                        <Typography id="modal-modal-title" style={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
+                            Czy chcesz usunąć parę ?
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={{ mt: 2 , fontFamily: "Roboto Serif"}}>
+                        Spowoduje to usunięcie tej osoby z listy Twoich par. Ta osoba nie będzie widoczna na głównej tablicy.
+                    </Typography>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+
+                        <Button
+                            sx={{marginTop: "30px", width: "40%"}}
+                            size="large"
+                            startIcon={<CheckIcon />}
+                            onClick={deleteCouple}
+                            variant="outlined"
+                            color="success">
+                            Tak
+                        </Button>
+                        <Button
+                            sx={{marginTop: "30px", width: "40%"}}
+                            size="large"
+                            onClick={handleCloseModalDelete}
+                            startIcon={<CancelIcon/>}
+                            variant="outlined"
+                            color="error">
+                            Nie
+                        </Button>
+                        </div>
                     </Box>
                 </Modal>
             </div>
@@ -238,7 +293,7 @@ const handleClick = (index) => {
                                 <ChatIcon style={{fontSize: "1.6rem"}}/>
                             </button>
                             <button className={classes.button}>
-                                <CancelIcon style={{fontSize: "1.6rem"}}/>
+                                <CancelIcon onClick={handleOpenModalDelete} style={{fontSize: "1.6rem"}}/>
                             </button>
                         </div>
                         {clickedUser === el.docId && showUserCard? <UsersCard name={el.personalDataForm.name} age={el.personalDataForm.age} question={el.question} story={el.story} gender={el.personalDataForm.gender} avatar64={el.avatar64} avatar64Height={el.avatar64Height} height={el.personalDataForm.height}/> :null}
