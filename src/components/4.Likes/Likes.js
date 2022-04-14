@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react"
-import {arrayUnion, collection, doc, getDocs, getFirestore, updateDoc} from "firebase/firestore";
+import {arrayUnion, collection, doc, getDocs, getFirestore, updateDoc, arrayRemove} from "firebase/firestore";
 import Title from "../../components/1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
 import UsersCard from "../3.Home/partials/UsersCard"
@@ -10,13 +10,15 @@ import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import {createUseStyles} from "react-jss";
+import myDraw from "../../images/draw.png"
+
 
 import CancelIcon from '@mui/icons-material/Cancel';
 import PersonIcon from '@mui/icons-material/Person';
 import ChatIcon from '@mui/icons-material/Chat';
 import Button from '@mui/material/Button';
-import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
+import HomeIcon from '@mui/icons-material/Home';
 
 
 const db = getFirestore()
@@ -104,7 +106,27 @@ const useStyles = createUseStyles((theme) => ({
             borderRadius: "20% 80% 20% 80% / 20% 80% 20% 80%",
         },
     },
-    navContainer: {
+    afterUsersImg: {
+        overflowY: "scroll",
+        overflowX: "hidden",
+        width: "100%",
+        backgroundImage: `url(${myDraw})`,
+        height: "40vh",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+    },
+    afterUsersText: {
+        position: "absolute",
+        top: "60%",
+        left: "50%",
+        transform: "translate(-50%, 0)",
+        width: "95%",
+        fontFamily: "Roboto Serif",
+        textAlign: "center",
+        fontSize: "1.2rem",
+    },
+    usersContainer: {
         position: "absolute",
         top: "40%",
         left: "50%",
@@ -162,11 +184,12 @@ const Likes = () => {
     const [currentUser, setCurrentUser] = useState({})
     const [showUserCard, setShowUserCard] = useState(false)
     const [clickedUser, setClickedUser] = useState(0)
+    const [userToDelete, setUserToDelete] = useState("")
     const [couples, setCouples] = useState([])
     
 
     const [openModalDelete, setOpenModalDelete] = useState(false);
-    const handleOpenModalDelete = () => setOpenModalDelete(true)
+    const handleOpenModalDelete = (docid) => (setOpenModalDelete(true), setUserToDelete(docid))
     const handleCloseModalDelete = () => setOpenModalDelete(false)
 
     const [openModalLoad, setOpenModalLoad] = React.useState(true);
@@ -179,30 +202,39 @@ const handleClick = (index) => {
 }
 
 const deleteCouple = () => {
-    console.log("do usunięcia")
+    updateDoc(docRef, {
+        deletedCouples: arrayUnion(userToDelete),
+        couples: arrayRemove(userToDelete)
+    }).catch((err) => {console.log(err.message)})
+    .then(() => {
+        setCouples(prev => [...prev].filter(el => (el !== userToDelete)))
+        handleCloseModalDelete()})
 }
-    const closeUserCard = () => {
+
+const closeUserCard = () => {
         setShowUserCard(false)
-    }
+}
 
     useEffect(()=> {
         setState(prev => ({...prev, photo: true, story: true}))
         let currUserProfile
         const users = []
+        const userDeletedCouples = []
         getDocs(colRef)
             .then(snapshot => {
                 const userInteractions = []
-                
                 snapshot.docs.forEach(doc => {
                     if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
                         setCurrentUser({ ...doc.data()})
                         currUserProfile = {...doc.data()}
                         doc.data().likes?.forEach(el => Object.entries(el).forEach(([key, value]) => userInteractions.push(key)))
+                        doc.data().deletedCouples?.forEach(el => userDeletedCouples.push(el))
                     }
                 })
                 snapshot.docs.forEach(doc => {
                     const isInteracted = userInteractions.some(el => (el === doc.data().docId))
-                    if (isInteracted && doc.data().personalDataForm.UID !== localStorage.getItem("uid")){
+                    const isDeleted = userDeletedCouples.some(el => (el === doc.data().docId))
+                    if (!isDeleted && isInteracted && doc.data().personalDataForm.UID !== localStorage.getItem("uid")){
                         users.push({...doc.data()})
                         setUsers(users)
                     }
@@ -279,30 +311,33 @@ const deleteCouple = () => {
                 </Modal>
             </div>
         <Title/>
-        <div className={classes.navContainer}>
-
-            <nav>
-                {users?.map((el, index) => (couples?.some(item => item === el.docId) ?
-                    <li key={index} style={itemStyles} >
-                        <p className={classes.textLi}>{el.personalDataForm.name}</p>
-                        <div className={classes.btnContainer}>
-                            <button onClick={() => handleClick(el.docId)} className={classes.button}>
-                                <PersonIcon style={{fontSize: "1.6rem"}}/>
-                            </button>
-                            <button className={classes.button}>
-                                <ChatIcon style={{fontSize: "1.6rem"}}/>
-                            </button>
-                            <button className={classes.button}>
-                                <CancelIcon onClick={handleOpenModalDelete} style={{fontSize: "1.6rem"}}/>
-                            </button>
-                        </div>
+        {couples.length !== 0?
+        <div className={classes.usersContainer}>
+            
+                <nav>
+                    {users?.map((el, index) => (couples?.some(item => item === el.docId) ?
+                        <li key={index} style={itemStyles} >
+                            <p className={classes.textLi}>{el.personalDataForm.name}</p>
+                            <div className={classes.btnContainer}>
+                                <button onClick={() => handleClick(el.docId)} className={classes.button}>
+                                    <PersonIcon style={{fontSize: "1.6rem"}}/>
+                                </button>
+                                <button className={classes.button}>
+                                    <ChatIcon style={{fontSize: "1.6rem"}}/>
+                                </button>
+                                <button className={classes.button}>
+                                    <CancelIcon onClick={() => handleOpenModalDelete(el.docId)} style={{fontSize: "1.6rem"}}/>
+                                </button>
+                            </div>
                         {clickedUser === el.docId && showUserCard? <UsersCard name={el.personalDataForm.name} age={el.personalDataForm.age} question={el.question} story={el.story} gender={el.personalDataForm.gender} avatar64={el.avatar64} avatar64Height={el.avatar64Height} height={el.personalDataForm.height}/> :null}
                     </li>
-                :null))}
-            </nav>
-
-
+                    :null))}
+                </nav>
         </div>
+          :<>
+          <div className={classes.afterUsersText}>Obecnie brak par. Wejdź na stronę główną i polajkuj profile innych użytkowników <div><HomeIcon color="secondary"/></div></div>
+          <div className={classes.afterUsersImg}/>
+          </>}
         {showUserCard? <button onClick={closeUserCard} className={classes.buttonCosmicEgg}/> :null}
         
         <Navigation curr="Pary"/>

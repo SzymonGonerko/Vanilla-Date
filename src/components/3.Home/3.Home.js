@@ -15,7 +15,6 @@ import myDraw from "../../images/draw.png"
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ContainerGradient from "./partials/ContainerGradient"
-import zIndex from "@mui/material/styles/zIndex";
 
 
 
@@ -145,21 +144,21 @@ const Home = () => {
         <Title/>
         <div>
         <div style={{position: "relative", top: "50%", left: "0"}}>
-        <div className={classes.afterUsersImg}/>
+            <div className={classes.afterUsersImg}/>
             <div className={classes.afterUsersText}>Wygląda na to, że to już wszyscy. Sprawdź swoje pary... <div><FavoriteIcon color="secondary"/></div></div>
             <div style={{position: "relative", top: "50%", left: "50%", width: "95vw", transform: "translate(-50%, -50%)" }}>
-        {loadedUsers === true? users?.map((el, i) => (
-            <UsersCard
-                zIndex={i+1}
-                key={i}
-                name={el.personalDataForm.name}
-                age={el.personalDataForm.age}
-                height={el.personalDataForm.height}
-                question={el.question}
-                gender={el.personalDataForm.gender}
-                avatar64={el.avatar64}
-                avatar64Height={el.avatar64Height}
-                story={el.story}/>))
+                {loadedUsers === true? users?.map((el, i) => (
+                <UsersCard
+                    zIndex={i+1}
+                    key={i}
+                    name={el.personalDataForm.name}
+                    age={el.personalDataForm.age}
+                    height={el.personalDataForm.height}
+                    question={el.question}
+                    gender={el.personalDataForm.gender}
+                    avatar64={el.avatar64}
+                    avatar64Height={el.avatar64Height}
+                    story={el.story}/>))
             :null}
             </div>
             
