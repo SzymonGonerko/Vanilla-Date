@@ -7,6 +7,8 @@ import PersonIcon from '@mui/icons-material/Person';
 import {AppContext} from "../../../App";
 import MyCanvas from "./MyCanvas"
 
+import FancyButton from "../../4.Likes/partials/FancyButton";
+
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import {Button, CardActionArea} from '@mui/material';
@@ -18,10 +20,10 @@ const colRef = collection(db, 'Users')
 
 const style = {
     position: 'absolute',
-    top: '50%',
+    top: '40%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: "100%",
+    width: "95%",
     bgcolor: 'background.paper',
     boxShadow: 24,
 };
@@ -91,6 +93,7 @@ return (<>
                         <MyCanvas gender={gender}/>
                     </CardActionArea>
                 </Card> : null}
+                <FancyButton bottomPosition={"-30vh"} close={handleClose}/>
             </Box>
         </Modal>
     </div>

@@ -11,6 +11,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import {createUseStyles} from "react-jss";
 import myDraw from "../../images/draw.png"
+import FancyButton from "./partials/FancyButton";
 
 
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -55,57 +56,12 @@ const itemStyles = {
     border: "1px solid black",
     display: "flex",
     justifyContent: "space-between",
-    margin: "0 5px 10px 5px",
+    margin: "10px",
     borderRadius: "5px",
     height: "10vh",
     paddingLeft: "5px"}
 
 const useStyles = createUseStyles((theme) => ({
-    "@keyframes anim": {
-        "0%": {
-            borderRadius: "30% 70% 70% 30% / 30% 52% 48% 70%",
-            boxShadow: "0 -2vmin 4vmin LightPink inset, 0 -4vmin 4vmin MediumPurple inset, 0 -2vmin 7vmin purple inset",
-        },
-    
-        "10%": {
-            borderRadius: "50% 50% 20% 80% / 25% 80% 20% 75%",
-        },
-    
-        "20%": {
-            borderRadius: "67% 33% 47% 53% / 37% 20% 80% 63%",
-        },
-    
-        "30%": {
-            borderRadius: "39% 61% 47% 53% / 37% 40% 60% 63%",
-            boxShadow: "0 -4vmin 8vmin hotpink inset, -1vmin -2vmin 6vmin LightPink inset, -1vmin -2vmin 4vmin MediumPurple inset, 1vmin 4vmin 8vmin purple inset",
-        },
-    
-        "40%": {
-            borderRadius: "39% 61% 82% 18% / 74% 40% 60% 26%",
-        },
-    
-        "50%": {
-            borderRadius: "100%",
-            boxShadow: "0 4vmin 16vmin hotpink inset, 0 2vmin 5vmin LightPink inset, 0 4vmin 4vmin MediumPurple inset, 0 6vmin 8vmin purple inset",
-        },
-    
-        "60%": {
-            borderRadius: "50% 50% 53% 47% / 72% 69% 31% 28%",
-        },
-    
-        "70%": {
-            borderRadius: "50% 50% 53% 47% / 26% 22% 78% 74%",
-            boxShadow: "0.5vmin 0.5vmin 4vmin LightPink inset, 1vmin -0.5vmin 2vmin MediumPurple inset, -1vmin -1vmin 16vmin purple inset",
-        },
-    
-        "80%": {
-            borderRadius: "50% 50% 53% 47% / 26% 69% 31% 74%",
-        },
-    
-        "90%": {
-            borderRadius: "20% 80% 20% 80% / 20% 80% 20% 80%",
-        },
-    },
     afterUsersImg: {
         overflowY: "scroll",
         overflowX: "hidden",
@@ -132,6 +88,7 @@ const useStyles = createUseStyles((theme) => ({
         left: "50%",
         transform: "translate(-50%, -50%)",
         borderRadius: "5px",
+        boxShadow: "0px 0px 5px 0px rgba(0, 20, 255, 0.36)",
         width: "95vw",
         height: "55vh",
         overflowY: "scroll"
@@ -157,22 +114,6 @@ const useStyles = createUseStyles((theme) => ({
         width: "30%",
         height: "50%",
 },
-
-buttonCosmicEgg: {
-    position: "fixed",
-    display: "block",
-    border: "none",
-    bottom: "5vh",
-    left: "50%",
-    transform: "translate(-50%,-50%)",
-    height: "15vh", 
-    width: "15vh", 
-    animation: "anim 30s infinite",
-	background: "radial-gradient(circle at 0% 0%, hotpink, slateblue)",
-	borderRadius: "30% 70% 53% 47% / 26% 46% 54% 74%",
-	boxShadow: "0 -2vmin 4vmin LightPink inset, 0 1vmin 4vmin MediumPurple inset, 0 -2vmin 7vmin purple inset",
-	filter: "drop-shadow(0 0 3vmin Thistle) drop-shadow(0 5vmin 4vmin Orchid) drop-shadow(2vmin -2vmin 15vmin MediumSlateBlue) drop-shadow(0 0 7vmin MediumOrchid)",
-}
 
 }))
 
@@ -338,7 +279,7 @@ const closeUserCard = () => {
           <div className={classes.afterUsersText}>Obecnie brak par. Wejdź na stronę główną i polajkuj profile innych użytkowników <div><HomeIcon color="secondary"/></div></div>
           <div className={classes.afterUsersImg}/>
           </>}
-        {showUserCard? <button onClick={closeUserCard} className={classes.buttonCosmicEgg}/> :null}
+        {showUserCard? <FancyButton close={closeUserCard}/>:null}
         
         <Navigation curr="Pary"/>
         </ContainerGradient>

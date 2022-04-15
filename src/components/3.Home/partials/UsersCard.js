@@ -8,7 +8,8 @@ import Typography from "@mui/material/Typography";
 const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height, zIndex, height}) => {
     return (<>
         <Card sx={{height: "65vh"}}
-              style={{overflowY: "scroll",
+              style={{
+                  overflowY: "scroll",
                   overflowX: "hidden",
                   zIndex: (zIndex? zIndex: null),
                   position: "absolute",

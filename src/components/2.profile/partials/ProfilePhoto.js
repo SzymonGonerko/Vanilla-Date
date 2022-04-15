@@ -3,6 +3,7 @@ import {createUseStyles} from "react-jss";
 import UserSVG from "../../../images/user-solid.svg"
 import EditSVG from "../../../images/pen-solid.svg"
 import {Button} from "@mui/material";
+import FancyButton from "../../4.Likes/partials/FancyButton"
 
 import {storage} from "../../../firebase";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
@@ -186,7 +187,7 @@ const ProfilePhoto = ({userName, age}) => {
                 >
                     <Box sx={style}>
                        <div style={{backgroundImage: `url(${url})`, backgroundPosition: "center" ,backgroundSize: cover, height: "70vh"}}/>
-                        <Button onClick={handleClose} style={{position: "fixed", bottom: "-15vh",left: "50%", transform: "translate(-50%, 0)", borderRadius: "50%", fontSize: "1.5rem", fontWeight: "bold" , fontFamily: "Roboto Serif",height: "13vh", width: "13vh", backgroundColor: "rgb(170, 63, 236)"}} variant="contained">ok</Button>
+                        <FancyButton bottomPosition={"-25vh"} close={handleClose}/>
                     </Box>
 
                 </Modal>
