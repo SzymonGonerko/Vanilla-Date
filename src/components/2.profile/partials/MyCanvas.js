@@ -1,7 +1,8 @@
-import React, {useState, useEffect, useRef} from "react"
+import React, {useState, useEffect, useRef, useContext} from "react"
+import {AppContext} from "../../../App";
 
 import {
-    getFirestore, collection, getDocs
+    getFirestore, collection, getDocs,query,where
 } from 'firebase/firestore'
 import Particle from "./Particle"
 
@@ -11,6 +12,7 @@ const colRef = collection(db, 'Users')
 
 const MyCanvas = ({gender}) => {
     const canvasRef = useRef(null)
+    const { state: { user: userF } } = useContext(AppContext);
 
     function calculateRelativeBrightness(red, green, blue){
         return Math.sqrt(
@@ -23,19 +25,22 @@ const MyCanvas = ({gender}) => {
     useEffect(() => {
         let src
         let avatar64Height
-        getDocs(colRef)
-            .then(snapshot => {
-                snapshot.docs.forEach(doc => {
-                    if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
-                        src = doc.data().avatar64
-                        avatar64Height = doc.data().avatar64Height
-                    }
-                })
-            })
-            .catch(err => {
-                console.log(err.message)
-            }).then(() => {
 
+        if (!userF?.uid) return;
+        const start = async () => {
+            try {
+                const q = query(collection(db, "Users"), where("UID", "==", userF.uid));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    src = doc.data().avatar64
+                    avatar64Height = doc.data().avatar64Height
+                })
+
+            } catch (e) {console.log(e)}
+        }
+
+ 
+        start().then(() => {
             const canvas = canvasRef.current
             const context = canvas.getContext('2d')
             const myImage = new Image();
@@ -95,8 +100,8 @@ const MyCanvas = ({gender}) => {
 
             }, 0)
             return () => {}
-        }).catch((err) => {console.log(err.message)})
-    }, [])
+        })
+    }, [userF])
 
     return (<><canvas style={{display: "block"}} ref={canvasRef}/></>)
 }

@@ -7,7 +7,7 @@ import FancyButton from "../../4.Likes/partials/FancyButton"
 
 import {storage} from "../../../firebase";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
-import {doc, updateDoc} from 'firebase/firestore'
+import {doc, updateDoc, query,collection,getDocs,where} from 'firebase/firestore'
 import {db} from "../../../firebase"
 import {AppContext} from "../../../App";
 import Modal from "@mui/material/Modal";
@@ -92,26 +92,44 @@ const useStyles = createUseStyles((theme) => ({
 }))
 
 const ProfilePhoto = ({userName, age}) => {
+    const { state: { user: userF } } = useContext(AppContext);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const {setState} = useContext(AppContext)
+    const [docId, setDocId] = useState("")
+    const [uid, setUid] = useState("")
     const classes = useStyles();
     const [url, setUrl] = useState({ UserSVG})
     const [cover, setCover] = useState("")
     const [color, setColor] = useState("")
 
-
-
     useEffect(() => {
-        const starsRef = ref(storage, `Avatars/${localStorage.getItem("uid")}`);
-        getDownloadURL(starsRef).then((url) => {
-            setUrl(url);
-            setState(prev => ({...prev, photo: true, photoURL: url}))
-            setColor("transparent")
-            setCover("cover")}).
-            catch((err) => {console.log(err.message); setState(prev => ({...prev, photo: false}))})
-    }, [])
+        if (!userF?.uid) return;
+        const start = async () => {
+            try {
+                const q = query(collection(db, "Users"), where("UID", "==", userF.uid));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    setDocId(doc.id)
+                    setUid(doc.data().UID)
+                    const starsRef = ref(storage, `Avatars/${doc.data().UID}`);
+                    getDownloadURL(starsRef).then((url) => {
+                        setUrl(url);
+                        setState(prev => ({...prev, photo: true, photoURL: url}))
+                        setColor("transparent")
+                        setCover("cover")}).
+                        catch((err) => {console.log(err.message); setState(prev => ({...prev, photo: false}))})
+                    
+                })
+
+            } catch (e) {console.log(e)}
+        }
+
+ 
+        start().then(() => {handleClose()})
+    }, [userF] )
+
 
 
 
@@ -139,12 +157,10 @@ const ProfilePhoto = ({userName, age}) => {
                 ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
 
                 const srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
-
-                const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
+                const docRef = doc(db, 'Users', docId)
                 updateDoc(docRef, {
                     avatar64: srcEncoded,
                     avatar64Height: canvas.height,
-                    docId: localStorage.getItem("doc.id")
                 })
                     .then(() => {
                         console.log("Zapisano")
@@ -155,7 +171,7 @@ const ProfilePhoto = ({userName, age}) => {
 
         };
 
-        const storageRef = ref(storage, `Avatars/${localStorage.getItem("uid")}`);
+        const storageRef = ref(storage, `Avatars/${uid}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
         uploadTask.on(
             "state_changed",null,

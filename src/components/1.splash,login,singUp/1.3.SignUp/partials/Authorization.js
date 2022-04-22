@@ -41,7 +41,7 @@ const {state ,setState} = useContext(AppContext)
 const history = useHistory();
 
     const handleSubmit = async (event) => {
-
+        event.preventDefault();
         const getUserAge = (dataBirth) => {
             let currentData = new Date().getFullYear();
             let userAge;
@@ -53,7 +53,7 @@ const history = useHistory();
         }
 
         setLoading(prev => !prev);
-        event.preventDefault();
+        
         const email = state.personalDataForm.email;
         const password = state.personalDataForm.password;
 
@@ -65,8 +65,6 @@ const history = useHistory();
                         UID: cred.user.uid,
                         name: state.personalDataForm.name,
                         email: state.personalDataForm.email,
-                        password: state.personalDataForm.password,
-                        ConfirmPassword: state.personalDataForm.ConfirmPassword,
                         gender: state.personalDataForm.gender,
                         birth: state.personalDataForm.birth,
                         age: getUserAge(state.personalDataForm.birth),
@@ -74,13 +72,12 @@ const history = useHistory();
                         city: state.personalDataForm.city,
                         preferSex: state.personalDataForm.preferSex
                     },
-                    likes: []
+                    likes: [],
+                    UID: cred.user.uid,
                 }).then(() => {
                     signOut(auth).then(()=> {console.log("sign out")}).
                         catch((err) => {console.log(err.message)})
-
                     setSuccess(true)
-                    // setState({registerPart: 1})
                     setTimeout(() => {history.push('/login');}, 3000)
                 })
 
@@ -120,7 +117,7 @@ const history = useHistory();
                                 style={{fontSize: "2rem"}}
                                 sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}/>} label={rodo} />
                         </FormGroup>
-                        {success? <Button fullWidth size="large" size="large" variant="contained" color="success">Witamy w Vinilla-Date</Button>:null}
+                        {success? <Button fullWidth  size="large" variant="contained" color="success">Witamy w Vinilla-Date</Button>:null}
                         <LoadingButton
                             fullWidth
                             size="large"

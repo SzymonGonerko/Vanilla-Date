@@ -31,7 +31,7 @@ const CanvasUser = ({gender, avatar64, avatar64Height}) => {
             context.clearRect(0, 0, canvas.width, canvas.height);
 
             let particlesArray = [];
-            const numberOfParticles = 2000;
+            const numberOfParticles = 2300;
 
             let mappedImage = [];
             for (let y = 0; y < canvas.height; y++){

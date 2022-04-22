@@ -1,12 +1,15 @@
 import React, {useState, useEffect, useContext} from "react"
 import {
-    getFirestore, collection, getDocs
+    getFirestore, collection, getDocs,query, orderBy, where,doc, getDoc , onSnapshot
 } from 'firebase/firestore'
+
+
 
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
+import {createUseStyles} from "react-jss";
 
 import ProfilePhoto from "./partials/ProfilePhoto";
 import ProfileInfo from "./partials/ProfileInfo"
@@ -18,7 +21,7 @@ import Navigation from "./partials/Navigation"
 import {AppContext} from "../../App";
 
 const db = getFirestore()
-const colRef = collection(db, 'Users')
+
 
 
 const style = {
@@ -35,31 +38,44 @@ const style = {
 };
 
 
+const useStyles = createUseStyles((theme) => ({
+    buttonContainer: {
+        paddingLeft: "16px",
+        paddingRight: "16px",
+        margin: "0 auto"
+    }
+}))
+
 const Profile = () => {
     const {state} = useContext(AppContext)
     const [user, setUser] = useState({})
-    const [open, setOpen] = React.useState(true);
+    const [open, setOpen] = useState(true);
     const handleClose = () => setOpen(false);
+    const classes = useStyles();
+    
+    const { state: { user: userF } } = useContext(AppContext);
+
+
+
 
 
     useEffect(() => {
-        getDocs(colRef)
-            .then(snapshot => {
-                snapshot.docs.forEach(doc => {
-                    if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
-                        localStorage.setItem("doc.id", doc.id)
-                        setUser({ ...doc.data()})
-                    }
+        if (!userF?.uid) return;
+        const start = async () => {
+            try {
+                const q = query(collection(db, "Users"), where("UID", "==", userF.uid));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    setUser(doc.data());
                 })
-            })
-            .catch(err => {
-                console.log(err.message)
-            }).then(() => {handleClose()})
-    }, [] )
 
-const handleClick = () => {
-        console.log("5555")
-}
+            } catch (e) {console.log(e)}
+        }
+
+ 
+        start().then(() => {handleClose()})
+    }, [userF] )
+
 
 
     return (<>
@@ -90,14 +106,16 @@ const handleClick = () => {
     >
         <Story/>
     </ProfileInfo>
-    <ProfileCard
+    <div className={classes.buttonContainer}>
+        <ProfileCard
             name={user.personalDataForm? user.personalDataForm.name: null}
             gender={user.personalDataForm? user.personalDataForm.gender: null}
             age={user.personalDataForm? user.personalDataForm.age: null}
             plot={state.plot? state.plot:null}
-    />
-    <Logout />
-    <DeleteProfile uid={user.personalDataForm? user.personalDataForm.UID : null}/>
+        />
+        <Logout />
+        <DeleteProfile uid={user.personalDataForm? user.personalDataForm.UID : null}/>
+    </div>
     <Navigation curr="Profil"/>
 
 

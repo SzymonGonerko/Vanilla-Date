@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Title from "../1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
 import {AppContext} from "../../App";
-import {collection, doc, getDocs, getFirestore, updateDoc, arrayUnion} from "firebase/firestore";
+import {collection, doc, getDocs, getFirestore, updateDoc, arrayUnion, query, where} from "firebase/firestore";
 import UsersCard from "./partials/UsersCard"
 import Modal from "@mui/material/Modal";
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -20,7 +20,6 @@ import ContainerGradient from "./partials/ContainerGradient"
 
 const db = getFirestore()
 const colRef = collection(db, 'Users')
-const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
 
 const style = {
     position: 'absolute',
@@ -66,6 +65,7 @@ const useStyles = createUseStyles((theme) => ({
 
 
 const Home = () => {
+    const { state: { user: userF } } = useContext(AppContext);
     const {state ,setState} = useContext(AppContext)
     const classes = useStyles();
     const [users, setUsers] = useState([])
@@ -77,6 +77,7 @@ const Home = () => {
 
 
     const addLike = () => {
+        const docRef = doc(db, 'Users', currentUser.docId)
         const docId = [...users].pop().docId
         const object = {[docId]: true}
         updateDoc(docRef, {
@@ -86,6 +87,7 @@ const Home = () => {
     }
 
     const addUnlike = () => {
+        const docRef = doc(db, 'Users', currentUser.docId)
         const docId = [...users].pop().docId
         const object = {[docId]: false}
         updateDoc(docRef, {
@@ -97,33 +99,38 @@ const Home = () => {
 
 
     useEffect(()=> {
+        if (!userF?.uid) return;
         setState(prev => ({...prev, photo: true, story: true}))
-        getDocs(colRef)
-            .then(snapshot => {
-                const arr = []
-                let userInteractions = []
-                snapshot.docs.forEach(doc => {
-                    if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
-                        setCurrentUser({ ...doc.data()})
-                        doc.data().likes?.forEach(el => Object.entries(el).forEach(([key, value]) => userInteractions.push(key)))
-                    }
+
+        const start = async () => {
+            let userInteractions = []
+            const arr = []
+            try {
+                const qCurrUser = query(collection(db, "Users"), where("UID", "==", userF.uid));
+                const currUser = await getDocs(qCurrUser);
+                currUser.forEach((doc) => {
+                    setCurrentUser({...doc.data(), docId: doc.id})
+                    doc.data().likes?.forEach(el => Object.entries(el).forEach(([key, value]) => userInteractions.push(key)))
                 })
-                snapshot.docs.forEach(doc => {
-                    const isInteracted = userInteractions.some(el => (el === doc.data().docId))
-                    if (!isInteracted && doc.data().personalDataForm.UID !== localStorage.getItem("uid")){
-                        arr.push({...doc.data()})
+
+                const qAllUsers = query(collection(db, "Users"), where("UID", "!=", userF.uid));
+                const allUsers = await getDocs(qAllUsers);
+                allUsers.forEach((doc) => {
+                    const isInteracted = userInteractions?.some(el => (el === doc.id))
+                    if (!isInteracted){
+                        arr.push({...doc.data(), docId: doc.id})
+                        console.log({...doc.data()})
                         setUsers(arr)
                     }
                 })
 
-            })
-            .catch(err => {
-                console.log(err.message)
-            }).then(() => {
-                setLoadedUsers(true);
-                handleClose()})
+            } catch (e) {console.log(e)}
+        }
+        start().then(() => {                
+            handleClose()})
+            setLoadedUsers(true)
 
-    },[])
+    },[userF])
 
 
     return (<>

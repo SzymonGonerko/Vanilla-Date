@@ -1,5 +1,5 @@
 import './App.scss';
-import React, {useState, createContext} from "react";
+import React, {useState, createContext, useEffect} from "react";
 import Splash from "./components/1.splash,login,singUp/1.1.splash/1.1.Splash";
 import Login from "./components/1.splash,login,singUp/1.2.login/1.2.login";
 import SignUp from "./components/1.splash,login,singUp/1.3.SignUp/1.3.SignUp";
@@ -16,6 +16,7 @@ import {
   useRouteMatch,
   useParams
 } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const theme = {
   colorPrimary: "#e73c7e",
@@ -36,8 +37,31 @@ const  App = () => {
     story: false,
     plot: false,
     question: false,
-    navigation: false
+    navigation: false,
+    user: null
   })
+
+
+
+useEffect(() => {
+   const auth = getAuth();
+   const unsubscribe = onAuthStateChanged(auth, (user) => {
+    if (user) {
+  
+      setState(prev => ({
+        ...prev, 
+        user
+      }))
+    } else {
+      setState(prev => ({
+        ...prev, 
+        user: null
+      }))
+    }
+  });
+
+  return () => { unsubscribe() }
+}, [])
 
 
   return (

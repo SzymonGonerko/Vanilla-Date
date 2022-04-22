@@ -12,7 +12,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import EditIcon from '@mui/icons-material/Edit';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
-import {doc, getDocs, updateDoc, collection} from 'firebase/firestore'
+import {doc, getDocs, getDoc , updateDoc, collection, where, query} from 'firebase/firestore'
 import {db} from "../../../firebase"
 const colRef = collection(db, 'Users')
 
@@ -53,34 +53,42 @@ const useStyles = createUseStyles((theme) => ({
 
 const Story = () => {
     const classes = useStyles();
-    const [form, setForm] = useState({area: "", topic: 1})
+    const [form, setForm] = useState({area: "", topic: 1});
     const [open, setOpen] = useState(false);
-    const [edit, setEdit] = useState(true)
-    const [disable, setDisable] = useState(false)
+    const [edit, setEdit] = useState(true);
+    const [docId, setDocId] = useState("");
+    const [disable, setDisable] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const {state ,setState} = useContext(AppContext)
-
+    const {state ,setState} = useContext(AppContext);
+    const { state: { user: userF } } = useContext(AppContext);
 
 
     useEffect(() => {
-        getDocs(colRef)
-            .then(snapshot => {
-                snapshot.docs.forEach(doc => {
-                    if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
-                        if (doc.data().story && doc.data().topic) {
-                            setForm(prevState => ({...prevState, area: doc.data().story, topic: doc.data().topic}))
-                            setState(prev => ({...prev, story: true}))
-                            setDisable(true)
-                            setEdit(false)
-                        }
+        if (!userF?.uid) return;
+        const start = async () => {
+            try {
+                const q = query(collection(db, "Users"), where("UID", "==", userF.uid));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    setDocId(doc.id);
+                    if (doc.data().story && doc.data().topic) {
+                        setForm(prevState => ({...prevState, area: doc.data().story, topic: doc.data().topic}))
+                        setState(prev => ({...prev, story: true}))
+                        setDisable(true)
+                        setEdit(false)
                     }
                 })
-            })
-            .catch(err => {
-                console.log(err.message)
-            })
-    }, [])
+
+            } catch (e) {console.log(e)}
+        }
+
+ 
+        start().then(() => {handleClose()})
+    }, [userF] )
+
+
+
 
     const handleClick = () => {
         setDisable(false)
@@ -96,7 +104,7 @@ const Story = () => {
         const story = form.area;
         const question = topic.filter((el, i) => (parseInt(form.topic) === (i + 1) ? el: null))[0]
         if (form.area.length >= 200 && form.area.length <= 1500) {
-            const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
+            const docRef = doc(db, 'Users', docId)
             updateDoc(docRef, {
                 story: story,
                 topic: selectedTopic,

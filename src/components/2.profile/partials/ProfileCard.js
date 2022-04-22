@@ -13,7 +13,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import {Button, CardActionArea} from '@mui/material';
 
-import { getDocs, collection} from 'firebase/firestore'
+import { getDocs, collection, query,where} from 'firebase/firestore'
 import {db} from "../../../firebase"
 const colRef = collection(db, 'Users')
 
@@ -37,22 +37,26 @@ const ProfileCard = ({name, gender, plot, age}) => {
     const handleClose = () => setOpen(false);
     const [story, setStory] = useState(false)
     const [question, setQuestion] = useState(false)
+    const { state: { user: userF } } = useContext(AppContext);
 
 
     useEffect(() => {
-        getDocs(colRef)
-            .then(snapshot => {
-                snapshot.docs.forEach(doc => {
-                    if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
-                        setStory(doc.data().story)
-                        setQuestion(doc.data().question)
-                    }
+        if (!userF?.uid) return;
+        const start = async () => {
+            try {
+                const q = query(collection(db, "Users"), where("UID", "==", userF.uid));
+                const querySnapshot = await getDocs(q);
+                querySnapshot.forEach((doc) => {
+                    setStory(doc.data().story)
+                    setQuestion(doc.data().question)
                 })
-            })
-            .catch(err => {
-                console.log(err.message)
-            })
-    }, [] )
+
+            } catch (e) {console.log(e)}
+        }
+
+ 
+        start().then(() => {handleClose()})
+    }, [userF] )
 
 return (<>
     <Button

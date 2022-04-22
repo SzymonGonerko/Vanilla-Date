@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react"
-import {arrayUnion, collection, doc, getDocs, getFirestore, updateDoc, arrayRemove} from "firebase/firestore";
+import {arrayUnion, collection, doc, getDocs, getFirestore, updateDoc, arrayRemove,query,where} from "firebase/firestore";
 import Title from "../../components/1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
 import UsersCard from "../3.Home/partials/UsersCard"
@@ -24,7 +24,6 @@ import HomeIcon from '@mui/icons-material/Home';
 
 const db = getFirestore()
 const colRef = collection(db, 'Users')
-const docRef = doc(db, 'Users', localStorage.getItem("doc.id"))
 
 const styleModalLoad = {
     position: 'absolute',
@@ -127,6 +126,7 @@ const Likes = () => {
     const [clickedUser, setClickedUser] = useState(0)
     const [userToDelete, setUserToDelete] = useState("")
     const [couples, setCouples] = useState([])
+    const { state: { user: userF } } = useContext(AppContext);
     
 
     const [openModalDelete, setOpenModalDelete] = useState(false);
@@ -138,11 +138,12 @@ const Likes = () => {
     
 
 const handleClick = (index) => {
-    setShowUserCard(true)
     setClickedUser(index)
+    setShowUserCard(true)
 }
 
 const deleteCouple = () => {
+    const docRef = doc(db, 'Users', currentUser.docId)
     updateDoc(docRef, {
         deletedCouples: arrayUnion(userToDelete),
         couples: arrayRemove(userToDelete)
@@ -157,49 +158,53 @@ const closeUserCard = () => {
 }
 
     useEffect(()=> {
+        if (!userF?.uid) return;
         setState(prev => ({...prev, photo: true, story: true}))
-        let currUserProfile
-        const users = []
-        const userDeletedCouples = []
-        getDocs(colRef)
-            .then(snapshot => {
-                const userInteractions = []
-                snapshot.docs.forEach(doc => {
-                    if (doc.data().personalDataForm.UID === localStorage.getItem("uid")){
-                        setCurrentUser({ ...doc.data()})
-                        currUserProfile = {...doc.data()}
-                        doc.data().likes?.forEach(el => Object.entries(el).forEach(([key, value]) => userInteractions.push(key)))
-                        doc.data().deletedCouples?.forEach(el => userDeletedCouples.push(el))
-                    }
+        const start = async () => {
+            let currUserProfile
+            const users = []
+            const userDeletedCouples = []
+            const userInteractions = []
+            try {
+                const qCurrUser = query(collection(db, "Users"), where("UID", "==", userF.uid));
+                const currUser = await getDocs(qCurrUser);
+                currUser.forEach((doc) => {
+                    setCurrentUser({ ...doc.data(), docId: doc.id})
+                    currUserProfile = {...doc.data(), docId: doc.id }
+                    doc.data().likes?.forEach(el => Object.entries(el).forEach(([key, value]) => userInteractions.push(key)))
+                    doc.data().deletedCouples?.forEach(el => userDeletedCouples.push(el))
                 })
-                snapshot.docs.forEach(doc => {
-                    const isInteracted = userInteractions.some(el => (el === doc.data().docId))
-                    const isDeleted = userDeletedCouples.some(el => (el === doc.data().docId))
-                    if (!isDeleted && isInteracted && doc.data().personalDataForm.UID !== localStorage.getItem("uid")){
-                        users.push({...doc.data()})
+
+                const qAllUsers = query(collection(db, "Users"), where("UID", "!=", userF.uid));
+                const allUsers = await getDocs(qAllUsers);
+                allUsers.forEach((doc) => {
+                    const isInteracted = userInteractions.some(el => (el === doc.id))
+                    const isDeleted = userDeletedCouples.some(el => (el === doc.id))
+                    if (!isDeleted && isInteracted){
+                        users.push({...doc.data(), docId: doc.id})
                         setUsers(users)
                     }
                 })
-            })
-            .catch(err => {
-                console.log(err.message)
-            }).then(() => {
+
+                const docRef = doc(db, 'Users', currUserProfile.docId)
                 currUserProfile.likes?.forEach(currUser => Object.entries(currUser).forEach(([currKey,currValue]) => (
                     users.forEach(el => el.likes?.forEach(item => Object.entries(item).forEach(([key, value]) => {
                             if (currUserProfile.docId === key && value && currKey === el.docId && currValue) {
                                 setCouples(prev => [...prev, el.docId])
                                 updateDoc(docRef, {
                                     couples: arrayUnion(el.docId)
-                                }).then(() => {
-                                    console.log("Zapisano")
-                                }).catch((err) => {console.log(err.message)})
+                                })
                             }
                         }
                     )))
                 )))
-                handleCloseModalLoad()
-                })
-    },[])
+
+            } catch (e) {console.log(e)}
+        }
+        start().then(() => {   
+            handleCloseModalLoad()
+        })
+    },[userF])
 
 
     return (<>

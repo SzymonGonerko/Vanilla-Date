@@ -6,7 +6,7 @@ import MyCanvas from "./MyCanvas";
 
 const UserCard = ({name, age, question, story ,plot ,gender}) => {
     return (<>
-        <UserCard sx={{ height: "30rem"}} style={{overflowY: "scroll", overflowX: "hidden"}}>
+        <UserCard style={{overflowY: "scroll", overflowX: "hidden"}}>
             <CardActionArea>
                 <CardContent>
                     <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h4" component="div">
