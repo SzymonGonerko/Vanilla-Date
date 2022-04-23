@@ -16,7 +16,6 @@ import FancyButton from "./partials/FancyButton";
 
 import CancelIcon from '@mui/icons-material/Cancel';
 import PersonIcon from '@mui/icons-material/Person';
-import ChatIcon from '@mui/icons-material/Chat';
 import Button from '@mui/material/Button';
 import CheckIcon from '@mui/icons-material/Check';
 import HomeIcon from '@mui/icons-material/Home';
@@ -57,7 +56,7 @@ const itemStyles = {
     justifyContent: "space-between",
     margin: "10px",
     borderRadius: "5px",
-    height: "10vh",
+    height: "9vh",
     paddingLeft: "5px"}
 
 const useStyles = createUseStyles((theme) => ({
@@ -95,13 +94,13 @@ const useStyles = createUseStyles((theme) => ({
     textItem: {fontFamily: "Roboto Serif", fontWeight: "bold", fontSize: "1.3rem"},
     btnContainer: {
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "space-around",
         alignItems: "center",
         height: "100%",
-        width: "40%"
+        width: "30%"
     },
     textLi : {
-        lineHeight: "10vh",
+        lineHeight: "9vh",
         fontFamily: "Roboto Serif",
         fontSize: "1.4rem",
         fontWeight: "bold"
@@ -132,6 +131,7 @@ const Likes = () => {
     const [openModalDelete, setOpenModalDelete] = useState(false);
     const handleOpenModalDelete = (docid) => (setOpenModalDelete(true), setUserToDelete(docid))
     const handleCloseModalDelete = () => setOpenModalDelete(false)
+
 
     const [openModalLoad, setOpenModalLoad] = React.useState(true);
     const handleCloseModalLoad = () => setOpenModalLoad(false);
@@ -267,9 +267,6 @@ const closeUserCard = () => {
                             <div className={classes.btnContainer}>
                                 <button onClick={() => handleClick(el.docId)} className={classes.button}>
                                     <PersonIcon style={{fontSize: "1.6rem"}}/>
-                                </button>
-                                <button className={classes.button}>
-                                    <ChatIcon style={{fontSize: "1.6rem"}}/>
                                 </button>
                                 <button className={classes.button}>
                                     <CancelIcon onClick={() => handleOpenModalDelete(el.docId)} style={{fontSize: "1.6rem"}}/>

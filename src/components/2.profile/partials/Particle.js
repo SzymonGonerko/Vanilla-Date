@@ -19,11 +19,11 @@ class Particle {
         if ((this.pixelsImage[this.position1])&&(this.pixelsImage[this.position1][this.position2])){
             this.speed = this.pixelsImage[this.position1][this.position2][0];
         }
-        this.size = this.speed * 2;
+        this.size = this.speed * 3;
 
 
-        this.y -= Math.random() * 0.3;
-        this.x += Math.random() * 0.3;
+        this.y -= 0.3;
+        this.x += 0.3;
         if (this.y <= 0){
             this.y = this.height;
             this.x = Math.random() * this.width;

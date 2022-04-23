@@ -86,8 +86,6 @@ const Box = ({classes}) => {
         console.log(form)
         signInWithEmailAndPassword(auth, form.email, form.password).
         then((cred) => {
-            console.log("user loged in");
-            localStorage.setItem("uid", cred.user.uid)
             setState(prev => ({...prev, uid: cred.user.uid}))
             setErrors({password: false, email: false});
             history.push('/profile')}).

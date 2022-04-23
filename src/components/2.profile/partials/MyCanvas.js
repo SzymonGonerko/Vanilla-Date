@@ -55,7 +55,7 @@ const MyCanvas = ({gender}) => {
                 context.clearRect(0, 0, canvas.width, canvas.height);
 
                 let particlesArray = [];
-                const numberOfParticles = 2000;
+                const numberOfParticles = 2500;
 
                 let mappedImage = [];
                 for (let y = 0; y < canvas.height; y++){

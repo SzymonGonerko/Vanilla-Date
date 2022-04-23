@@ -49,6 +49,10 @@ const Navigation = ({curr}) => {
                history.push('/Likes')
                window.location.reload()
            }
+           if (newValue === "Chat") {
+            history.push('/Chat')
+            window.location.reload()
+        }
        } else {handleOpen()}
     }
 

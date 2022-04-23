@@ -6,6 +6,7 @@ import SignUp from "./components/1.splash,login,singUp/1.3.SignUp/1.3.SignUp";
 import Profile from "./components/2.profile/2.Profile"
 import Home from "./components/3.Home/3.Home"
 import Likes from "./components/4.Likes/Likes"
+import Chat from "./components/5.Chat/Chat"
 import  {ThemeProvider} from 'react-jss'
 import {
   BrowserRouter as Router,
@@ -92,6 +93,10 @@ useEffect(() => {
 
               <Route path="/Likes">
                 <Likes/>
+              </Route>
+
+              <Route path="/Chat">
+                <Chat/>
               </Route>
 
             </Switch>

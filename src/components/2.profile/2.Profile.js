@@ -55,12 +55,16 @@ const Profile = () => {
     
     const { state: { user: userF } } = useContext(AppContext);
 
+    console.log(userF?.auth)
 
 
 
 
     useEffect(() => {
         if (!userF?.uid) return;
+
+
+
         const start = async () => {
             try {
                 const q = query(collection(db, "Users"), where("UID", "==", userF.uid));

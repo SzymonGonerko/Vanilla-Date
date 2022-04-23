@@ -4,7 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import MyCanvas from "./MyCanvas";
 
-const UserCard = ({name, age, question, story ,plot ,gender}) => {
+const UserCard = ({name, age, question, story ,plot ,gender, srcFromProps}) => {
     return (<>
         <UserCard style={{overflowY: "scroll", overflowX: "hidden"}}>
             <CardActionArea>
