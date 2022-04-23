@@ -55,14 +55,11 @@ const Profile = () => {
     
     const { state: { user: userF } } = useContext(AppContext);
 
-    console.log(userF?.auth)
-
 
 
 
     useEffect(() => {
         if (!userF?.uid) return;
-
 
 
         const start = async () => {
@@ -76,8 +73,10 @@ const Profile = () => {
             } catch (e) {console.log(e)}
         }
 
- 
         start().then(() => {handleClose()})
+
+
+
     }, [userF] )
 
 

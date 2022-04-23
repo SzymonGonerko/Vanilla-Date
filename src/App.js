@@ -1,5 +1,12 @@
 import './App.scss';
 import React, {useState, createContext, useEffect} from "react";
+
+import {
+  getFirestore, collection, getDocs,query, orderBy, where,doc, getDoc , onSnapshot, updateDoc
+} from 'firebase/firestore'
+
+
+
 import Splash from "./components/1.splash,login,singUp/1.1.splash/1.1.Splash";
 import Login from "./components/1.splash,login,singUp/1.2.login/1.2.login";
 import SignUp from "./components/1.splash,login,singUp/1.3.SignUp/1.3.SignUp";
@@ -24,6 +31,8 @@ const theme = {
 }
 
 
+const db = getFirestore()
+
 export const AppContext = createContext({})
 
 
@@ -46,9 +55,10 @@ const  App = () => {
 
 useEffect(() => {
    const auth = getAuth();
+
    const unsubscribe = onAuthStateChanged(auth, (user) => {
+     
     if (user) {
-  
       setState(prev => ({
         ...prev, 
         user
@@ -61,6 +71,7 @@ useEffect(() => {
     }
   });
 
+  
   return () => { unsubscribe() }
 }, [])
 

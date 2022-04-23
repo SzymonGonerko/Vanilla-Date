@@ -86,7 +86,6 @@ const useStyles = createUseStyles((theme) => ({
         left: "50%",
         transform: "translate(-50%, -50%)",
         borderRadius: "5px",
-        boxShadow: "0px 0px 5px 0px rgba(0, 20, 255, 0.36)",
         width: "95vw",
         height: "55vh",
         overflowY: "scroll"
@@ -100,7 +99,7 @@ const useStyles = createUseStyles((theme) => ({
         width: "30%"
     },
     textLi : {
-        lineHeight: "9vh",
+        lineHeight: "8.5vh",
         fontFamily: "Roboto Serif",
         fontSize: "1.4rem",
         fontWeight: "bold"
