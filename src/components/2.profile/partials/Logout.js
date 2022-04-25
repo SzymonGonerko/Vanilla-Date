@@ -36,8 +36,6 @@ const Logout = () => {
     function handleClick() {
         setLoading(prevState => !prevState);
         signOut(auth).then(() => {
-            console.log("wylogowano")
-            localStorage.removeItem('uid');
             history.push('/login')
         }).catch((error) => {
             console.log(error.message)

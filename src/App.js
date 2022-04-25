@@ -48,7 +48,8 @@ const  App = () => {
     plot: false,
     question: false,
     navigation: false,
-    user: null
+    user: null,
+    openChatRoom: false
   })
 
 

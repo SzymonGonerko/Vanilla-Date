@@ -1,8 +1,9 @@
 import React, {useEffect, useState, useContext} from "react"
-import {collection, doc, getDocs, getFirestore, updateDoc,query,where} from "firebase/firestore";
+import {collection, doc, getDocs, getFirestore, updateDoc,query,where, orderBy} from "firebase/firestore";
 import ContainerGradient from "../3.Home/partials/ContainerGradient"
 import Title from "../1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
+import ChatRoom from "./partials/ChatRoom";
 import myDraw from "../../images/draw.png"
 
 import {AppContext} from "../../App";
@@ -12,7 +13,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import HomeIcon from '@mui/icons-material/Home';
 import CancelIcon from '@mui/icons-material/Cancel';
 
 
@@ -38,20 +38,20 @@ const stylesModal = {
         fontSize: "2.4rem",
         top: "11px",
         right: "15px"
+    },
+    itemStyles: {
+        border: "1px solid black",
+        display: "flex",
+        justifyContent: "space-between",
+        margin: "10px",
+        borderRadius: "5px",
+        height: "9vh",
+        paddingLeft: "5px"
     }
 
 }
 
 
-
-const itemStyles = {
-    border: "1px solid black",
-    display: "flex",
-    justifyContent: "space-between",
-    margin: "10px",
-    borderRadius: "5px",
-    height: "9vh",
-    paddingLeft: "5px"}
 
 const useStyles = createUseStyles((theme) => ({
     '@keyframes show': {
@@ -60,6 +60,7 @@ const useStyles = createUseStyles((theme) => ({
     },
     styleModalChat: {
         position: 'absolute',
+        outline: "none",
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -122,24 +123,70 @@ const useStyles = createUseStyles((theme) => ({
         width: "30%",
         height: "50%",
 },
+containerMessageSender: {
+        position: "absolute",
+        fontFamily: "Roboto Serif",
+        borderTop: "1px solid black",
+        bottom: "0",
+        left: "0",
+        width: "100%",
+},
+textSenderMessage: {
+        width: "70%",
+        height: "5vh",
+        fontFamily: "Roboto Serif",
+        border: "none",
+        outline: "none",
+        paddingLeft: "10px",
+        paddingRight: "10px"
+},
+buttonSenderMessage: {
+        width: "30%",
+        height: "5vh",
+        fontFamily: "Roboto Serif",
+        fontWeight: "bold",
+        border: "none",
+        outline: "none",
+},
+chatUserName: {
+    position: "absolute",
+    top: "14px",
+    left: "11px",
+    fontFamily: "Roboto Serif",
+    fontSize: "1.8rem",
+    textAlign: "left",
+},
+containerMessages: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    height:"85%",
+    width:"95%",
+    // backgroundColor: "blue"
+}
 
 }))
 
 const Chat = () => {
     const {state ,setState} = useContext(AppContext)
     const { state: { user: userF } } = useContext(AppContext);
-    const [userToChat, setUserToChat] = useState("")
+    const [userToChat, setUserToChat] = useState({})
     const [currentUser, setCurrentUser] = useState({})
     const [users, setUsers] = useState([])
     const classes = useStyles();
+
+
+
 
     const [openModalLoad, setOpenModalLoad] = useState(true);
     const handleCloseModalLoad = () => setOpenModalLoad(false);
 
 
-    const [openModalChat, setOpenModalChat] = useState(false);
-    const handleOpenModalChat = (docid) => (setOpenModalChat(true), setUserToChat(docid))
-    const handleCloseModalChat = () => setOpenModalChat(false)
+    
+
+    const handleOpenChatRoom = (user) => (setState({...state, openChatRoom: true}), setUserToChat(user))
+
 
 
     useEffect(() => {
@@ -169,8 +216,6 @@ const Chat = () => {
                     }
                 })
 
-                
-
             } catch (e) {console.log(e)}
         }
 
@@ -193,23 +238,16 @@ const Chat = () => {
                     </Typography>
             </Box>
         </Modal>
-
-        <Modal open={openModalChat} aria-labelledby="modal-modal-title">
-            <Box className={classes.styleModalChat}>
-                <CancelIcon style={stylesModal.styleCancleIcon} onClick={handleCloseModalChat}/>
-                <div>ddddd</div>
-            </Box>
-        </Modal>
-
+        <ChatRoom currUserUID={userF?.uid} user={userToChat} open={state.openChatRoom}/>
         <Title/>
         {currentUser.couples?.length !== 0?
         <div className={classes.usersContainer}>
             
                 <nav>
                     {users?.map((el, index) => (currentUser.couples?.some(item => item === el.docId) ?
-                        <li key={index} onClick={() => handleOpenModalChat(el.docId)} style={itemStyles} >
+                        <li key={index} onClick={() => handleOpenChatRoom(el)} style={stylesModal.itemStyles} >
                             <p className={classes.textLi}>{el.personalDataForm.name}</p>
-                    </li>
+                        </li>
                     :null))}
                 </nav>
         </div>
