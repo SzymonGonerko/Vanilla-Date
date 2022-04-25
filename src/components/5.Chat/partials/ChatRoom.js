@@ -12,6 +12,7 @@ import {
     doc,
     getDoc,
     updateDoc,
+    getFirestore
   } from "firebase/firestore";
 
 import {createUseStyles} from "react-jss";
@@ -94,19 +95,54 @@ containerMessages: {
 }))
 
 
+const db = getFirestore()
+
+
 const ChatRoom = ({user, open, currUserUID}) => {
     const classes = useStyles();
     const {state, setState} = useContext(AppContext)
     const [form, setForm] = useState({textMsg: ""})
+    const [msgs, setMsgs] = useState([]);
 
     const handleCloseChatRoom = () => setState({...state, openChatRoom: false})
 
-    const handleSubmit = (e) =>{
-        e.preventDefault()
-        if (form.textMsg === "") return
-        console.log(form.textMsg)
-        setForm({textMsg: ""})
+
+
+    useEffect(() => {
+    if (!currUserUID || !user.UID) return
+
+
+    const id = currUserUID > user.UID ? `${currUserUID + user.UID}` : `${user.UID + currUserUID}`;
+
+    const start = async () => {
+        const msgsRef = collection(db, "ChatRoom", id, "chat");
+        const q = query(msgsRef, orderBy("createdAt", "asc"));
+
+        onSnapshot(q, (querySnapshot) => {
+            let msgs = [];
+            querySnapshot.forEach((doc) => {
+            msgs.push(doc.data());
+        });
+        setMsgs(msgs);
+    });
+
+    const docSnap = await getDoc(doc(db, "lastMsg", id));
+    if (docSnap.data() && docSnap.data().from !== user.UID) {
+      await updateDoc(doc(db, "lastMsg", id), { unread: false });
     }
+}
+
+    try {
+        start()
+        } 
+    catch (e) {
+        console.log(e)
+        }
+
+
+    },[user, currUserUID])
+
+    console.log(msgs)
 
     const update = (e) => {
         const fieldName = e.target.name;
@@ -114,9 +150,31 @@ const ChatRoom = ({user, open, currUserUID}) => {
         setForm({[fieldName]: fieldValue });
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        if (form.textMsg === "" || !currUserUID || !user.UID) return
 
-    useEffect(() => {
-    },[])
+        const id = currUserUID > user.UID ? `${currUserUID + user.UID}` : `${user.UID + currUserUID}`;
+        const otherUser = user.UID
+        const text = form.textMsg
+
+        
+        await addDoc(collection(db, "ChatRoom", id, "chat"), {
+            text,
+            from: currUserUID,
+            to: otherUser,
+            createdAt: Timestamp.fromDate(new Date()),
+          });
+        await setDoc(doc(db, "lastMsg", id), {
+            text,
+            from: currUserUID,
+            to: otherUser,
+            createdAt: Timestamp.fromDate(new Date()),
+            unread: true,
+          });
+        console.log(form.textMsg)
+        setForm({textMsg: ""})
+    }
 
 
     return (<>

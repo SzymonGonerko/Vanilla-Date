@@ -183,7 +183,7 @@ const Chat = () => {
     const handleCloseModalLoad = () => setOpenModalLoad(false);
 
 
-    
+
 
     const handleOpenChatRoom = (user) => (setState({...state, openChatRoom: true}), setUserToChat(user))
 
@@ -238,7 +238,11 @@ const Chat = () => {
                     </Typography>
             </Box>
         </Modal>
+
+
         <ChatRoom currUserUID={userF?.uid} user={userToChat} open={state.openChatRoom}/>
+
+        
         <Title/>
         {currentUser.couples?.length !== 0?
         <div className={classes.usersContainer}>
