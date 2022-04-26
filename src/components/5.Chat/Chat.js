@@ -240,8 +240,12 @@ const Chat = () => {
         </Modal>
 
 
-        <ChatRoom currUserUID={userF?.uid} user={userToChat} open={state.openChatRoom}/>
-
+        <ChatRoom  
+            currUserGender={currentUser?.personalDataForm?.gender} 
+            currUserUID={userF?.uid} 
+            user={userToChat} 
+            open={state.openChatRoom}/>
+        
         
         <Title/>
         {currentUser.couples?.length !== 0?

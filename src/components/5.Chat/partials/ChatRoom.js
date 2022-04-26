@@ -20,6 +20,7 @@ import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import CancelIcon from '@mui/icons-material/Cancel';
 import {AppContext} from "../../../App";
+import Message from "../partials/Message"
 
 
 const stylesModal = {
@@ -85,12 +86,19 @@ chatUserName: {
 },
 containerMessages: {
     position: "absolute",
+    display:"flex",
+    gap: "20px",
+    flexDirection: "column",
+    overflowY: "scroll",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
     height:"85%",
     width:"95%",
-    textAlign: "left"
+    textAlign: "left",
+    // ----------
+    alignItems: "flex-end"
+    // -----------
 }
 }))
 
@@ -98,7 +106,7 @@ containerMessages: {
 const db = getFirestore()
 
 
-const ChatRoom = ({user, open, currUserUID}) => {
+const ChatRoom = ({user, open, currUserUID, currUserGender}) => {
     const classes = useStyles();
     const {state, setState} = useContext(AppContext)
     const [form, setForm] = useState({textMsg: ""})
@@ -142,7 +150,7 @@ const ChatRoom = ({user, open, currUserUID}) => {
 
     },[user, currUserUID])
 
-    console.log(msgs)
+
 
     const update = (e) => {
         const fieldName = e.target.name;
@@ -153,7 +161,6 @@ const ChatRoom = ({user, open, currUserUID}) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (form.textMsg === "" || !currUserUID || !user.UID) return
-
         const id = currUserUID > user.UID ? `${currUserUID + user.UID}` : `${user.UID + currUserUID}`;
         const otherUser = user.UID
         const text = form.textMsg
@@ -176,16 +183,23 @@ const ChatRoom = ({user, open, currUserUID}) => {
         setForm({textMsg: ""})
     }
 
+    console.log(msgs)
 
     return (<>
         <Modal open={open}>
             <Box className={classes.styleModalChat}>
                 <CancelIcon style={stylesModal.styleCancleIcon} onClick={handleCloseChatRoom}/>
-
                 <div className={classes.chatUserName}>{user.personalDataForm?.name}</div>
 
                 <div className={classes.containerMessages}>
-                   kontener na wiadomości
+                {msgs.length? msgs.map((msg, i) => (
+                    <Message 
+                    key={i} 
+                    msg={msg} 
+                    currUserGender={currUserGender}
+                    currUserUID={currUserUID} />
+                  ))
+                : null}
                 </div>
 
                 <div className={classes.containerMessageSender}>
