@@ -74,6 +74,7 @@ const history = useHistory();
                     },
                     likes: [],
                     UID: cred.user.uid,
+                    isFirstSession: true,
                 }).then(() => {
                     signOut(auth).then(()=> {console.log("sign out")}).
                         catch((err) => {console.log(err.message)})
