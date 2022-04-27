@@ -54,11 +54,11 @@ const stylesModal = {
     },
 }
 
-const thanksText = 'Cześć! Jest mi miło, że tu jesteś. Przed Tobą kilka niespodzianek...'
-const posibilityText = 'Zobaczysz animację składającą się z 2500 małych obiektów przypominających Ciebie. Poznasz innych użytkowników, a także  nawiążesz z nimi kontakt...'
+const thanksText = 'Cześć! Jest mi miło, że tu jesteś...'
+const posibilityText = 'Przed Tobą kilka niespodzianek. Zobaczysz animację składającą się z 2500 małych obiektów przypominających Ciebie. Poznasz innych użytkowników, a także  nawiążesz z nimi kontakt...'
 const rememberText = ' Jednak przedtem, pamiętaj o kilku rzeczach...'
 const firstHintText = 'Wstaw swoje zdjęcie, najlepiej portretowe. Animacja zdjęć jest tajemnicza. Dzięki temu kluczowe w poznawaniu innych są historie, a portrety pozostają w swerze Twojej fantazji...'
-const secHintText = 'Napisz swoją historię. Zadbaj aby była piękna i wyczerpująca. Życzę Ci wielu wspaniałych chwil... '
+const secHintText = 'Napisz swoją historię. Zadbaj aby była długa i piękna. Życzę Ci wielu wspaniałych chwil... '
 const PS = 'PS. Vanilla-Date jest młoda więc ma mało użytkowników. Proszę, zajrzyj tu jeszcze za jakiś czas.'
 
 const useStyles = createUseStyles((theme) => ({
