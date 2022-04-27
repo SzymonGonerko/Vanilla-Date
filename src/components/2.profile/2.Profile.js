@@ -25,10 +25,6 @@ const db = getFirestore()
 
 
 const stylesModal = {
-    '@keyframes show': {
-        "0%": { width: "100%", height: "100%", opacity: "1" },
-        "100%": {width: "0", height: "0", opacity: "0"},
-    },
     modalLoad: {
         position: 'absolute',
         top: '50%',
@@ -56,29 +52,13 @@ const stylesModal = {
         textAlign: "center",
         p: 1,
     },
-    modalEndFirstSession: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        outline: "none",
-        borderRadius: "10px",
-        transform: 'translate(-50%, -50%)',
-        width: "80%",
-        minHeight: "30%",
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        textAlign: "center",
-        p: 1,
-        animation: "$show 0.5s ease",
-    },
 }
 
-let thanksText = 'Cześć! Jest mi miło, że tu jesteś. Przed Tobą kilka ciekawych rzeczy....'
-const posibilityText = 'Zobaczysz animację składającą się z 2500 małych obiektów przypominających Twój portret. Poznasz profile innych użytkowników, a także z nimi porozmawiasz.....'
+const thanksText = 'Cześć! Jest mi miło, że tu jesteś. Przed Tobą kilka niespodzianek....'
+const posibilityText = 'Zobaczysz animację składającą się z 2500 małych obiektów przypominających Ciebie. Poznasz profile innych użytkowników, a także z nimi porozmawiasz.....'
 const rememberText = ' Jednak przedtem, pamiętaj o kilku rzeczach...'
-const firstHintText = 'Wstaw swoje zdjęcie, najlepiej portretowe. Powstała animacja jest dość tajemnicza. Dzięki temu kluczem do poznania innych jest ich historia, a portrety pozostają niedopowiedziane...'
-const secHintText = 'Napisz swoją historię. Zadbaj aby była piękna i wyczerpująca. Bądź miły, poświęć komuś całą swoją uwagę. Życzę Ci wielu miłych chwil...w Vanilla-Date'
+const firstHintText = 'Wstaw swoje zdjęcie, najlepiej portretowe. Powstała animacja jest tajemnicza. Dzięki temu kluczem do poznania innych jest ich historia, a portrety pozostają niedopowiedziane...'
+const secHintText = 'Napisz swoją historię. Zadbaj aby była piękna i wyczerpująca. Bądź miły, poświęć komuś całą swoją uwagę. Życzę Ci wielu miłych chwil...w Vanilla-Date.'
 
 const useStyles = createUseStyles((theme) => ({
     buttonContainer: {
@@ -157,7 +137,7 @@ const Profile = () => {
                 open={openModalFirstSession}
                 aria-labelledby="modal-modal-firstSession">
                 <Box sx={stylesModal.modalFirstSession}>
-                    <h1 className={classes.titleFirstSession}>Pierwszy raz......</h1>
+                    <h1 className={classes.titleFirstSession}>Pierwszy raz...</h1>
                     <div className={classes.welcome}>
                         <Typewriter
                         options={{delay: 45}}
