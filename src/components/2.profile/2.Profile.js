@@ -55,10 +55,10 @@ const stylesModal = {
 }
 
 const thanksText = 'Cześć! Jest mi miło, że tu jesteś. Przed Tobą kilka niespodzianek....'
-const posibilityText = 'Zobaczysz animację składającą się z 2500 małych obiektów przypominających Ciebie. Poznasz profile innych użytkowników, a także z nimi porozmawiasz.....'
+const posibilityText = 'Zobaczysz animację składającą się z 2500 małych obiektów przypominających Ciebie. Poznasz innych użytkowników, a także z nimi porozmawiasz.....'
 const rememberText = ' Jednak przedtem, pamiętaj o kilku rzeczach...'
-const firstHintText = 'Wstaw swoje zdjęcie, najlepiej portretowe. Powstała animacja jest tajemnicza. Dzięki temu kluczem do poznania innych jest ich historia, a portrety pozostają niedopowiedziane...'
-const secHintText = 'Napisz swoją historię. Zadbaj aby była piękna i wyczerpująca. Bądź miły, poświęć komuś całą swoją uwagę. Życzę Ci wielu miłych chwil...w Vanilla-Date.'
+const firstHintText = 'Wstaw swoje zdjęcie, najlepiej portretowe. Animacja zdjęć jest tajemnicza. Dzięki temu kluczowe w poznawaniu innych są historie, a portrety pozostają w swerze Twojej fantazji...'
+const secHintText = 'Napisz swoją historię. Zadbaj aby była piękna i wyczerpująca. Bądź miły, poświęć komuś całą swoją uwagę. Życzę Ci wielu wspaniałych chwil...w Vanilla-Date.'
 
 const useStyles = createUseStyles((theme) => ({
     buttonContainer: {
@@ -147,19 +147,19 @@ const Profile = () => {
                                 playAudio(audio)
                               }).
                             typeString(thanksText).
-                            pauseFor(1800).
+                            pauseFor(2000).
                             deleteAll(-1000).
                             typeString(posibilityText).
                             pauseFor(2000).
                             deleteAll(-1000).
                             typeString(rememberText).
-                            pauseFor(1500).
+                            pauseFor(2000).
                             deleteAll(-1000).
                             typeString(firstHintText).
                             pauseFor(2000).
                             deleteAll(-1000).
                             typeString(secHintText).
-                            pauseFor(1000).
+                            pauseFor(1300).
                             start().
                             callFunction(() => {
                                 // const docRef = doc(db, 'Users', docId)
