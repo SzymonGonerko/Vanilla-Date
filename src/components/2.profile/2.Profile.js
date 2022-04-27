@@ -54,11 +54,12 @@ const stylesModal = {
     },
 }
 
-const thanksText = 'Cześć! Jest mi miło, że tu jesteś. Przed Tobą kilka niespodzianek....'
-const posibilityText = 'Zobaczysz animację składającą się z 2500 małych obiektów przypominających Ciebie. Poznasz innych użytkowników, a także z nimi porozmawiasz.....'
+const thanksText = 'Cześć! Jest mi miło, że tu jesteś. Przed Tobą kilka niespodzianek...'
+const posibilityText = 'Zobaczysz animację składającą się z 2500 małych obiektów przypominających Ciebie. Poznasz innych użytkowników, a także  nawiążesz z nimi kontakt...'
 const rememberText = ' Jednak przedtem, pamiętaj o kilku rzeczach...'
 const firstHintText = 'Wstaw swoje zdjęcie, najlepiej portretowe. Animacja zdjęć jest tajemnicza. Dzięki temu kluczowe w poznawaniu innych są historie, a portrety pozostają w swerze Twojej fantazji...'
-const secHintText = 'Napisz swoją historię. Zadbaj aby była piękna i wyczerpująca. Bądź miły, poświęć komuś całą swoją uwagę. Życzę Ci wielu wspaniałych chwil...w Vanilla-Date.'
+const secHintText = 'Napisz swoją historię. Zadbaj aby była piękna i wyczerpująca. Życzę Ci wielu wspaniałych chwil... '
+const PS = 'PS. Vanilla-Date jest młoda więc ma mało użytkowników. Proszę, zajrzyj tu jeszcze za jakiś czas.'
 
 const useStyles = createUseStyles((theme) => ({
     buttonContainer: {
@@ -147,19 +148,21 @@ const Profile = () => {
                                 playAudio(audio)
                               }).
                             typeString(thanksText).
-                            pauseFor(2000).
+                            pauseFor(1800).
                             deleteAll(-1000).
                             typeString(posibilityText).
                             pauseFor(2000).
                             deleteAll(-1000).
                             typeString(rememberText).
-                            pauseFor(2000).
+                            pauseFor(1500).
                             deleteAll(-1000).
                             typeString(firstHintText).
                             pauseFor(2000).
                             deleteAll(-1000).
                             typeString(secHintText).
-                            pauseFor(1300).
+                            pauseFor(1400).
+                            typeString(PS).
+                            pauseFor(1700).
                             start().
                             callFunction(() => {
                                 // const docRef = doc(db, 'Users', docId)
