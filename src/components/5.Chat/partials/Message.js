@@ -5,23 +5,23 @@ import {createUseStyles} from "react-jss";
 
 const useStyles = createUseStyles((theme) => ({
   myMessage: {
-    width: "70%",
+    maxWidth: "70%",
     fontFamily: "Roboto Serif",
-    padding: "15px",
+    padding: "10px 15px 10px 15px",
     fontWeight: "bold",
     borderRadius: "14% 4% 13% 14% / 47% 12% 44% 50% ",
     textAlign: "right"},
   friendMessage: {
-    width: "70%",
+    maxWidth: "70%",
     fontFamily: "Roboto Serif",
     alignItems: "flex-start",
     fontWeight: "bold",
-    padding: "15px",
+    padding: "10px 15px 10px 15px",
     borderRadius: "4% 14% 14% 7% / 13% 50% 50% 24%",
     textAlign: "left"},
   moment: {
     color: "gray",
-    fontSize: "0.8rem",
+    fontSize: "0.7rem",
     fontFamily: "Roboto Serif"
     }
 }))
@@ -30,9 +30,12 @@ const Message = ({ msg, currUserUID, currUserGender }) => {
   const classes = useStyles();
   const scrollRef = useRef();
 
+
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [msg]);
+      scrollRef.current?.scrollIntoView()
+  }, []);
+
+
   return (
     <div
       className={msg.from === currUserUID ? classes.myMessage : classes.friendMessage}

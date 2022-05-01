@@ -130,7 +130,7 @@ const Story = () => {
     }
 
     return (<>
-        <h2 className={classes.profileTitle}>Twoja historia...</h2>
+        <h2 className={classes.profileTitle}>Twoja historia:</h2>
         <Box component="form" onSubmit={handleSubmit} style={{width: "100%", border: "1px solid black",  borderRadius: "5px" }}>
             <RadioGroup
                 name="topic"
@@ -142,6 +142,8 @@ const Story = () => {
                 <FormControlLabel disabled={disable} value="2" control={<Radio/>}/>
                 <FormControlLabel disabled={disable} value="3" control={<Radio/>}/>
                 <FormControlLabel disabled={disable} value="4" control={<Radio/>}/>
+                <FormControlLabel disabled={disable} value="5" control={<Radio/>}/>
+                <FormControlLabel disabled={disable} value="6" control={<Radio/>}/>
             </RadioGroup>
             <div className={classes.description}>{topic.filter((el, i) => (parseInt(form.topic) === (i + 1) ? <div>{el}</div>: null))}</div>
 

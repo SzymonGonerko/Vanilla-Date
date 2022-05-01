@@ -21,14 +21,21 @@ import Box from "@mui/material/Box";
 import CancelIcon from '@mui/icons-material/Cancel';
 import {AppContext} from "../../../App";
 import Message from "../partials/Message"
+import Button from '@mui/material/Button';
+import CloseIcon from '@mui/icons-material/Close';
+import zIndex from "@mui/material/styles/zIndex";
 
 
 const stylesModal = {
     styleCancleIcon: {
         position: "absolute",
-        fontSize: "2.4rem",
-        top: "11px",
-        right: "15px"
+        top: "0",
+        right: "0",
+        width: "3rem",
+        height: "3rem",
+        backgroundColor: "#f5dbdb",
+        borderRadius: "0 0 0 120px",
+        zIndex: "2"
     },
 }
 
@@ -55,13 +62,22 @@ containerMessageSender: {
         position: "absolute",
         fontFamily: "Roboto Serif",
         borderTop: "1px solid black",
+        borderRadius: "13px 13px 0 0",
         bottom: "0",
         left: "0",
         width: "100%",
+        height: "50px"
+},
+formMessageSender: {
+    height: "100%",
+    backgroundColor: "white",
+    borderRadius: "13px 13px 0 0",
 },
 textSenderMessage: {
+        display: "inline-block",
+        borderRadius: "13px 0 0 0",
         width: "70%",
-        height: "5vh",
+        height: "100%",
         fontFamily: "Roboto Serif",
         border: "none",
         outline: "none",
@@ -69,8 +85,10 @@ textSenderMessage: {
         paddingRight: "10px",
 },
 buttonSenderMessage: {
+        display: "inline-block",
+        borderRadius: "13px 13px 0 13px",
         width: "30%",
-        height: "5vh",
+        height: "100%",
         fontFamily: "Roboto Serif",
         fontWeight: "bold",
         border: "none",
@@ -83,22 +101,21 @@ chatUserName: {
     fontFamily: "Roboto Serif",
     fontSize: "1.8rem",
     textAlign: "left",
+    zIndex: "2"
 },
 containerMessages: {
-    position: "absolute",
-    display:"flex",
-    gap: "20px",
+    position: "fixed",
+    display: "flex",
+    gap: "15px",
     flexDirection: "column",
     overflowY: "scroll",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    height:"85%",
+    height:"80%",
     width:"95%",
     textAlign: "left",
-    // ----------
     alignItems: "flex-end"
-    // -----------
 }
 }))
 
@@ -183,12 +200,19 @@ const ChatRoom = ({user, open, currUserUID, currUserGender}) => {
         setForm({textMsg: ""})
     }
 
-    console.log(msgs)
+
+    
 
     return (<>
         <Modal open={open}>
             <Box className={classes.styleModalChat}>
-                <CancelIcon style={stylesModal.styleCancleIcon} onClick={handleCloseChatRoom}/>
+                <Button 
+                    variant="outlined" 
+                    style={stylesModal.styleCancleIcon} 
+                    color="error" 
+                    onClick={handleCloseChatRoom}>
+                     <CloseIcon style={{position: "absolute", top: "7px", right: "13px"}}/>
+                </Button>
                 <div className={classes.chatUserName}>{user.personalDataForm?.name}</div>
 
                 <div className={classes.containerMessages}>
@@ -197,13 +221,13 @@ const ChatRoom = ({user, open, currUserUID, currUserGender}) => {
                     key={i} 
                     msg={msg} 
                     currUserGender={currUserGender}
-                    currUserUID={currUserUID} />
+                    currUserUID={currUserUID}/>
                   ))
                 : null}
                 </div>
 
                 <div className={classes.containerMessageSender}>
-                    <form onSubmit={handleSubmit}>
+                    <form className={classes.formMessageSender} onSubmit={handleSubmit}>
                         <input name="textMsg" value={form.textMsg} onChange={update} className={classes.textSenderMessage} type="text" placeholder="Twoja wiadomość"/>
                         <input className={classes.buttonSenderMessage} type="submit"/>
                     </form>

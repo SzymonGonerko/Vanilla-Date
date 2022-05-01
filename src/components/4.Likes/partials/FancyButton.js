@@ -14,7 +14,7 @@ const useStyles = createUseStyles((theme) => ({
         background: "radial-gradient(circle at 0% 0%, hotpink, slateblue)",
         borderRadius: "30% 70% 53% 47% / 26% 46% 54% 74%",
         boxShadow: "0 -2vh 4vh LightPink inset, 0 1vh 4vh MediumPurple inset, 6vh -2vh 7vh purple inset",
-        filter: "drop-shadow(0 0 1vh Thistle) drop-shadow(0 0.5vh 1vh Orchid) drop-shadow(0.5vh -1vh 15vh MediumSlateBlue) drop-shadow(0 0 7vh MediumOrchid)",
+        filter: "drop-shadow(0 0 1vh Thistle) drop-shadow(0 0.5vh 1vh Orchid) drop-shadow(0.5vh -1vh 0 MediumSlateBlue) drop-shadow(0 0 0 MediumOrchid)",
     }
 }))
 

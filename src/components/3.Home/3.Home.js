@@ -23,6 +23,7 @@ const colRef = collection(db, 'Users')
 
 const style = {
     position: 'absolute',
+    outline: "none",
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',

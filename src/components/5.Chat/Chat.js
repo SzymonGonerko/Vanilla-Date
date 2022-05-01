@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from "react"
-import {collection, doc, getDocs, getFirestore, updateDoc,query,where, orderBy} from "firebase/firestore";
+import {collection, doc, getDocs, getFirestore, updateDoc, query, where, orderBy, onSnapshot} from "firebase/firestore";
 import ContainerGradient from "../3.Home/partials/ContainerGradient"
 import Title from "../1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
@@ -13,7 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import CancelIcon from '@mui/icons-material/Cancel';
+import ChatIcon from '@mui/icons-material/Chat';
 
 
 
@@ -23,6 +23,7 @@ const db = getFirestore()
 const stylesModal = {
     styleModalLoad: {    
         position: 'absolute',
+        outline: "none",
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -43,10 +44,15 @@ const stylesModal = {
         border: "1px solid black",
         display: "flex",
         justifyContent: "space-between",
+        alignItems: "center",
         margin: "10px",
         borderRadius: "5px",
         height: "9vh",
-        paddingLeft: "5px"
+        paddingLeft: "5px",
+    },
+    chatIcon : {
+        marginRight: "15px",
+        fontSize: "1.6rem"
     }
 
 }
@@ -54,10 +60,6 @@ const stylesModal = {
 
 
 const useStyles = createUseStyles((theme) => ({
-    '@keyframes show': {
-        "0%": { width: "0", height: "0", opacity: "0"},
-        "100%": { width: "100%", height: "100%", opacity: "1"},
-    },
     styleModalChat: {
         position: 'absolute',
         outline: "none",
@@ -163,7 +165,6 @@ containerMessages: {
     transform: "translate(-50%, -50%)",
     height:"85%",
     width:"95%",
-    // backgroundColor: "blue"
 }
 
 }))
@@ -171,6 +172,9 @@ containerMessages: {
 const Chat = () => {
     const {state ,setState} = useContext(AppContext)
     const { state: { user: userF } } = useContext(AppContext);
+
+
+
     const [userToChat, setUserToChat] = useState({})
     const [currentUser, setCurrentUser] = useState({})
     const [users, setUsers] = useState([])
@@ -183,8 +187,6 @@ const Chat = () => {
     const handleCloseModalLoad = () => setOpenModalLoad(false);
 
 
-
-
     const handleOpenChatRoom = (user) => (setState({...state, openChatRoom: true}), setUserToChat(user))
 
 
@@ -192,6 +194,7 @@ const Chat = () => {
     useEffect(() => {
         if (!userF?.uid) return;
         setState(prev => ({...prev, photo: true, story: true}))
+
 
         const start = async () => {
             let userCouples
@@ -222,10 +225,7 @@ const Chat = () => {
         start().then(() => {
             handleCloseModalLoad()
         })
-
-
     }, [userF])
-
 
 
     return (
@@ -255,6 +255,7 @@ const Chat = () => {
                     {users?.map((el, index) => (currentUser.couples?.some(item => item === el.docId) ?
                         <li key={index} onClick={() => handleOpenChatRoom(el)} style={stylesModal.itemStyles} >
                             <p className={classes.textLi}>{el.personalDataForm.name}</p>
+                            <ChatIcon style={stylesModal.chatIcon}/>
                         </li>
                     :null))}
                 </nav>

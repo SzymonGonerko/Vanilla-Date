@@ -16,6 +16,7 @@ import Box from "@mui/material/Box";
 
 const style = {
     position: 'absolute',
+    outline: "none",
     top: '3%',
     left: '50%',
     transform: 'translate(-50%, 0)',
@@ -93,7 +94,7 @@ const useStyles = createUseStyles((theme) => ({
 
 const ProfilePhoto = ({userName, age}) => {
     const { state: { user: userF } } = useContext(AppContext);
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const {setState} = useContext(AppContext)
