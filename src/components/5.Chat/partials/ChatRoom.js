@@ -129,9 +129,21 @@ const ChatRoom = ({user, open, currUserUID, currUserGender}) => {
     const [form, setForm] = useState({textMsg: ""})
     const [msgs, setMsgs] = useState([]);
 
-    const handleCloseChatRoom = () => setState({...state, openChatRoom: false})
+    const changeStatus = async (userUID) => {
+        const id = currUserUID > userUID ? `${currUserUID + userUID}` : `${userUID + currUserUID}`;
+        const docSnap = await getDoc(doc(db, "lastMsg", id));
+        if (docSnap.data() && docSnap.data().from !== currUserUID) {
+          await updateDoc(doc(db, "lastMsg", id), { unread: false });
+        }
+    }
+
+    const handleCloseChatRoom = () => (
+        changeStatus(user.UID),
+        setState({...state, openChatRoom: false})
+        )
 
 
+    
 
     useEffect(() => {
     if (!currUserUID || !user.UID) return
