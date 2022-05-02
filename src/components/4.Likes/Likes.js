@@ -111,7 +111,14 @@ const useStyles = createUseStyles((theme) => ({
         border: "none",
         width: "30%",
         height: "50%",
+},quote:{
+    fontStyle: "italic",
+    fontFamily: "Roboto Serif",
 },
+author: {
+    textAlign: "right",
+    marginBottom: "20px"
+}
 
 }))
 
@@ -259,7 +266,10 @@ const closeUserCard = () => {
         <Title/>
         {couples.length !== 0?
         <div className={classes.usersContainer}>
-            
+            <div className={classes.quote}>
+                <p>„Wolność polega na śmiałości”</p>
+                <p className={classes.author}>Robert Frost</p>
+            </div>
                 <nav>
                     {users?.map((el, index) => (couples?.some(item => item === el.docId) ?
                         <li key={index} style={itemStyles} >
