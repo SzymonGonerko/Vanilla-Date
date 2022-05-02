@@ -31,7 +31,7 @@ const stylesModal = {
         position: "absolute",
         top: "0",
         right: "0",
-        width: "3rem",
+        // width: "1rem",
         height: "3rem",
         backgroundColor: "#f5dbdb",
         borderRadius: "0 0 0 120px",
@@ -152,7 +152,7 @@ const ChatRoom = ({user, open, currUserUID, currUserGender}) => {
     });
 
     const docSnap = await getDoc(doc(db, "lastMsg", id));
-    if (docSnap.data() && docSnap.data().from !== user.UID) {
+    if (docSnap.data() && docSnap.data().from !== currUserUID) {
       await updateDoc(doc(db, "lastMsg", id), { unread: false });
     }
 }
@@ -227,7 +227,7 @@ const ChatRoom = ({user, open, currUserUID, currUserGender}) => {
                 </div>
 
                 <div className={classes.containerMessageSender}>
-                    <form className={classes.formMessageSender} onSubmit={handleSubmit}>
+                    <form autoComplete="off" className={classes.formMessageSender} onSubmit={handleSubmit}>
                         <input name="textMsg" value={form.textMsg} onChange={update} className={classes.textSenderMessage} type="text" placeholder="Twoja wiadomość"/>
                         <input className={classes.buttonSenderMessage} type="submit"/>
                     </form>

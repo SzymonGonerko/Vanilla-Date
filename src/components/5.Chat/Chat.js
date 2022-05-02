@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useContext} from "react"
-import {collection, doc, getDocs, getFirestore, updateDoc, query, where, orderBy, onSnapshot} from "firebase/firestore";
+import {collection, doc, getDocs, getFirestore, updateDoc, query, where, orderBy, onSnapshot, getDoc} from "firebase/firestore";
 import ContainerGradient from "../3.Home/partials/ContainerGradient"
 import Title from "../1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
@@ -165,6 +165,20 @@ containerMessages: {
     transform: "translate(-50%, -50%)",
     height:"85%",
     width:"95%",
+},
+msgStatus: {
+    display: "flex",
+    flexDirection: "column",
+    marginLeft: "5px",
+    marginRight: "5px",
+    fontFamily: "Roboto Serif"
+},
+lastMsgText: {
+    fontSize: "1rem",
+    overflow: "scroll",
+    flexWrap: "nowrap",
+    lineHeight: "1.4rem",
+    height: "1.4rem"
 }
 
 }))
@@ -172,6 +186,7 @@ containerMessages: {
 const Chat = () => {
     const {state ,setState} = useContext(AppContext)
     const { state: { user: userF } } = useContext(AppContext);
+    const [lastMsgs, setLastMsgs] = useState([])
 
 
 
@@ -181,13 +196,23 @@ const Chat = () => {
     const classes = useStyles();
 
 
-
-
     const [openModalLoad, setOpenModalLoad] = useState(true);
     const handleCloseModalLoad = () => setOpenModalLoad(false);
 
+const changeStatus = async (userUID) => {
+    const id = currentUser.UID > userUID ? `${currentUser.UID + userUID}` : `${userUID + currentUser.UID}`;
+    const docSnap = await getDoc(doc(db, "lastMsg", id));
+    if (docSnap.data() && docSnap.data().from !== currentUser.UID) {
+      await updateDoc(doc(db, "lastMsg", id), { unread: false });
+    }
+}
 
-    const handleOpenChatRoom = (user) => (setState({...state, openChatRoom: true}), setUserToChat(user))
+
+    const handleOpenChatRoom = (user) => (
+        changeStatus(user.UID),
+        setState({...state, openChatRoom: true}), 
+        setUserToChat(user)
+        )
 
 
 
@@ -198,34 +223,58 @@ const Chat = () => {
 
         const start = async () => {
             let userCouples
+            let curUser
             const users = []
             const userDeletedCouples = []
             try {
                 const qCurrUser = query(collection(db, "Users"), where("UID", "==", userF.uid));
                 const currUser = await getDocs(qCurrUser);
                 currUser.forEach((doc) => {
+                    curUser = {...doc.data(), docId: doc.id}
                     userCouples = [...doc.data().couples]
                     setCurrentUser({ ...doc.data(), docId: doc.id})
                 })
 
                 const qAllUsers = query(collection(db, "Users"), where("UID", "!=", userF.uid));
                 const allUsers = await getDocs(qAllUsers);
+
                 allUsers.forEach((doc) => {
                     const isCouple = userCouples.some(el => (el === doc.id))
                     const isDeleted = userDeletedCouples.some(el => (el === doc.id))
                     if (!isDeleted && isCouple){
                         users.push({...doc.data(), docId: doc.id})
-                        setUsers(users)
+                        
                     }
                 })
+
+
+
+                users.forEach(el => {
+                    const id = el.UID > curUser.UID ? `${el.UID + curUser.UID}` : `${curUser.UID + el.UID}`;
+                    onSnapshot(doc(db, "lastMsg", id), (doc) => {
+                        console.log(doc.data())
+                        if (doc.data() !== undefined) {
+                            el.lastmsg = doc.data()
+                            setLastMsgs(prev => ([...prev, doc.data()]))
+                        }
+                   });
+                   
+        })
+
+         
+        setUsers(users)
 
             } catch (e) {console.log(e)}
         }
 
         start().then(() => {
-            handleCloseModalLoad()
+                handleCloseModalLoad()
+        
+            
         })
     }, [userF])
+
+console.log(users)
 
 
     return (
@@ -255,6 +304,18 @@ const Chat = () => {
                     {users?.map((el, index) => (currentUser.couples?.some(item => item === el.docId) ?
                         <li key={index} onClick={() => handleOpenChatRoom(el)} style={stylesModal.itemStyles} >
                             <p className={classes.textLi}>{el.personalDataForm.name}</p>
+                            <div className={classes.msgStatus}>
+                                <p className={classes.lastMsgText}>
+                                    {el.lastmsg === undefined ? <strong>Przywitaj się!</strong> : (el.lastmsg.from !== currentUser.UID ? el.personalDataForm.name + ": ": "Ja: ")}
+                                    {el.lastmsg === undefined ? null :  el.lastmsg.text }
+                                </p>
+                                <p>
+                                {el.lastmsg === undefined ? null : (el.lastmsg.unread && el.lastmsg.from !== currentUser.UID ? <strong>Nowa Wiadomość!</strong>: null)}
+                                {el.lastmsg === undefined ? null : (el.lastmsg.unread && el.lastmsg.from === currentUser.UID ? "Nieodczytana": null)}
+                                {el.lastmsg === undefined ? null : (!el.lastmsg.unread && el.lastmsg.from === currentUser.UID ? "Odczytana": null)}
+                                </p>
+                                
+                            </div>
                             <ChatIcon style={stylesModal.chatIcon}/>
                         </li>
                     :null))}

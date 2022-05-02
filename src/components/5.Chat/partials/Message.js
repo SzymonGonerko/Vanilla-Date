@@ -40,7 +40,7 @@ const Message = ({ msg, currUserUID, currUserGender }) => {
     <div
       className={msg.from === currUserUID ? classes.myMessage : classes.friendMessage}
       style={{backgroundColor: (currUserGender === "kobieta" || msg.from !== currUserUID ? "pink":"lightblue"),
-      alignSelf: (msg.from !== currUserUID ? "flex-start":"inherid")}}
+      alignSelf: (msg.from !== currUserUID ? "flex-start":"flex-end")}}
       ref={scrollRef}
     >
       <p className={msg.from === currUserUID ? "me" : "friend"} style={{overflowX: "scroll"}}>
