@@ -109,10 +109,10 @@ containerMessages: {
     gap: "15px",
     flexDirection: "column",
     overflowY: "scroll",
-    top: "50%",
+    top: "70px",
+    bottom: "60px",
     left: "50%",
-    transform: "translate(-50%, -50%)",
-    height:"80%",
+    transform: "translate(-50%, 0%)",
     width:"95%",
     textAlign: "left",
     alignItems: "flex-end"

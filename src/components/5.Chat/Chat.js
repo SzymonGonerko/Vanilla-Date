@@ -96,9 +96,9 @@ const useStyles = createUseStyles((theme) => ({
     },
     usersContainer: {
         position: "absolute",
-        top: "40%",
+        top: "80px",
         left: "50%",
-        transform: "translate(-50%, -50%)",
+        transform: "translate(-50%, 0%)",
         borderRadius: "5px",
         width: "95vw",
         height: "55vh",
@@ -178,7 +178,16 @@ lastMsgText: {
     overflow: "scroll",
     flexWrap: "nowrap",
     lineHeight: "1.4rem",
-    height: "1.4rem"
+    height: "1.4rem",
+    transform: "translate(0%, 4%)"
+},
+quote:{
+    fontStyle: "italic",
+    fontFamily: "Roboto Serif",
+},
+author: {
+    textAlign: "right",
+    marginBottom: "20px"
 }
 
 }))
@@ -299,7 +308,10 @@ console.log(users)
         <Title/>
         {currentUser.couples?.length !== 0?
         <div className={classes.usersContainer}>
-            
+            <div className={classes.quote}>
+                <p>„...nie my mówimy w języku, a język mówi nami”.</p>
+                <p className={classes.author}>Saveli Grinberg</p>
+            </div>
                 <nav>
                     {users?.map((el, index) => (currentUser.couples?.some(item => item === el.docId) ?
                         <li key={index} onClick={() => handleOpenChatRoom(el)} style={stylesModal.itemStyles} >
