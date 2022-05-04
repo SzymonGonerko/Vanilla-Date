@@ -219,7 +219,7 @@ const changeStatus = async (userUID) => {
 
     const handleOpenChatRoom = (user) => (
         changeStatus(user.UID),
-        setState({...state, openChatRoom: true}), 
+        setState({...state, openChatRoom: true, genderFriend: user.personalDataForm.gender}), 
         setUserToChat(user)
         )
 
@@ -303,10 +303,9 @@ console.log(users)
             currUserUID={userF?.uid} 
             user={userToChat} 
             open={state.openChatRoom}/>
-        
-        
+
         <Title/>
-        {currentUser.couples?.length !== 0?
+        {currentUser.couples?.length !== undefined ?
         <div className={classes.usersContainer}>
             <div className={classes.quote}>
                 <p>„...nie my mówimy w języku, a język mówi nami”.</p>

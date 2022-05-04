@@ -83,9 +83,9 @@ const useStyles = createUseStyles((theme) => ({
     },
     usersContainer: {
         position: "absolute",
-        top: "40%",
+        top: "80px",
         left: "50%",
-        transform: "translate(-50%, -50%)",
+        transform: "translate(-50%, 0%)",
         borderRadius: "5px",
         width: "95vw",
         height: "55vh",

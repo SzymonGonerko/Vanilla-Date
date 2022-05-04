@@ -1,6 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import Moment from "react-moment";
 import {createUseStyles} from "react-jss";
+import {AppContext} from "../../../App";
 
 
 const useStyles = createUseStyles((theme) => ({
@@ -26,7 +27,8 @@ const useStyles = createUseStyles((theme) => ({
     }
 }))
 
-const Message = ({ msg, currUserUID, currUserGender }) => {
+const Message = ({ msg, currUserUID, currUserGender}) => {
+  const {state ,setState} = useContext(AppContext)
   const classes = useStyles();
   const scrollRef = useRef();
 
@@ -35,14 +37,32 @@ const Message = ({ msg, currUserUID, currUserGender }) => {
       scrollRef.current?.scrollIntoView()
   }, []);
 
+  const getPropertyColor = (genderFriend, msgFrom) => {
+    let proprtycolor
+    if (genderFriend === "meżczyzna" && msgFrom !== currUserUID) {
+      proprtycolor = "lightblue"
+    }
+    if (genderFriend === "kobieta" && msgFrom !== currUserUID) {
+      proprtycolor = "#fdbcd8"
+    }
+    if (msgFrom === currUserUID && currUserGender === "meżczyzna") {
+      proprtycolor = "lightblue"
+    }
+    if (msgFrom === currUserUID && currUserGender === "kobieta") {
+      proprtycolor = "#fdbcd8"
+    }
+    return proprtycolor
+  }
+
 
   return (
     <div
       className={msg.from === currUserUID ? classes.myMessage : classes.friendMessage}
-      style={{backgroundColor: (currUserGender === "kobieta" || msg.from !== currUserUID ? "pink":"lightblue"),
+      style={{backgroundColor: (getPropertyColor(state.genderFriend, msg.from)),
       alignSelf: (msg.from !== currUserUID ? "flex-start":"flex-end")}}
       ref={scrollRef}
     >
+      {console.log(state)}
       <p className={msg.from === currUserUID ? "me" : "friend"} style={{overflowX: "scroll"}}>
         {msg.text}
         <br/>

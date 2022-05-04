@@ -53,7 +53,7 @@ const useStyles = createUseStyles((theme) => ({
     },
     afterUsersText: {
         position: "absolute",
-        top: "50vh",
+        top: "45vh",
         left: "50%",
         transform: "translate(-50%, 0)",
         width: "95%",
@@ -151,10 +151,10 @@ const Home = () => {
         </div>
         <Title/>
         <div>
-        <div style={{position: "relative", top: "50%", left: "0"}}>
+        <div style={{position: "relative", top: "0", left: "0"}}>
             <div className={classes.afterUsersImg}/>
             <div className={classes.afterUsersText}>Wygląda na to, że to już wszyscy. Sprawdź swoje pary... <div><FavoriteIcon color="secondary"/></div></div>
-            <div style={{position: "relative", top: "50%", left: "50%", width: "95vw", transform: "translate(-50%, -50%)" }}>
+            <div style={{position: "fixed", top: "75px", bottom: "150px", left: "50%", width: "95vw", transform: "translate(-50%, 0)" }}>
                 {loadedUsers === true? users?.map((el, i) => (
                 <UsersCard
                     zIndex={i+1}
@@ -175,7 +175,7 @@ const Home = () => {
 
         {users.length === 0 ? null:
           <ButtonGroup fullWidth style={{position: "fixed", bottom: "70px", left: "50%", width: "90%",transform: "translate(-50%, 0)"}} disableElevation variant="contained">
-            <Button style={{backgroundColor: "transparent", height: "10vh"}} onClick={addUnlike}><CancelIcon/></Button>
+            <Button style={{backgroundColor: "transparent", height: "3.5rem"}} onClick={addUnlike}><CancelIcon/></Button>
             <Button style={{backgroundColor: "transparent"}} onClick={addLike}><FavoriteIcon/></Button>
           </ButtonGroup>
         }

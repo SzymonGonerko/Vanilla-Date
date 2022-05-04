@@ -7,16 +7,16 @@ import Typography from "@mui/material/Typography";
 
 const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height, zIndex, height}) => {
     return (<>
-        <Card sx={{height: "65vh"}}
+        <Card
               style={{
                   overflowY: "scroll",
                   overflowX: "hidden",
                   zIndex: (zIndex? zIndex: null),
                   position: "absolute",
                   top: "0",
-                  left: "50%",
-                  transform: "translate(-50%, 0)",
+                  left: "0",
                   width: "100%",
+                  height: "100%",
                   backgroundColor: (gender === "kobieta"? "rgb(255, 230, 252)": "rgb(232, 230, 255)")}}>
             <CardActionArea>
                 <CardContent>

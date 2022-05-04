@@ -49,7 +49,8 @@ const  App = () => {
     question: false,
     navigation: false,
     user: null,
-    openChatRoom: false
+    openChatRoom: false,
+    genderFriend: undefined
   })
 
 

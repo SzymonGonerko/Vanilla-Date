@@ -1,4 +1,5 @@
 import React from "react";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import injectSheet from "react-jss";
 import {
     BrowserRouter as Router,
@@ -30,9 +31,11 @@ const styles = {
 }
 
 const Box = ({classes}) => {
+    const handle = useFullScreenHandle();
     return (
-            <div className={classes.splash}>
+            <div onClick={handle.enter} className={classes.splash}>
                 <Link className={classes.link} to="/login"/>
+                <FullScreen handle={handle}/>
             </div>
         )
 }

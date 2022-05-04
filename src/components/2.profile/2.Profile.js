@@ -119,6 +119,7 @@ skipContainer: {
 
 const intro = new Audio(audio)
 
+
 const Profile = () => {
     const {state} = useContext(AppContext)
     const [mute, setMute] = useState(false)
@@ -139,6 +140,7 @@ const changeVolume = () => {
     intro.volume === 1 ? intro.volume = 0: intro.volume=1
 }
 
+
     const skip = () => {
         handleCloseFirstSession()
         intro.pause()
@@ -146,6 +148,8 @@ const changeVolume = () => {
       
     useEffect(() => {
         if (!userF?.uid) return;
+
+        
 
         let isFirSession
         const start = async () => {

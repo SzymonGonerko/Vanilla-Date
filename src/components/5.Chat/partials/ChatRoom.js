@@ -228,6 +228,7 @@ const ChatRoom = ({user, open, currUserUID, currUserGender}) => {
                 <div className={classes.chatUserName}>{user.personalDataForm?.name}</div>
 
                 <div className={classes.containerMessages}>
+                    {console.log(user)}
                 {msgs.length? msgs.map((msg, i) => (
                     <Message 
                     key={i} 
