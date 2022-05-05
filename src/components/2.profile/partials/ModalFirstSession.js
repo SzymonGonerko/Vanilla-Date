@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import {createUseStyles} from "react-jss";
 
-import audio from "../../../images/login.mp3";
+import audio from "../../../sounds/intro.mp3";
 import Typewriter from "typewriter-effect";
 
 const thanksText = 'Cześć! Jest mi miło, że tu jesteś...'
