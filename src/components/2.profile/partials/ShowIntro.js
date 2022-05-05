@@ -13,7 +13,6 @@ const handleOpen = () => {
 
 return (<>
         <Button
-            sx={{marginTop: "10px"}}
             onClick={handleOpen}
             size="large"
             endIcon={<TvIcon/>}

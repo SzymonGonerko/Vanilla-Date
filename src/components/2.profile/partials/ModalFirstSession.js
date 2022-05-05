@@ -134,7 +134,7 @@ const ModalFirstSession = ({docId}) => {
                             pauseFor(2000).
                             deleteAll(-1000).
                             typeString(secHintText).
-                            pauseFor(1400).
+                            pauseFor(1700).
                             typeString(PS).
                             pauseFor(1700).
                             start().

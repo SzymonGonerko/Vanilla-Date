@@ -11,6 +11,7 @@ import ModalFirstSession from "./partials/ModalFirstSession";
 import ProfilePhoto from "./partials/ProfilePhoto";
 import ProfileInfo from "./partials/ProfileInfo"
 import Logout from "./partials/Logout"
+import Seperator from "./partials/Separator";
 import Story from "./partials/Story"
 import ProfileCard from "./partials/ProfileCard"
 import ShowIntro from "./partials/ShowIntro";
@@ -119,6 +120,7 @@ const Profile = () => {
             <Story/>
             </ProfileInfo>
             <div className={classes.buttonContainer}>
+                <Seperator/>
                 <ShowIntro/>
                 <ProfileCard
                     name={user.personalDataForm? user.personalDataForm.name: null}
@@ -126,6 +128,7 @@ const Profile = () => {
                     age={user.personalDataForm? user.personalDataForm.age: null}
                     plot={state.plot? state.plot:null}
                 />
+                <Seperator/>
                 <Logout />
                 <DeleteProfile uid={user? user.UID : null}/>
             </div>

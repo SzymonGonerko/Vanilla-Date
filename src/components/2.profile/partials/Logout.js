@@ -46,7 +46,6 @@ const Logout = () => {
 
     return (<>
         <Button
-            sx={{marginTop: "10px"}}
             onClick={handleOpen}
             size="large"
             endIcon={<LogoutIcon/>}
