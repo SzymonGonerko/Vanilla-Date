@@ -3,18 +3,14 @@ import {
     getFirestore, collection, getDocs,query, orderBy, where,doc, getDoc ,updateDoc, onSnapshot
 } from 'firebase/firestore'
 
-import audio from "../../images/login.mp3"
-import Typewriter from "typewriter-effect";
 
-import RedoIcon from '@mui/icons-material/Redo';
-import VolumeOffIcon from '@mui/icons-material/VolumeOff';
-import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import {createUseStyles} from "react-jss";
 
+import ModalFirstSession from "./partials/ModalFirstSession";
 import ProfilePhoto from "./partials/ProfilePhoto";
 import ProfileInfo from "./partials/ProfileInfo"
 import Logout from "./partials/Logout"
@@ -23,7 +19,6 @@ import ProfileCard from "./partials/ProfileCard"
 import DeleteProfile from "./partials/DeleteProfile"
 import Navigation from "./partials/Navigation"
 import {AppContext} from "../../App";
-import { height } from "@mui/system";
 
 const db = getFirestore()
 
@@ -32,6 +27,7 @@ const stylesModal = {
     modalLoad: {
         position: 'absolute',
         outline: "none",
+        borderRadius: "10px",
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -117,39 +113,23 @@ skipContainer: {
     }
 }))
 
-const intro = new Audio(audio)
 
 
 const Profile = () => {
-    const {state} = useContext(AppContext)
-    const [mute, setMute] = useState(false)
+    const { state: { user: userF } } = useContext(AppContext);
+    const {state, setState} = useContext(AppContext)
     const [user, setUser] = useState({})
     const [docId, setDocId] = useState("")
     const classes = useStyles();
     
-    const { state: { user: userF } } = useContext(AppContext);
+   
 
     const [openModalLoad, setOpenModalLoad] = useState(true);
     const handleCloseModalLoad = () => setOpenModalLoad(false);
 
-    const [openModalFirstSession, setOpenFirstSession] = useState(false);
-    const handleCloseFirstSession = () => setOpenFirstSession(false);
-
-const changeVolume = () => {
-    setMute(!mute)
-    intro.volume === 1 ? intro.volume = 0: intro.volume=1
-}
-
-
-    const skip = () => {
-        handleCloseFirstSession()
-        intro.pause()
-    }
       
     useEffect(() => {
         if (!userF?.uid) return;
-
-        
 
         let isFirSession
         const start = async () => {
@@ -165,10 +145,13 @@ const changeVolume = () => {
             } catch (e) {console.log(e)}
         }
 
-        start().then(() => {handleCloseModalLoad(); if (isFirSession) {setOpenFirstSession(true)}})
+        start().then(() => {handleCloseModalLoad(); 
+            if (isFirSession) {
+            setState(prev => ({...prev, openFirstSession: true}))
+            
+        }})
 
     }, [userF] )
-
 
 
     return (<>
@@ -182,61 +165,7 @@ const changeVolume = () => {
                     </Typography>
                 </Box>
             </Modal>
-
-            <Modal
-                open={openModalFirstSession}
-                aria-labelledby="modal-modal-firstSession">
-                <Box sx={stylesModal.modalFirstSession}>
-                    <h1 className={classes.titleFirstSession}>Pierwszy raz...</h1>
-                    <div className={classes.welcome}>
-                        <Typewriter
-                        options={{delay: 45}}
-                        onInit={(typewriter) => {
-                            typewriter.
-                            callFunction(() => {
-                                intro.play()
-                              }).
-                            typeString(thanksText).
-                            pauseFor(1800).
-                            deleteAll(-1000).
-                            typeString(posibilityText).
-                            pauseFor(2000).
-                            deleteAll(-1000).
-                            typeString(rememberText).
-                            pauseFor(1500).
-                            deleteAll(-1000).
-                            typeString(firstHintText).
-                            pauseFor(2000).
-                            deleteAll(-1000).
-                            typeString(secHintText).
-                            pauseFor(1400).
-                            typeString(PS).
-                            pauseFor(1700).
-                            start().
-                            callFunction(() => {
-                                // const docRef = doc(db, 'Users', docId)
-                                // updateDoc(docRef, {
-                                //     isFirstSession: false
-                                // })
-                                handleCloseFirstSession()
-                              })
-                        }}
-                        />
-                     </div>
-
-                     <div className={classes.skipContainer}>
-                        <RedoIcon style={stylesModal.iconSkip} onClick={skip}/>
-                     </div>
-                     
-                     <div onClick={changeVolume} className={classes.volumeContainer}>
-                         {mute ? 
-                         <VolumeOffIcon style={stylesModal.iconVolume}/>: 
-                         <VolumeUpIcon style={stylesModal.iconVolume}/>}
-                     </div>
-                     
-                </Box>
-            </Modal>
-    
+            <ModalFirstSession docId={docId}/>
     <ProfilePhoto
         userName={user.personalDataForm? user.personalDataForm.name: null}
         age={user.personalDataForm? user.personalDataForm.age: null}

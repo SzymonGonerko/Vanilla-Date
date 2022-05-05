@@ -9,6 +9,8 @@ import myDraw from "../../images/draw.png"
 import {AppContext} from "../../App";
 import {createUseStyles} from "react-jss";
 
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import HomeIcon from '@mui/icons-material/Home';
 import CircularProgress from "@mui/material/CircularProgress";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
@@ -32,7 +34,7 @@ const stylesModal = {
         border: '2px solid #000',
         boxShadow: 24,
         textAlign: "center",
-        borderRadius: "5px",
+        borderRadius: "10px",
         p: 4,},
     styleCancleIcon: {
         position: "absolute",
@@ -53,8 +55,9 @@ const stylesModal = {
     chatIcon : {
         marginRight: "15px",
         fontSize: "1.6rem"
-    }
-
+    },
+    icon: {color: "rgb(170, 63, 236)",
+transform: "translate(0%, 20%)"}
 }
 
 
@@ -86,7 +89,7 @@ const useStyles = createUseStyles((theme) => ({
     },
     afterUsersText: {
         position: "absolute",
-        top: "60%",
+        top: "55%",
         left: "50%",
         transform: "translate(-50%, 0)",
         width: "95%",
@@ -330,7 +333,11 @@ const changeStatus = async (userUID) => {
                 </nav>
         </div>
           :<>
-          <div className={classes.afterUsersText}>Obecnie brak rozmów z innymi użytkownikami</div>
+          <div className={classes.afterUsersText}>
+              Obecnie brak rozmów z innymi użytkownikami.<br/> <br/>Wejdź na stronę główną, a następnie sprawdź swoje pary
+              <br/>
+              <HomeIcon style={stylesModal.icon} /><FavoriteIcon style={stylesModal.icon} />
+          </div>
           <div className={classes.afterUsersImg}/>
           </>}
         <Navigation curr="Chat"/>

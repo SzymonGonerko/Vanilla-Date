@@ -50,7 +50,8 @@ const  App = () => {
     navigation: false,
     user: null,
     openChatRoom: false,
-    genderFriend: undefined
+    genderFriend: undefined,
+    openFirstSession: false,
   })
 
 

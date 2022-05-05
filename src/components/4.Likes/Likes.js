@@ -35,7 +35,7 @@ const styleModalLoad = {
     border: '2px solid #000',
     boxShadow: 24,
     textAlign: "center",
-    borderRadius: "5px",
+    borderRadius: "10px",
     p: 4,
 };
 
@@ -73,7 +73,7 @@ const useStyles = createUseStyles((theme) => ({
     },
     afterUsersText: {
         position: "absolute",
-        top: "60%",
+        top: "55%",
         left: "50%",
         transform: "translate(-50%, 0)",
         width: "95%",
