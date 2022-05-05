@@ -1,6 +1,5 @@
 import { ref } from "firebase/storage";
 import React, {useRef, useEffect} from "react";
-import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import injectSheet from "react-jss";
 import {
     BrowserRouter as Router,
