@@ -103,6 +103,7 @@ const ModalFirstSession = ({docId}) => {
         const skip = () => {
             handleCloseFirstSession()
             intro.pause()
+            intro.currentTime = 0;
         }
 
 
