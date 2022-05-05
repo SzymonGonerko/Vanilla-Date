@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react"
-import {arrayUnion, collection, doc, getDocs, getFirestore, updateDoc, arrayRemove,query,where} from "firebase/firestore";
+import {arrayUnion, collection, doc, deleteDoc, getDocs, getFirestore, updateDoc, arrayRemove,query,where} from "firebase/firestore";
 import Title from "../../components/1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
 import UsersCard from "../3.Home/partials/UsersCard"
@@ -131,12 +131,17 @@ const Likes = () => {
     const [showUserCard, setShowUserCard] = useState(false)
     const [clickedUser, setClickedUser] = useState(0)
     const [userToDelete, setUserToDelete] = useState("")
+    const [userToDeleteUID, setUserToDeleteUID] = useState("")
     const [couples, setCouples] = useState([])
     const { state: { user: userF } } = useContext(AppContext);
+
     
 
     const [openModalDelete, setOpenModalDelete] = useState(false);
-    const handleOpenModalDelete = (docid) => (setOpenModalDelete(true), setUserToDelete(docid))
+    const handleOpenModalDelete = (docid, UID) => (
+        setOpenModalDelete(true),
+        setUserToDeleteUID(UID), 
+        setUserToDelete(docid))
     const handleCloseModalDelete = () => setOpenModalDelete(false)
 
 
@@ -150,6 +155,11 @@ const handleClick = (index) => {
 }
 
 const deleteCouple = () => {
+    const IDChatRoom = userToDeleteUID > currentUser.UID ? `${userToDeleteUID + currentUser.UID}` : `${currentUser.UID + userToDeleteUID}`;
+    
+    console.log(IDChatRoom)
+    deleteDoc(doc(db, "ChatRoom", IDChatRoom))
+    
     const docRef = doc(db, 'Users', currentUser.docId)
     updateDoc(docRef, {
         deletedCouples: arrayUnion(userToDelete),
@@ -279,7 +289,7 @@ const closeUserCard = () => {
                                     <PersonIcon style={{fontSize: "1.6rem"}}/>
                                 </button>
                                 <button className={classes.button}>
-                                    <CancelIcon onClick={() => handleOpenModalDelete(el.docId)} style={{fontSize: "1.6rem"}}/>
+                                    <CancelIcon onClick={() => handleOpenModalDelete(el.docId ,el.UID)} style={{fontSize: "1.6rem"}}/>
                                 </button>
                             </div>
                         {clickedUser === el.docId && showUserCard? <UsersCard name={el.personalDataForm.name} age={el.personalDataForm.age} question={el.question} story={el.story} gender={el.personalDataForm.gender} avatar64={el.avatar64} avatar64Height={el.avatar64Height} height={el.personalDataForm.height}/> :null}

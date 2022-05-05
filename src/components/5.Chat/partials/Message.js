@@ -4,6 +4,7 @@ import {createUseStyles} from "react-jss";
 import {AppContext} from "../../../App";
 
 
+
 const useStyles = createUseStyles((theme) => ({
   myMessage: {
     maxWidth: "70%",
@@ -62,7 +63,6 @@ const Message = ({ msg, currUserUID, currUserGender}) => {
       alignSelf: (msg.from !== currUserUID ? "flex-start":"flex-end")}}
       ref={scrollRef}
     >
-      {console.log(state)}
       <p className={msg.from === currUserUID ? "me" : "friend"} style={{overflowX: "scroll"}}>
         {msg.text}
         <br/>

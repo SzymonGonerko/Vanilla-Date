@@ -5,7 +5,7 @@ import {CardActionArea} from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
-const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height, zIndex, height}) => {
+const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height, zIndex, height, city}) => {
     return (<>
         <Card
               style={{
@@ -23,8 +23,8 @@ const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height,
                     <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h4" component="span">
                         {name},
                     </Typography>
-                    <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h6" component="span">
-                        {" "}{age} lat, {height} cm
+                    <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h6" component="div">
+                        {" "}{age} lat, {height} cm, {city}
                     </Typography>
                     <Typography style={{fontFamily: "Roboto Serif", fontSize: "1rem", color: "#9c27b0"}} variant="body1" color="text.secondary">
                         {question}

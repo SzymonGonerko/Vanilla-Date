@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from "react";
 import Title from "../1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
 import {AppContext} from "../../App";
-import {collection, doc, getDocs, getFirestore, updateDoc, arrayUnion, query, where} from "firebase/firestore";
+import {collection, doc, getDocs, getFirestore, updateDoc, arrayUnion, query, where, limit, startAfter, orderBy} from "firebase/firestore";
 import UsersCard from "./partials/UsersCard"
 import Modal from "@mui/material/Modal";
 import ButtonGroup from '@mui/material/ButtonGroup';
@@ -116,11 +116,12 @@ const Home = () => {
 
                 const qAllUsers = query(collection(db, "Users"), where("UID", "!=", userF.uid));
                 const allUsers = await getDocs(qAllUsers);
+                
                 allUsers.forEach((doc) => {
+                    if (arr.length >= 20) return
                     const isInteracted = userInteractions?.some(el => (el === doc.id))
-                    if (!isInteracted){
+                    if (!isInteracted && doc.data().story && doc.data().avatar64){
                         arr.push({...doc.data(), docId: doc.id})
-                        console.log({...doc.data()})
                         setUsers(arr)
                     }
                 })
@@ -161,6 +162,7 @@ const Home = () => {
                     key={i}
                     name={el.personalDataForm.name}
                     age={el.personalDataForm.age}
+                    city={el.personalDataForm.city}
                     height={el.personalDataForm.height}
                     question={el.question}
                     gender={el.personalDataForm.gender}

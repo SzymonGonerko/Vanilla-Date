@@ -261,7 +261,6 @@ const changeStatus = async (userUID) => {
                 users.forEach(el => {
                     const id = el.UID > curUser.UID ? `${el.UID + curUser.UID}` : `${curUser.UID + el.UID}`;
                     onSnapshot(doc(db, "lastMsg", id), (doc) => {
-                        console.log(doc.data())
                         if (doc.data() !== undefined) {
                             el.lastmsg = doc.data()
                             setLastMsgs(prev => ([...prev, doc.data()]))
@@ -282,8 +281,6 @@ const changeStatus = async (userUID) => {
             
         })
     }, [userF])
-
-console.log(users)
 
 
     return (

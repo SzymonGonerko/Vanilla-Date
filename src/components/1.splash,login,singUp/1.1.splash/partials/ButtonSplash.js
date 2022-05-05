@@ -1,4 +1,5 @@
-import React from "react";
+import { ref } from "firebase/storage";
+import React, {useRef, useEffect} from "react";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import injectSheet from "react-jss";
 import {
@@ -31,11 +32,16 @@ const styles = {
 }
 
 const Box = ({classes}) => {
-    const handle = useFullScreenHandle();
+   const refEl = useRef();
+
+   const handle = () => {
+    if (!refEl) return;
+        refEl.current.requestFullscreen()
+   }
+
     return (
-            <div onClick={handle.enter} className={classes.splash}>
+            <div onClick={handle} ref={refEl} className={classes.splash}>
                 <Link className={classes.link} to="/login"/>
-                <FullScreen handle={handle}/>
             </div>
         )
 }
