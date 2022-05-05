@@ -29,10 +29,10 @@ const style = {
 const useStyles = createUseStyles((theme) => ({
     "@keyframes pulse": {
        "0%": {
-          boxShadow: "0 0 0 0px rgb(24 255 0)",
+          boxShadow: "0 0 0 0 rgba(24, 255, 0, 1)",
         },
         "100%": {
-          boxShadow: "0 0 0 20px rgba(0, 0, 0, 0)",
+          boxShadow: "0 0 0 20px rgba(24, 255, 0, 0)",
         }
       },
     headerProfilePhoto: {
@@ -76,9 +76,8 @@ const useStyles = createUseStyles((theme) => ({
         backgroundPosition: "center",
         width: "30px",
         height: "30px",
-        top: "-15%",
-        left: "65%",
-        transform: "translate(-50%, -10%)",
+        top: "0",
+        left: "75%",
         border: "1px solid black",
         outline: "none",
         animation: "$pulse 2.5s infinite",
@@ -94,9 +93,8 @@ const useStyles = createUseStyles((theme) => ({
         backgroundPosition: "center",
         width: "30px",
         height: "30px",
-        top: "-15%",
-        left: "65%",
-        transform: "translate(-50%, -10%)",
+        top: "0",
+        left: "75%",
         border: "1px solid black",
         outline: "none",
     },
@@ -126,7 +124,6 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
     const classes = useStyles();
     const [url, setUrl] = useState({ UserSVG})
     const [cover, setCover] = useState("")
-    const [color, setColor] = useState("")
 
     useEffect(() => {
         if (!userF?.uid || !uid || !docId) return;
@@ -135,7 +132,6 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
             setIsLoaded(true)
             setUrl(url);
             setState(prev => ({...prev, photo: true, photoURL: url}))
-            setColor("transparent")
             setCover("cover")}
             ).catch((err) => {
                 console.log(err.message); setState(prev => ({...prev, photo: false}))
@@ -193,7 +189,6 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
                     setIsLoaded(true)
                     setState(prev => ({...prev, photo: true, photoURL: downloadURL}))
                     setUrl(downloadURL);
-                    setColor("transparent")
                     setCover("cover")
                 });
             }
@@ -223,8 +218,9 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
                 className={classes.photo}
                 onClick={cover?handleOpen:null}
                 style={{backgroundImage: `url(${url})`, backgroundSize: cover}}>
+                    <label className={(isLoaded? classes.editAfterLoad: classes.edit)} htmlFor="upload-photo"/>
             </div>
-            <label className={(isLoaded? classes.editAfterLoad: classes.edit)} htmlFor="upload-photo"/>
+            
             <input
                 type="file"
                 name="photo"

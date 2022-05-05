@@ -12,7 +12,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import EditIcon from '@mui/icons-material/Edit';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 
-import {doc, getDocs, getDoc , updateDoc, collection, where, query} from 'firebase/firestore'
+import {doc, getDocs, updateDoc, collection, where, query} from 'firebase/firestore'
 import {db} from "../../../firebase"
 const colRef = collection(db, 'Users')
 
@@ -22,6 +22,7 @@ const style = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    borderRadius: "10px",
     width: "90%",
     bgcolor: 'background.paper',
     border: '2px solid #000',
@@ -131,7 +132,7 @@ const Story = () => {
 
     return (<>
         <h2 className={classes.profileTitle}>Twoja historia:</h2>
-        <Box component="form" onSubmit={handleSubmit} style={{width: "100%", border: "1px solid black",  borderRadius: "5px" }}>
+        <Box component="form" onSubmit={handleSubmit} style={{width: "100%", border: "1px solid black",  borderRadius: "5px", boxShadow: "0 3px 3px 0 rgb(68 68 68 / 10%)" }}>
             <RadioGroup
                 name="topic"
                 margin="normal"
