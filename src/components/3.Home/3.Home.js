@@ -1,15 +1,13 @@
 import React, {useContext, useEffect, useState} from "react";
+
+import ModalLoading from "../2.profile/partials/ModalLoading";
 import Title from "../1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
 import {AppContext} from "../../App";
 import {collection, doc, getDocs, getFirestore, updateDoc, arrayUnion, query, where, limit, startAfter, orderBy} from "firebase/firestore";
 import UsersCard from "./partials/UsersCard"
-import Modal from "@mui/material/Modal";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
-import Typography from "@mui/material/Typography";
 import {createUseStyles} from "react-jss";
 import myDraw from "../../images/draw.png"
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -21,20 +19,6 @@ import ContainerGradient from "./partials/ContainerGradient"
 const db = getFirestore()
 const colRef = collection(db, 'Users')
 
-const style = {
-    position: 'absolute',
-    outline: "none",
-    borderRadius: "10px",
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: "60%",
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    textAlign: "center",
-    p: 4,
-};
 
 
 const useStyles = createUseStyles((theme) => ({
@@ -73,8 +57,6 @@ const Home = () => {
     const [users, setUsers] = useState([])
     const [loadedUsers, setLoadedUsers] = useState(false)
     const [currentUser, setCurrentUser] = useState({})
-    const [open, setOpen] = React.useState(true);
-    const handleClose = () => setOpen(false);
 
 
 
@@ -130,7 +112,7 @@ const Home = () => {
             } catch (e) {console.log(e)}
         }
         start().then(() => {                
-            handleClose()})
+            setState(prev => ({...prev, modalLoad: false}))})
             setLoadedUsers(true)
 
     },[userF])
@@ -138,19 +120,7 @@ const Home = () => {
 
     return (<>
         <ContainerGradient>
-        <div>
-            <Modal
-                open={open}
-                aria-labelledby="modal-modal-title"
-            >
-                <Box sx={style}>
-                    <CircularProgress />
-                    <Typography id="modal-modal-title" style={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
-                        chwila...
-                    </Typography>
-                </Box>
-            </Modal>
-        </div>
+        <ModalLoading open={state.modalLoad}/>
         <Title/>
         <div>
         <div style={{position: "relative", top: "0", left: "0"}}>

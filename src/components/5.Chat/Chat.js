@@ -1,5 +1,7 @@
 import React, {useEffect, useState, useContext} from "react"
 import {collection, doc, getDocs, getFirestore, updateDoc, query, where, orderBy, onSnapshot, getDoc} from "firebase/firestore";
+
+import ModalLoading from "../2.profile/partials/ModalLoading";
 import ContainerGradient from "../3.Home/partials/ContainerGradient"
 import Title from "../1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
@@ -11,10 +13,6 @@ import {createUseStyles} from "react-jss";
 
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import HomeIcon from '@mui/icons-material/Home';
-import CircularProgress from "@mui/material/CircularProgress";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import ChatIcon from '@mui/icons-material/Chat';
 
 
@@ -23,19 +21,6 @@ const db = getFirestore()
 
 
 const stylesModal = {
-    styleModalLoad: {    
-        position: 'absolute',
-        outline: "none",
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: "60%",
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        textAlign: "center",
-        borderRadius: "10px",
-        p: 4,},
     styleCancleIcon: {
         position: "absolute",
         fontSize: "2.4rem",
@@ -208,9 +193,6 @@ const Chat = () => {
     const classes = useStyles();
 
 
-    const [openModalLoad, setOpenModalLoad] = useState(true);
-    const handleCloseModalLoad = () => setOpenModalLoad(false);
-
 const changeStatus = async (userUID) => {
     const id = currentUser.UID > userUID ? `${currentUser.UID + userUID}` : `${userUID + currentUser.UID}`;
     const docSnap = await getDoc(doc(db, "lastMsg", id));
@@ -279,7 +261,7 @@ const changeStatus = async (userUID) => {
         }
 
         start().then(() => {
-                handleCloseModalLoad()
+            setState(prev => ({...prev, modalLoad: false}))
         
             
         })
@@ -288,14 +270,7 @@ const changeStatus = async (userUID) => {
 
     return (
     <ContainerGradient>
-        <Modal open={openModalLoad} aria-labelledby="modal-modal-title">
-            <Box sx={stylesModal.styleModalLoad}>
-                <CircularProgress />
-                    <Typography id="modal-modal-load" style={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
-                        chwila...
-                    </Typography>
-            </Box>
-        </Modal>
+        <ModalLoading open={state.modalLoad}/>
 
 
         <ChatRoom  

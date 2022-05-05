@@ -52,7 +52,8 @@ const  App = () => {
     openChatRoom: false,
     genderFriend: undefined,
     openFirstSession: false,
-  })
+    modalLoad: true,
+    })
 
 
 

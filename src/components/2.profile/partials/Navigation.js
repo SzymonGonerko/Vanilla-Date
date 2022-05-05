@@ -56,10 +56,6 @@ const Navigation = ({curr}) => {
        } else {handleOpen()}
     }
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-    }
-
     return (<>
         <div>
             <Modal
@@ -74,7 +70,7 @@ const Navigation = ({curr}) => {
                 </Box>
             </Modal>
         </div>
-        <form style={{position: "fixed", bottom: "0", width: "100%"}} onSubmit={handleSubmit}>
+        <form style={{position: "fixed", bottom: "0", width: "100%"}}>
         <BottomNavigation sx={{backgroundColor: "rgb(230, 230, 230)", borderRadius: "20px 20px 0 0"}} value={value} onChange={handleChange}>
             <BottomNavigationAction
                 style={style}

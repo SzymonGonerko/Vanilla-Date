@@ -1,5 +1,7 @@
 import React, {useContext, useEffect, useState} from "react"
 import {arrayUnion, collection, doc, deleteDoc, getDocs, getFirestore, updateDoc, arrayRemove,query,where} from "firebase/firestore";
+
+import ModalLoading from "../2.profile/partials/ModalLoading";
 import Title from "../../components/1.splash,login,singUp/1.1.splash/partials/Title"
 import Navigation from "../2.profile/partials/Navigation"
 import UsersCard from "../3.Home/partials/UsersCard"
@@ -24,20 +26,6 @@ import HomeIcon from '@mui/icons-material/Home';
 const db = getFirestore()
 const colRef = collection(db, 'Users')
 
-const styleModalLoad = {
-    position: 'absolute',
-    outline: "none",
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: "60%",
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    textAlign: "center",
-    borderRadius: "10px",
-    p: 4,
-};
 
 const styleModalDelete = {
     position: 'absolute',
@@ -145,8 +133,6 @@ const Likes = () => {
     const handleCloseModalDelete = () => setOpenModalDelete(false)
 
 
-    const [openModalLoad, setOpenModalLoad] = React.useState(true);
-    const handleCloseModalLoad = () => setOpenModalLoad(false);
     
 
 const handleClick = (index) => {
@@ -219,7 +205,7 @@ const closeUserCard = () => {
             } catch (e) {console.log(e)}
         }
         start().then(() => {   
-            handleCloseModalLoad()
+            setState(prev => ({...prev, modalLoad: false}))
         })
     },[userF])
 
@@ -227,17 +213,7 @@ const closeUserCard = () => {
     return (<>
         <ContainerGradient>
             <div>
-                <Modal
-                    open={openModalLoad}
-                    aria-labelledby="modal-modal-title"
-                >
-                    <Box sx={styleModalLoad}>
-                        <CircularProgress />
-                        <Typography id="modal-modal-load" style={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
-                            chwila...
-                        </Typography>
-                    </Box>
-                </Modal>
+            <ModalLoading open={state.modalLoad}/>
                 <Modal
                     open={openModalDelete}
                     aria-labelledby="modal-modal-delete"

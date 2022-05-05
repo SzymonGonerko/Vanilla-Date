@@ -1,15 +1,12 @@
 import React, {useState, useEffect, useContext} from "react"
 import {
-    getFirestore, collection, getDocs,query, orderBy, where,doc, getDoc ,updateDoc, onSnapshot
+    getFirestore, collection, getDocs, query, where
 } from 'firebase/firestore'
 
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import CircularProgress from '@mui/material/CircularProgress';
 import {createUseStyles} from "react-jss";
 
+import ModalLoading from "./partials/ModalLoading";
 import ModalFirstSession from "./partials/ModalFirstSession";
 import ProfilePhoto from "./partials/ProfilePhoto";
 import ProfileInfo from "./partials/ProfileInfo"
@@ -24,45 +21,6 @@ import {AppContext} from "../../App";
 const db = getFirestore()
 
 
-const stylesModal = {
-    modalLoad: {
-        position: 'absolute',
-        outline: "none",
-        borderRadius: "10px",
-        top: '50%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: "60%",
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        textAlign: "center",
-        p: 4,
-    },
-    modalFirstSession: {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        outline: "none",
-        borderRadius: "10px",
-        transform: 'translate(-50%, -50%)',
-        width: "80%",
-        minHeight: "35%",
-        bgcolor: 'background.paper',
-        border: '2px solid #000',
-        boxShadow: 24,
-        textAlign: "center",
-        p: 1,
-    },
-    iconVolume: {
-        transform: "translate(-15%, 15%)",
-        fontSize: "1.2rem"
-    },
-    iconSkip: {
-        fontSize: "1.1rem",
-        transform: "translate(15%, 15%)",
-    }
-}
 
 const useStyles = createUseStyles((theme) => ({
 volumeContainer : {
@@ -114,11 +72,6 @@ const Profile = () => {
     const [user, setUser] = useState({})
     const [docId, setDocId] = useState("")
     const classes = useStyles();
-    
-   
-
-    const [openModalLoad, setOpenModalLoad] = useState(true);
-    const handleCloseModalLoad = () => setOpenModalLoad(false);
 
       
     useEffect(() => {
@@ -138,54 +91,45 @@ const Profile = () => {
             } catch (e) {console.log(e)}
         }
 
-        start().then(() => {handleCloseModalLoad(); 
+        start().then(() => {
+            setState(prev => ({...prev, modalLoad: false}))
             if (isFirSession) {
-            setState(prev => ({...prev, openFirstSession: true}))
-            
+            setState(prev => ({...prev, openFirstSession: true})) 
         }})
 
     }, [userF] )
 
 
     return (<>
-            <Modal
-                open={openModalLoad}
-                aria-labelledby="modal-modal-load">
-                <Box sx={stylesModal.modalLoad}>
-                    <CircularProgress />
-                    <Typography id="modal-modal-load" style={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
-                        chwila...
-                    </Typography>
-                </Box>
-            </Modal>
+            <ModalLoading open={state.modalLoad}/>
             <ModalFirstSession docId={docId}/>
-    <ProfilePhoto
-        userName={user.personalDataForm? user.personalDataForm.name: null}
-        age={user.personalDataForm? user.personalDataForm.age: null}
-    />
+    
+            <ProfilePhoto
+                userName={user.personalDataForm? user.personalDataForm.name: null}
+                age={user.personalDataForm? user.personalDataForm.age: null}
+            />
 
-    <ProfileInfo
-        name={user.personalDataForm? user.personalDataForm.name: null}
-        birth={user.personalDataForm? user.personalDataForm.birth: null}
-        email={user.personalDataForm? user.personalDataForm.email: null}
-        city={user.personalDataForm? user.personalDataForm.city: null}
-        height={user.personalDataForm? user.personalDataForm.height: null}
-    >
-        <Story/>
-    </ProfileInfo>
-    <div className={classes.buttonContainer}>
-    <ShowIntro/>
-        <ProfileCard
-            name={user.personalDataForm? user.personalDataForm.name: null}
-            gender={user.personalDataForm? user.personalDataForm.gender: null}
-            age={user.personalDataForm? user.personalDataForm.age: null}
-            plot={state.plot? state.plot:null}
-        />
-        
-        <Logout />
-        <DeleteProfile uid={user? user.UID : null}/>
-    </div>
-    <Navigation curr="Profil"/>
+            <ProfileInfo
+                name={user.personalDataForm? user.personalDataForm.name: null}
+                birth={user.personalDataForm? user.personalDataForm.birth: null}
+                email={user.personalDataForm? user.personalDataForm.email: null}
+                city={user.personalDataForm? user.personalDataForm.city: null}
+                height={user.personalDataForm? user.personalDataForm.height: null}
+            >    
+            <Story/>
+            </ProfileInfo>
+            <div className={classes.buttonContainer}>
+                <ShowIntro/>
+                <ProfileCard
+                    name={user.personalDataForm? user.personalDataForm.name: null}
+                    gender={user.personalDataForm? user.personalDataForm.gender: null}
+                    age={user.personalDataForm? user.personalDataForm.age: null}
+                    plot={state.plot? state.plot:null}
+                />
+                <Logout />
+                <DeleteProfile uid={user? user.UID : null}/>
+            </div>
+            <Navigation curr="Profil"/>
 
 
     </>)
