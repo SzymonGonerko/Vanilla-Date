@@ -14,6 +14,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const style = {
     position: 'absolute',
+    outline: "none",
+    borderRadius: "10px",
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -70,19 +72,19 @@ const Logout = () => {
                         <Button
                             sx={{marginTop: "30px", width: "40%"}}
                             size="large"
-                            startIcon={<CloseIcon />}
+                            startIcon={<CheckIcon/>}
                             onClick={handleClick}
                             variant="outlined"
-                            color="error">
+                            color="success">
                             Tak
                         </Button>
                         <Button
                             sx={{marginTop: "30px", width: "40%"}}
                             size="large"
                             onClick={handleClose}
-                            startIcon={<CheckIcon />}
+                            startIcon={<CloseIcon/>}
                             variant="outlined"
-                            color="success">
+                            color="error">
                             Nie
                         </Button>
                     </div>

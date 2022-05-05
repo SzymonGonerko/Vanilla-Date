@@ -20,6 +20,7 @@ const style = {
     position: 'absolute',
     top: '50%',
     left: '50%',
+    borderRadius: "10px",
     transform: 'translate(-50%, -50%)',
     width: "90%",
     bgcolor: 'background.paper',
@@ -29,7 +30,7 @@ const style = {
 };
 
 
-const DeleteProfile = ({uid}) => {
+const DeleteProfile = ({uid, docId}) => {
     const history = useHistory();
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
@@ -37,8 +38,6 @@ const DeleteProfile = ({uid}) => {
 
 
     const handleClick = () => {
-    const docId = localStorage.getItem("doc.id")
-
 
     const desertRef = ref(storage, `Avatars/${uid}`);
         deleteObject(desertRef).then(() => {
@@ -53,7 +52,6 @@ const DeleteProfile = ({uid}) => {
         deleteDoc(docRef)
             .then(() => {
                 console.log("usnięto")
-
             }).catch((error) => {
             console.log(error.message)
         })
@@ -99,19 +97,19 @@ const DeleteProfile = ({uid}) => {
                         <Button
                             sx={{marginTop: "30px", width: "40%"}}
                             size="large"
-                            startIcon={<CloseIcon />}
+                            startIcon={<CheckIcon />}
                             onClick={handleClick}
                             variant="outlined"
-                            color="error">
+                            color="success">
                             Tak
                         </Button>
                         <Button
                             sx={{marginTop: "30px", width: "40%"}}
                             size="large"
                             onClick={handleClose}
-                            startIcon={<CheckIcon />}
+                            startIcon={<CloseIcon />}
                             variant="outlined"
-                            color="success">
+                            color="error">
                             Nie
                         </Button>
                     </div>

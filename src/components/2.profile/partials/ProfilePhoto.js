@@ -2,12 +2,11 @@ import React, {useState, useEffect, useContext} from "react"
 import {createUseStyles} from "react-jss";
 import UserSVG from "../../../images/user-solid.svg"
 import EditSVG from "../../../images/pen-solid.svg"
-import {Button} from "@mui/material";
 import FancyButton from "../../4.Likes/partials/FancyButton"
 
 import {storage} from "../../../firebase";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
-import {doc, updateDoc, query,collection,getDocs,where} from 'firebase/firestore'
+import {doc, updateDoc} from 'firebase/firestore'
 import {db} from "../../../firebase"
 import {AppContext} from "../../../App";
 import Modal from "@mui/material/Modal";
@@ -28,7 +27,14 @@ const style = {
 };
 
 const useStyles = createUseStyles((theme) => ({
-
+    "@keyframes pulse": {
+       "0%": {
+          boxShadow: "0 0 0 0px rgb(24 255 0)",
+        },
+        "100%": {
+          boxShadow: "0 0 0 20px rgba(0, 0, 0, 0)",
+        }
+      },
     headerProfilePhoto: {
       position: "relative",
       backgroundColor: "rgb(170, 63, 236)",
@@ -75,6 +81,24 @@ const useStyles = createUseStyles((theme) => ({
         transform: "translate(-50%, -10%)",
         border: "1px solid black",
         outline: "none",
+        animation: "$pulse 2.5s infinite",
+    },
+    editAfterLoad: {
+        position: "relative",
+        display: "block",
+        borderRadius: "50%",
+        backgroundImage: `url(${EditSVG})`,
+        backgroundColor: "transparent",
+        backgroundSize: "15px",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        width: "30px",
+        height: "30px",
+        top: "-15%",
+        left: "65%",
+        transform: "translate(-50%, -10%)",
+        border: "1px solid black",
+        outline: "none",
     },
     userInfo: {
         textAlign: "center",
@@ -86,50 +110,38 @@ const useStyles = createUseStyles((theme) => ({
         color: "white",
     },
     invisibleInput: {
-    display: "none"
+        display: "none"
 }
 
 
 }))
 
-const ProfilePhoto = ({userName, age}) => {
+const ProfilePhoto = ({userName, age, uid, docId}) => {
     const { state: { user: userF } } = useContext(AppContext);
+    const [isLoaded, setIsLoaded] = useState(false)
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const {setState} = useContext(AppContext)
-    const [docId, setDocId] = useState("")
-    const [uid, setUid] = useState("")
     const classes = useStyles();
     const [url, setUrl] = useState({ UserSVG})
     const [cover, setCover] = useState("")
     const [color, setColor] = useState("")
 
     useEffect(() => {
-        if (!userF?.uid) return;
-        const start = async () => {
-            try {
-                const q = query(collection(db, "Users"), where("UID", "==", userF.uid));
-                const querySnapshot = await getDocs(q);
-                querySnapshot.forEach((doc) => {
-                    setDocId(doc.id)
-                    setUid(doc.data().UID)
-                    const starsRef = ref(storage, `Avatars/${doc.data().UID}`);
-                    getDownloadURL(starsRef).then((url) => {
-                        setUrl(url);
-                        setState(prev => ({...prev, photo: true, photoURL: url}))
-                        setColor("transparent")
-                        setCover("cover")}).
-                        catch((err) => {console.log(err.message); setState(prev => ({...prev, photo: false}))})
-                    
-                })
+        if (!userF?.uid || !uid || !docId) return;
+        const starsRef = ref(storage, `Avatars/${uid}`);
+        getDownloadURL(starsRef).then((url) => {
+            setIsLoaded(true)
+            setUrl(url);
+            setState(prev => ({...prev, photo: true, photoURL: url}))
+            setColor("transparent")
+            setCover("cover")}
+            ).catch((err) => {
+                console.log(err.message); setState(prev => ({...prev, photo: false}))
+            })
 
-            } catch (e) {console.log(e)}
-        }
-
- 
-        start().then(() => {handleClose()})
-    }, [userF] )
+    }, [userF, uid, docId] )
 
 
 
@@ -143,7 +155,6 @@ const ProfilePhoto = ({userName, age}) => {
         reader.onload = function (event) {
             const imgElement = document.createElement("img");
             imgElement.src = event.target.result;
-
 
             imgElement.onload = function (e) {
                 const canvas = document.createElement("canvas");
@@ -179,6 +190,7 @@ const ProfilePhoto = ({userName, age}) => {
             (error) => console.log(error),
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    setIsLoaded(true)
                     setState(prev => ({...prev, photo: true, photoURL: downloadURL}))
                     setUrl(downloadURL);
                     setColor("transparent")
@@ -197,7 +209,6 @@ const ProfilePhoto = ({userName, age}) => {
     return (
         <header className={classes.headerProfilePhoto}>
             <h1 className={classes.title}>Profil</h1>
-            <div>
                 <Modal
                     open={open}
                     onClose={handleClose}
@@ -208,13 +219,12 @@ const ProfilePhoto = ({userName, age}) => {
                     </Box>
 
                 </Modal>
-            </div>
             <div
                 className={classes.photo}
                 onClick={cover?handleOpen:null}
                 style={{backgroundImage: `url(${url})`, backgroundSize: cover}}>
             </div>
-            <label className={classes.edit} style={{backgroundColor: color? color: null}} htmlFor="upload-photo"/>
+            <label className={(isLoaded? classes.editAfterLoad: classes.edit)} htmlFor="upload-photo"/>
             <input
                 type="file"
                 name="photo"

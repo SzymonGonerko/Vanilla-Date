@@ -268,7 +268,7 @@ const closeUserCard = () => {
                                     <CancelIcon onClick={() => handleOpenModalDelete(el.docId ,el.UID)} style={{fontSize: "1.6rem"}}/>
                                 </button>
                             </div>
-                        {clickedUser === el.docId && showUserCard? <UsersCard name={el.personalDataForm.name} age={el.personalDataForm.age} question={el.question} story={el.story} gender={el.personalDataForm.gender} avatar64={el.avatar64} avatar64Height={el.avatar64Height} height={el.personalDataForm.height}/> :null}
+                        {clickedUser === el.docId && showUserCard? <UsersCard name={el.personalDataForm.name} city={el.personalDataForm.city} age={el.personalDataForm.age} question={el.question} story={el.story} gender={el.personalDataForm.gender} avatar64={el.avatar64} avatar64Height={el.avatar64Height} height={el.personalDataForm.height}/> :null}
                     </li>
                     :null))}
                 </nav>

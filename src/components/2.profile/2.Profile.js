@@ -108,6 +108,8 @@ const Profile = () => {
             <ProfilePhoto
                 userName={user.personalDataForm? user.personalDataForm.name: null}
                 age={user.personalDataForm? user.personalDataForm.age: null}
+                uid={user? user.UID : null}
+                docId={docId}
             />
 
             <ProfileInfo
@@ -130,7 +132,7 @@ const Profile = () => {
                 />
                 <Seperator/>
                 <Logout />
-                <DeleteProfile uid={user? user.UID : null}/>
+                <DeleteProfile uid={user? user.UID : null} docId={docId}/>
             </div>
             <Navigation curr="Profil"/>
 

@@ -25,6 +25,7 @@ const UsersCard =({name, age, question, story, gender, avatar64, avatar64Height,
                     </Typography>
                     <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h6" component="div">
                         {" "}{age} lat, {height} cm, {city}
+                        {console.log(city)}
                     </Typography>
                     <Typography style={{fontFamily: "Roboto Serif", fontSize: "1rem", color: "#9c27b0"}} variant="body1" color="text.secondary">
                         {question}
