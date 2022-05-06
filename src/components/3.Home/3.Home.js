@@ -19,7 +19,19 @@ import ContainerGradient from "./partials/ContainerGradient"
 const db = getFirestore()
 const colRef = collection(db, 'Users')
 
-
+const stylesModal = {
+    btnGroup : {
+        position: "fixed", 
+        bottom: "70px", 
+        left: "50%", 
+        width: "90%",
+        transform: "translate(-50%, 0)"
+    },
+    btn: {
+        backgroundColor: "transparent", 
+        height: "3.5rem"
+    }
+}
 
 const useStyles = createUseStyles((theme) => ({
     afterUsersImg: {
@@ -45,6 +57,19 @@ const useStyles = createUseStyles((theme) => ({
         fontFamily: "Roboto Serif",
         textAlign: "center",
         fontSize: "1.2rem",
+    },
+    usersContainer: {
+        position: "relative", 
+        top: "0", 
+        left: "0"
+    },
+    usersWrapper: {
+        position: "fixed",
+        top: "75px",
+        bottom: "150px",
+        left: "50%",
+        width: "95vw",
+        transform: "translate(-50%, 0)" 
     }
 }))
 
@@ -59,25 +84,34 @@ const Home = () => {
     const [currentUser, setCurrentUser] = useState({})
 
 
-
-    const addLike = () => {
-        const docRef = doc(db, 'Users', currentUser.docId)
-        const docId = [...users].pop().docId
-        const object = {[docId]: true}
-        updateDoc(docRef, {
-            likes: arrayUnion(object)
-        }).catch((err) => {console.log(err.message)})
+    const afterInteraction = () => {
         setUsers(prevState => ([...prevState].splice(0,prevState.length -1)))
     }
 
+    const addLike =  () => {
+        setState(prev => ({...prev, selectedUser: users.length, isLike: true}))
+        const docRef = doc(db, 'Users', currentUser.docId)
+        const docId = [...users].pop().docId
+        const object = {[docId]: true}
+        setTimeout(() => {      
+            updateDoc(docRef, {
+            likes: arrayUnion(object)
+        }).then(() => {afterInteraction()}).catch((err) => {console.log(err.message)})}, 350)
+
+    }
+
     const addUnlike = () => {
+        setState(prev => ({...prev, selectedUser: users.length, isLike: false}))
         const docRef = doc(db, 'Users', currentUser.docId)
         const docId = [...users].pop().docId
         const object = {[docId]: false}
-        updateDoc(docRef, {
-            likes: arrayUnion(object)
-        }).catch((err) => {console.log(err.message)})
-        setUsers(prevState => ([...prevState].splice(0,prevState.length -1)))
+        setTimeout(() => { 
+            updateDoc(docRef, {
+                likes: arrayUnion(object)
+            }).then(() => {
+                afterInteraction()}
+            ).catch((err) => {console.log(err.message)})
+        }, 350)
     }
 
 
@@ -118,15 +152,16 @@ const Home = () => {
     },[userF])
 
 
+
     return (<>
         <ContainerGradient>
         <ModalLoading open={state.modalLoad}/>
         <Title/>
         <div>
-        <div style={{position: "relative", top: "0", left: "0"}}>
+        <div className={classes.usersContainer}>
             <div className={classes.afterUsersImg}/>
             <div className={classes.afterUsersText}>Wygląda na to, że to już wszyscy. Sprawdź swoje pary... <div><FavoriteIcon color="secondary"/></div></div>
-            <div style={{position: "fixed", top: "75px", bottom: "150px", left: "50%", width: "95vw", transform: "translate(-50%, 0)" }}>
+            <div className={classes.usersWrapper}>
                 {loadedUsers === true? users?.map((el, i) => (
                 <UsersCard
                     zIndex={i+1}
@@ -147,9 +182,9 @@ const Home = () => {
         </div>
 
         {users.length === 0 ? null:
-          <ButtonGroup fullWidth style={{position: "fixed", bottom: "70px", left: "50%", width: "90%",transform: "translate(-50%, 0)"}} disableElevation variant="contained">
-            <Button style={{backgroundColor: "transparent", height: "3.5rem"}} onClick={addUnlike}><CancelIcon/></Button>
-            <Button style={{backgroundColor: "transparent"}} onClick={addLike}><FavoriteIcon/></Button>
+          <ButtonGroup fullWidth style={stylesModal.btnGroup} disableElevation variant="contained">
+            <Button style={stylesModal.btn} onClick={addUnlike}><CancelIcon/></Button>
+            <Button style={stylesModal.btn} onClick={addLike}><FavoriteIcon/></Button>
           </ButtonGroup>
         }
 
