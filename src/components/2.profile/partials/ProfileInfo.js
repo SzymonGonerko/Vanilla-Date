@@ -6,13 +6,7 @@ import {
 } from "@material-ui/core";
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
 import {createUseStyles} from "react-jss";
-import LoadingButton from "@mui/lab/LoadingButton";
-import SendIcon from "@mui/icons-material/Send";
-import Autocomplete from "@mui/material/Autocomplete";
-import polishCities from "../../1.splash,login,singUp/1.3.SignUp/partials/polishCities";
-import {topic} from "./topic"
 
 const theme = createTheme();
 

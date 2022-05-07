@@ -3,6 +3,7 @@ import {createUseStyles} from "react-jss";
 import UserSVG from "../../../images/user-solid.svg"
 import EditSVG from "../../../images/pen-solid.svg"
 import FancyButton from "../../4.Likes/partials/FancyButton"
+import CircularProgresss from "./CircularProgresss";
 
 import {storage} from "../../../firebase";
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage"
@@ -15,20 +16,8 @@ import SecurityUpdateWarningIcon from '@mui/icons-material/SecurityUpdateWarning
 import Box from "@mui/material/Box";
 
 
-const style = {
-    position: 'absolute',
-    outline: "none",
-    top: '3%',
-    left: '50%',
-    transform: 'translate(-50%, 0)',
-    width: "90%",
-    backgroundColor: "black",
-    border: '2px solid #000',
-    boxShadow: 24,
-    textAlign: "center"
-};
-
 const stylesModal = {
+    photo: {backgroundPosition: "center",height: "70vh"},
     modalPhoto: {
         position: 'absolute',
         outline: "none",
@@ -57,6 +46,22 @@ const stylesModal = {
     uploadIcon: {
         transform: "translate(0%, 13%)",
         marginRight: "10px"
+    },
+    modalProgress: {
+        position: 'absolute',
+        fontFamily: "Roboto Serif",
+        fontSize: "2rem",
+        outline: "none",
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        height: "10rem",
+        width: "10rem",
+        backgroundColor: "white",
+        border: '1px solid #000',
+        textAlign: "center",
+        borderRadius: "10px",
+        p: 1
     }
 }
 
@@ -118,7 +123,7 @@ const useStyles = createUseStyles((theme) => ({
         width: "30px",
         height: "30px",
         top: "3%",
-        left: "80%",
+        left: "77%",
         border: "1px solid black",
         outline: "none",
         animation: "$pulse 2.5s infinite",
@@ -135,7 +140,7 @@ const useStyles = createUseStyles((theme) => ({
         width: "30px",
         height: "30px",
         top: "3%",
-        left: "80%",
+        left: "77%",
         border: "1px solid black",
         outline: "none",
     },
@@ -160,10 +165,15 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
     const {setState} = useContext(AppContext)
     const [isLoaded, setIsLoaded] = useState(false)
     const [size, setSize] = useState("")
+    const [progress, setProgress] = useState(0)
 
     const [openModalPhoto, setOpenModalPhoto] = useState(false);
     const handleOpenModalPhoto = () => setOpenModalPhoto(true);
     const handleCloseModalPhoto = () => setOpenModalPhoto(false);
+
+    const [openModalProgressUpload, setOpenModalProgressUpload] = useState(false);
+    const handleOpenModalProgressUpload = () => setOpenModalProgressUpload(true);
+    const handleCloseModalProgressUpload = () => setOpenModalProgressUpload(false);
 
     const [openModalWarning, setOpenModalWarning] = useState(false);
     const handleOpenModalWarning = () => setOpenModalWarning(true);
@@ -172,6 +182,9 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
     const classes = useStyles();
     const [url, setUrl] = useState({ UserSVG})
     const [cover, setCover] = useState("")
+
+
+
 
     useEffect(() => {
         if (!userF?.uid || !uid || !docId) return;
@@ -192,11 +205,8 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
 
 
     const uploadFiles = (file) => {
-        console.log(file)
         if (!file) return;
-       
         if ((file.size / 1000000) > 10) {
-            console.log(5)
             setSize((file.size / 1000000).toFixed(2))
             handleOpenModalWarning()
             return
@@ -225,10 +235,7 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
                 updateDoc(docRef, {
                     avatar64: srcEncoded,
                     avatar64Height: canvas.height,
-                })
-                    .then(() => {
-                        console.log("Zapisano")
-                    }).catch((err) => {console.log(err.message)})
+                }).catch((err) => {console.log(err.message)})
 
 
             };
@@ -238,10 +245,17 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
         const storageRef = ref(storage, `Avatars/${uid}`);
         const uploadTask = uploadBytesResumable(storageRef, file);
         uploadTask.on(
-            "state_changed",null,
+            "state_changed",(snapshot) => {
+                const prog = Math.floor(
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                handleOpenModalProgressUpload()
+                setProgress(prog);
+              },
             (error) => console.log(error),
             () => {
                 getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    handleCloseModalProgressUpload()
                     setIsLoaded(true)
                     setState(prev => ({...prev, photo: true, photoURL: downloadURL}))
                     setUrl(downloadURL);
@@ -253,7 +267,6 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
 
 
     const handleChange = (e) => {
-        console.log(e.target.files)
         uploadFiles(e.target.files[0])
     }
 
@@ -261,15 +274,19 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
     return (
         <header className={classes.headerProfilePhoto}>
             <h1 className={classes.title}>Profil</h1>
+
                 <Modal
                     open={openModalPhoto}
                     onClose={handleCloseModalPhoto}
                 >
                     <Box sx={stylesModal.modalPhoto}>
-                       <div style={{backgroundImage: `url(${url})`, backgroundPosition: "center" ,backgroundSize: cover, height: "70vh"}}/>
+                       <div style={{...stylesModal.photo, backgroundImage: `url(${url})`,backgroundSize: cover}}/>
                         <FancyButton bottomPosition={"-25vh"} close={handleCloseModalPhoto}/>
                     </Box>
                 </Modal>
+
+
+
                 <Modal
                     open={openModalWarning}
                     onClose={handleCloseModalWarning}
@@ -279,19 +296,29 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
                         <SecurityUpdateWarningIcon style={stylesModal.uploadIcon}/>Zdjęcie jest zbyt duże
                     </Typography>
                     <Typography id="modal-modal-description" sx={{ mt: 2 , fontFamily: "Roboto Serif"}}>
-                      Twoje zdjęcie ma {size}mb. Ilość miejsca na serwerze jest ograniczona.<br/><br/><strong>Proszę, wstaw zdjęcie do 10mb</strong> 
+                      Wybrane zdjęcie ma {size}mb. Ilość miejsca na serwerze jest ograniczona.<br/><br/><strong>Proszę, wstaw zdjęcie do 10mb</strong> 
                     </Typography>
                         <FancyButton bottomPosition={"-30vh"} close={handleCloseModalWarning}/>
                     </Box>
                 </Modal>
+
+                <Modal
+                    open={openModalProgressUpload}
+                    onClose={handleCloseModalProgressUpload}
+                >
+                    <Box sx={stylesModal.modalProgress}>
+                    <CircularProgresss value={progress} />
+                    </Box>
+                </Modal>
+
+
             <div className={classes.photoContainer}>
-            <div
-                className={classes.photo}
-                onClick={cover?handleOpenModalPhoto:null}
-                style={{backgroundImage: `url(${url})`, backgroundSize: cover}}>
-                    
-            </div>
-            <label className={(isLoaded? classes.editAfterLoad: classes.edit)} htmlFor="upload-photo"/>
+                <div
+                    className={classes.photo}
+                    onClick={cover? handleOpenModalPhoto : null}
+                    style={{backgroundImage: `url(${url})`, backgroundSize: cover}}>
+                </div>
+                <label className={(isLoaded? classes.editAfterLoad: classes.edit)} htmlFor="upload-photo"/>
             </div>
             <input
                 type="file"

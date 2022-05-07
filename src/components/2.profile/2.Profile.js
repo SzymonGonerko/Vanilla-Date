@@ -3,6 +3,8 @@ import {
     getFirestore, collection, getDocs, query, where
 } from 'firebase/firestore'
 
+import {Container} from "@material-ui/core";
+
 
 import {createUseStyles} from "react-jss";
 
@@ -120,7 +122,7 @@ const Profile = () => {
             >    
             <Story/>
             </ProfileInfo>
-            <div className={classes.buttonContainer}>
+            <Container maxWidth="xs">
                 <Seperator/>
                 <ShowIntro/>
                 <ProfileCard
@@ -132,7 +134,7 @@ const Profile = () => {
                 <Seperator/>
                 <Logout />
                 <DeleteProfile uid={user? user.UID : null} docId={docId}/>
-            </div>
+            </Container>
             <Navigation curr="Profil"/>
 
 
