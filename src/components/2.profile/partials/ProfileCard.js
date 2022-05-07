@@ -67,7 +67,7 @@ return (<>
         fullWidth
         variant="outlined"
     >
-        Pokaż mój profil
+        mój profil
     </Button>
     <div>
 

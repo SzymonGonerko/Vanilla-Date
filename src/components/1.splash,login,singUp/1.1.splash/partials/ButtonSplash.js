@@ -3,12 +3,7 @@ import React, {useRef, useEffect} from "react";
 import injectSheet from "react-jss";
 import {
     BrowserRouter as Router,
-    NavLink,
-    Switch,
-    Route,
     Link,
-    useRouteMatch,
-    useParams
 } from "react-router-dom";
 
 const styles = {
@@ -21,10 +16,12 @@ const styles = {
         "100%": {transform: "rotate(45deg) scale(0.8)"},
     },
     splash: {
-        borderRadius: "31% 69% 30% 70% / 28% 57% 43% 72%",
-        boxShadow: "inset 21px -10px 30px -7px #F7CA18",
-        width: "50%",
-        height: "20%",
+        background: "radial-gradient(circle at 0% 0%, hotpink, slateblue)",
+        borderRadius: "30% 70% 53% 47% / 26% 46% 54% 74%",
+        boxShadow: "0 -2vh 4vh LightPink inset, 0 1vh 4vh MediumPurple inset, 6vh -2vh 7vh purple inset",
+        filter: "drop-shadow(0 0 1vh Thistle) drop-shadow(0 0.5vh 1vh Orchid) drop-shadow(0.5vh -1vh 0 MediumSlateBlue) drop-shadow(0 0 0 MediumOrchid)",
+        width: "10rem",
+        height: "8rem",
         animation: "$animateHeart 2.5s infinite",
     },
     link: {display: "block", height: "100%", width: "100%"}
@@ -35,7 +32,9 @@ const Box = ({classes}) => {
 
    const handle = () => {
     if (!refEl) return;
-        refEl.current.requestFullscreen()
+    
+    try {refEl.current.requestFullscreen()}
+        catch (e) {console.log(e)}
    }
 
     return (

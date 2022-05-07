@@ -18,10 +18,10 @@ const useStyles = createUseStyles((theme) => ({
     }
 }))
 
-const FancyButton = ({close, bottomPosition}) => {
+const FancyButton = ({close, bottomPosition, children}) => {
     const classes = useStyles();
 
-    return (<button onClick={close} style={{bottom: (bottomPosition)}} className={classes.fancyButton}/>)
+    return (<button onClick={close} style={{bottom: (bottomPosition)}} className={classes.fancyButton}>{children}</button>)
 }
 
 export default FancyButton

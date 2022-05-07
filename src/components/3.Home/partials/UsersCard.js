@@ -1,11 +1,14 @@
-import React, {useEffect, useContext} from "react"
+import React, {useContext} from "react"
+
+import {AppContext} from "../../../App";
 import Card from "@mui/material/Card";
 import CanvasUser from "./CanvasUser"
+
 import {CardActionArea} from "@mui/material";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
-import {AppContext} from "../../../App";
+
 
 import {createUseStyles} from "react-jss";
 
@@ -33,7 +36,7 @@ const useStyles = createUseStyles((theme) => ({
          },
          "100%": {
            opacity: "0",
-           transform: "translate(20%,0%) rotate(10deg)"
+           transform: "translate(20%,0%) rotate(5deg)"
          }
        },
        "@keyframes unlike": {
@@ -43,7 +46,7 @@ const useStyles = createUseStyles((theme) => ({
          },
          "100%": {
            opacity: "0",
-           transform: "translate(-20%,0%) rotate(-10deg)"
+           transform: "translate(-20%,0%) rotate(-5deg)"
          }
        },
        cardLike: {

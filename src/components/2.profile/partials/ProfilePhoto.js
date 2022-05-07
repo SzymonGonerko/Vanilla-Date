@@ -10,6 +10,8 @@ import {doc, updateDoc} from 'firebase/firestore'
 import {db} from "../../../firebase"
 import {AppContext} from "../../../App";
 import Modal from "@mui/material/Modal";
+import Typography from '@mui/material/Typography';
+import SecurityUpdateWarningIcon from '@mui/icons-material/SecurityUpdateWarning';
 import Box from "@mui/material/Box";
 
 
@@ -25,6 +27,38 @@ const style = {
     boxShadow: 24,
     textAlign: "center"
 };
+
+const stylesModal = {
+    modalPhoto: {
+        position: 'absolute',
+        outline: "none",
+        top: '3%',
+        left: '50%',
+        transform: 'translate(-50%, 0)',
+        width: "90%",
+        backgroundColor: "black",
+        border: '2px solid #000',
+        boxShadow: 24,
+        textAlign: "center"
+    },
+    modalWarning: {
+        position: 'absolute',
+        outline: "none",
+        top: '40%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: "80%",
+        backgroundColor: "white",
+        border: '2px solid #000',
+        textAlign: "center",
+        borderRadius: "10px",
+        p: 1
+    },
+    uploadIcon: {
+        transform: "translate(0%, 13%)",
+        marginRight: "10px"
+    }
+}
 
 const useStyles = createUseStyles((theme) => ({
     "@keyframes pulse": {
@@ -51,8 +85,16 @@ const useStyles = createUseStyles((theme) => ({
         left: "50%",
         transform: "translate(-50%, -50%)"
     },
-    photo: {
+    photoContainer: {
         position: "relative",
+        top: "55%",
+        left: "50%",
+        height: "140px",
+        width: "140px",
+        transform: "translate(-50%, -50%)"
+    },
+    photo: {
+        position: "absolute",
         borderRadius: "50%",
         backgroundImage: `url(${UserSVG})`,
         backgroundSize: "50px",
@@ -60,13 +102,12 @@ const useStyles = createUseStyles((theme) => ({
         backgroundPosition: "center",
         width: "140px",
         height: "140px",
-        top: "100px",
-        left: "50%",
-        transform: "translate(-50%, -10%)",
+        top: "0",
+        left: "0",
         border: "1px solid black"
     },
     edit: {
-        position: "relative",
+        position: "absolute",
         display: "block",
         borderRadius: "50%",
         backgroundImage: `url(${EditSVG})`,
@@ -76,14 +117,14 @@ const useStyles = createUseStyles((theme) => ({
         backgroundPosition: "center",
         width: "30px",
         height: "30px",
-        top: "0",
-        left: "75%",
+        top: "3%",
+        left: "80%",
         border: "1px solid black",
         outline: "none",
         animation: "$pulse 2.5s infinite",
     },
     editAfterLoad: {
-        position: "relative",
+        position: "absolute",
         display: "block",
         borderRadius: "50%",
         backgroundImage: `url(${EditSVG})`,
@@ -93,8 +134,8 @@ const useStyles = createUseStyles((theme) => ({
         backgroundPosition: "center",
         width: "30px",
         height: "30px",
-        top: "0",
-        left: "75%",
+        top: "3%",
+        left: "80%",
         border: "1px solid black",
         outline: "none",
     },
@@ -116,11 +157,18 @@ const useStyles = createUseStyles((theme) => ({
 
 const ProfilePhoto = ({userName, age, uid, docId}) => {
     const { state: { user: userF } } = useContext(AppContext);
-    const [isLoaded, setIsLoaded] = useState(false)
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
     const {setState} = useContext(AppContext)
+    const [isLoaded, setIsLoaded] = useState(false)
+    const [size, setSize] = useState("")
+
+    const [openModalPhoto, setOpenModalPhoto] = useState(false);
+    const handleOpenModalPhoto = () => setOpenModalPhoto(true);
+    const handleCloseModalPhoto = () => setOpenModalPhoto(false);
+
+    const [openModalWarning, setOpenModalWarning] = useState(false);
+    const handleOpenModalWarning = () => setOpenModalWarning(true);
+    const handleCloseModalWarning = () => (setOpenModalWarning(false), setSize(""));
+
     const classes = useStyles();
     const [url, setUrl] = useState({ UserSVG})
     const [cover, setCover] = useState("")
@@ -131,10 +179,10 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
         getDownloadURL(starsRef).then((url) => {
             setIsLoaded(true)
             setUrl(url);
-            setState(prev => ({...prev, photo: true, photoURL: url}))
+            setState(prev => ({...prev, photo: true, photoURL: url, modalLoad: false}))
             setCover("cover")}
             ).catch((err) => {
-                console.log(err.message); setState(prev => ({...prev, photo: false}))
+                console.log(err.message); setState(prev => ({...prev, photo: false, modalLoad: false}))
             })
 
     }, [userF, uid, docId] )
@@ -144,7 +192,15 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
 
 
     const uploadFiles = (file) => {
+        console.log(file)
         if (!file) return;
+       
+        if ((file.size / 1000000) > 10) {
+            console.log(5)
+            setSize((file.size / 1000000).toFixed(2))
+            handleOpenModalWarning()
+            return
+        }
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
@@ -197,6 +253,7 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
 
 
     const handleChange = (e) => {
+        console.log(e.target.files)
         uploadFiles(e.target.files[0])
     }
 
@@ -205,22 +262,37 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
         <header className={classes.headerProfilePhoto}>
             <h1 className={classes.title}>Profil</h1>
                 <Modal
-                    open={open}
-                    onClose={handleClose}
+                    open={openModalPhoto}
+                    onClose={handleCloseModalPhoto}
                 >
-                    <Box sx={style}>
+                    <Box sx={stylesModal.modalPhoto}>
                        <div style={{backgroundImage: `url(${url})`, backgroundPosition: "center" ,backgroundSize: cover, height: "70vh"}}/>
-                        <FancyButton bottomPosition={"-25vh"} close={handleClose}/>
+                        <FancyButton bottomPosition={"-25vh"} close={handleCloseModalPhoto}/>
                     </Box>
-
                 </Modal>
+                <Modal
+                    open={openModalWarning}
+                    onClose={handleCloseModalWarning}
+                >
+                    <Box sx={stylesModal.modalWarning}>
+                    <Typography id="modal-modal-title" sx={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
+                        <SecurityUpdateWarningIcon style={stylesModal.uploadIcon}/>Zdjęcie jest zbyt duże
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 , fontFamily: "Roboto Serif"}}>
+                      Twoje zdjęcie ma {size}mb. Ilość miejsca na serwerze jest ograniczona.<br/><br/><strong>Proszę, wstaw zdjęcie do 10mb</strong> 
+                    </Typography>
+                        <FancyButton bottomPosition={"-30vh"} close={handleCloseModalWarning}/>
+                    </Box>
+                </Modal>
+            <div className={classes.photoContainer}>
             <div
                 className={classes.photo}
-                onClick={cover?handleOpen:null}
+                onClick={cover?handleOpenModalPhoto:null}
                 style={{backgroundImage: `url(${url})`, backgroundSize: cover}}>
-                    <label className={(isLoaded? classes.editAfterLoad: classes.edit)} htmlFor="upload-photo"/>
+                    
             </div>
-            
+            <label className={(isLoaded? classes.editAfterLoad: classes.edit)} htmlFor="upload-photo"/>
+            </div>
             <input
                 type="file"
                 name="photo"

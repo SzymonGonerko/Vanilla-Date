@@ -53,7 +53,7 @@ const  App = () => {
     genderFriend: undefined,
     openFirstSession: false,
     modalLoad: true,
-    selectedUser: undefined,
+    selectedUser: null,
     isLike: undefined,
     })
 

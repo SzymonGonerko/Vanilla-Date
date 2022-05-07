@@ -93,7 +93,6 @@ const Profile = () => {
         }
 
         start().then(() => {
-            setState(prev => ({...prev, modalLoad: false}))
             if (isFirSession) {
             setState(prev => ({...prev, openFirstSession: true})) 
         }})
