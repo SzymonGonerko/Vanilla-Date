@@ -91,7 +91,7 @@ const ProfileInfo = ({name, birth, email, city, height, children}) => {
                         fullWidth
                         variant="outlined">
                         <Button sx={{textTransform: "capitalize"}}>Email:</Button>
-                        <Button sx={{textTransform: "capitalize", fontSize: "10px"}}>{email}</Button>
+                        <Button sx={{textTransform: "lowercase", fontSize: "10px"}}>{email}</Button>
                     </ButtonGroup>
 
                     <ButtonGroup

@@ -12,20 +12,24 @@ import CloseIcon from "@mui/icons-material/Close";
 import CheckIcon from "@mui/icons-material/Check";
 import LogoutIcon from '@mui/icons-material/Logout';
 
-const style = {
-    position: 'absolute',
-    outline: "none",
-    borderRadius: "10px",
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: "90%",
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 2,
-};
-
+const stylesModal = {
+    modalConfirm: {
+        position: 'absolute',
+        outline: "none",
+        borderRadius: "10px",
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: "90%",
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 2,
+    },
+    btn: {
+        boxShadow: "rgb(68 68 68 / 10%) 0px 3px 3px 0px"
+    }
+}
 
 const Logout = () => {
     const history = useHistory();
@@ -49,6 +53,7 @@ const Logout = () => {
     return (<>
         <Button
             onClick={handleOpen}
+            style={stylesModal.btn}
             size="large"
             endIcon={<LogoutIcon/>}
             fullWidth
@@ -64,7 +69,7 @@ const Logout = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box style={stylesModal.modalConfirm}>
                     <Typography id="modal-modal-title" sx={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
                         Czy chcesz się Wylogować ?
                     </Typography>

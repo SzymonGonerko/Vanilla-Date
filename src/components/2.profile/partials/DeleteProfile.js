@@ -16,6 +16,27 @@ import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
+const stylesModal = {
+    modalConfirm: {
+        position: 'absolute',
+        outline: "none",
+        borderRadius: "10px",
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: "90%",
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 2,
+    },
+    btn: {
+        boxShadow: "rgb(68 68 68 / 10%) 0px 3px 3px 0px",
+        marginTop: "10px", 
+        marginBottom: "70px", 
+    }
+}
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -69,8 +90,8 @@ const DeleteProfile = ({uid, docId}) => {
 
     return (<>
         <Button
-            sx={{marginTop: "10px", marginBottom: "70px", }}
             onClick={handleOpen}
+            style={stylesModal.btn}
             size="large"
             fullWidth
             endIcon={<DeleteForeverIcon/>}
@@ -86,7 +107,7 @@ const DeleteProfile = ({uid, docId}) => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box sx={stylesModal.modalConfirm}>
                     <Typography id="modal-modal-title" sx={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
                         Czy chcesz usunąć konto ?
                     </Typography>

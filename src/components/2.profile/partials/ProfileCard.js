@@ -18,14 +18,20 @@ import {db} from "../../../firebase"
 const colRef = collection(db, 'Users')
 
 
-const style = {
-    position: 'absolute',
-    top: '40%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: "95%",
-    bgcolor: 'background.paper',
-    boxShadow: 24,
+const stylesModal = {
+    userCard : {    
+        position: 'absolute',
+        top: '40%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: "95%",
+        bgcolor: 'background.paper',
+        boxShadow: 24,},
+    btn: {
+        boxShadow: "rgb(68 68 68 / 10%) 0px 3px 3px 0px",
+        marginTop: "10px",
+    }
+
 };
 
 
@@ -60,7 +66,7 @@ const ProfileCard = ({name, gender, plot, age}) => {
 
 return (<>
     <Button
-        sx={{marginTop: "10px"}}
+        style={stylesModal.btn}
         onClick={handleOpen}
         size="large"
         endIcon={<PersonIcon/>}
@@ -75,7 +81,7 @@ return (<>
             open={open}
             onClose={handleClose}
         >
-            <Box sx={style}>
+            <Box sx={stylesModal.userCard}>
                 {state.photo && state.story ? null : <Typography id="modal-modal-title" sx={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
                     Najpierw wstaw swoje zdjęcie i uzupełnij historię
                 </Typography>}

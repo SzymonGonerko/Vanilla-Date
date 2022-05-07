@@ -45,20 +45,20 @@ useEffect(() => {
     if (userF?.uid) history.push('/Profile');
 },[])
 
+
+const getUserAge = (dataBirth) => {
+    let currentData = new Date().getFullYear();
+    let userAge;
+    if (dataBirth !== null) {
+        const year = parseInt([...dataBirth].splice(6, 4).join('').toString())
+        userAge = currentData - year;
+    }
+    return userAge
+}
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const getUserAge = (dataBirth) => {
-            let currentData = new Date().getFullYear();
-            let userAge;
-            if (dataBirth !== null) {
-                const year = parseInt([...dataBirth].splice(6, 4).join('').toString())
-                userAge = currentData - year;
-            }
-            return userAge
-        }
-
         setLoading(prev => !prev);
-        
         const email = state.personalDataForm.email;
         const password = state.personalDataForm.password;
 
@@ -67,7 +67,6 @@ useEffect(() => {
                 then(cred => {
                 addDoc(colRef, {
                     personalDataForm: {
-                        UID: cred.user.uid,
                         name: state.personalDataForm.name,
                         email: state.personalDataForm.email,
                         gender: state.personalDataForm.gender,
