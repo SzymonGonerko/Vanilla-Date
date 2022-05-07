@@ -302,6 +302,9 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
                     </Box>
                 </Modal>
 
+
+
+
                 <Modal
                     open={openModalProgressUpload}
                     onClose={handleCloseModalProgressUpload}
@@ -310,6 +313,7 @@ const ProfilePhoto = ({userName, age, uid, docId}) => {
                     <CircularProgresss value={progress} />
                     </Box>
                 </Modal>
+
 
 
             <div className={classes.photoContainer}>

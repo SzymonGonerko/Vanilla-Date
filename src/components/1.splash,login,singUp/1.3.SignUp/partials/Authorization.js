@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {useContext, useState} from "react";
 import {AppContext} from "../../../../App";
 import Checkbox from '@mui/material/Checkbox';
@@ -34,11 +34,16 @@ const rodo = 'Korzystając z Serwisu zgadzasz się z Regulaminem, Polityką Pryw
 const theme = createTheme();
 
 const Authorization = () => {
+const { state: { user: userF } } = useContext(AppContext);
 const [loading, setLoading] = React.useState(false);
 const [success, setSuccess] = useState(false)
 const [agree, setAgree] = useState(false)
 const {state ,setState} = useContext(AppContext)
 const history = useHistory();
+
+useEffect(() => {
+    if (userF?.uid) history.push('/Profile');
+},[])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -76,20 +81,14 @@ const history = useHistory();
                     UID: cred.user.uid,
                     isFirstSession: true,
                 }).then(() => {
-                    signOut(auth).then(()=> {console.log("sign out")}).
-                        catch((err) => {console.log(err.message)})
                     setSuccess(true)
-                    setTimeout(() => {history.push('/login');}, 3000)
+                    setTimeout(() => {history.push('/Profile');}, 3000)
                 })
 
             })
         } catch (err) {
             console.log(err.message)
         }
-
-
-        console.log(state)
-
     };
 
 

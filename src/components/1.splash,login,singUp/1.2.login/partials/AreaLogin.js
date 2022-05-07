@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import injectSheet from "react-jss";
 import {Link, useHistory} from "react-router-dom";
 import {signInWithEmailAndPassword} from "firebase/auth"
@@ -60,6 +60,7 @@ const styles = {
 }
 
 const Box = ({classes}) => {
+    const { state: { user: userF } } = useContext(AppContext);
     const history = useHistory();
     const {setState} = useContext(AppContext)
     const [form, setForm] = useState({
@@ -70,6 +71,10 @@ const Box = ({classes}) => {
         email: false,
         password: false,
     })
+
+    useEffect(() => {
+        if (userF?.uid) history.push('/Profile');
+    }, [])
 
     const update = (event) => {
         const fieldName = event.target.name;
