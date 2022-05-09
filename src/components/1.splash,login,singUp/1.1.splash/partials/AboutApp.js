@@ -1,31 +1,16 @@
 import React, {useContext, useState} from "react";
 import {createUseStyles} from "react-jss";
-import {AppContext} from "../../../../App";
 
+import screenShot from "../../../../images/screenShot.jpg"
+import shapeOfWater from "../../../../images/ShapeOfWater.jpg"
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import FancyButton from "../../../4.Likes/partials/FancyButton";
 
 
 const useStyles = createUseStyles((theme) => ({
-    about: {
-        fontSize: "2rem",
-    },
-    description: {
-        position: "absolute",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-around",
-            top: "50%",
-            textAlign: "center",
-            left: "50%",
-            width: "100vw",
-            height: "100vh",
-            fontSize: "1.5rem",
-            backgroundColor: "violet",
-            transform: "translate(-50%, -50%)",
-    },
+    about: {fontSize: "2rem"},
     close: {
         display: "inline-block",
             width: "45vw",
@@ -36,48 +21,61 @@ const useStyles = createUseStyles((theme) => ({
             fontSize: "2rem"
     },
     text: {
-            padding: "5px",
+            padding: "10px",
             overflowY: "scroll",
-            lineHeight: "2rem",
-            height: "60%"
+            fontFamily: "Roboto Serif",
 
+    },
+    shapeOfWater: {
+        backgroundImage: ("url(" + shapeOfWater + ")"),
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        height: "300px",
+    },
+    screenshot: {
+        backgroundImage: ("url(" + screenShot + ")"),
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "cover",
+        height: "300px",
     }
 }))
 
-const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: "95%",
-    height: "50%",
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 2,
-    overflowY: "scroll"
+const stylesModal = {
+    modal: {
+        position: 'absolute',
+        outline: "none",
+        top: '40%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: "95%",
+        height: "55%",
+        borderRadius: "10px",
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        overflowY: "scroll"
+    },
+    title: {
+        paddingTop: "15px",
+        fontFamily: "Roboto Serif", 
+        fontWeight: "bold", 
+        textAlign: "center"
+    }
+
 };
 
-const text = 'Oktawia Kromer w książce reportażowej "Usługa czysto platoniczna. Jak z samotności robi się biznes" wyd. Czarne, wskazuje że gospodarka rynkowa ' +
-    ' ostrzegła w miłości (jako wartości kulturowej) potencjał finansowy i zaczeła trakatować ją jak towar, a ludzi jak produkty.' +
-    'Popularne aplikacje randkowe operają się na ocenie zdjęcia użytkownika "hot or not" a same aplikacje daja skromną możliwość opisu swojej historii' +
-    'Vanilla-Date traktuje nawiązanie nowej relacji jako proces, a ludzi jako nośniki unkiatowych historii. Użytkownicy mają do wyboru jeden z kilku ' +
-    'tematów przewodnich, na ich podstawie przedstawiają swoją historię. Zdjęcia użytkowników zawierają filtr, który z założenia ma uniewmożliwiać jednoznaczną ocenę wyglądu' +
-    'ale jednocześnie pozowli użytkownikowi określić jakie włosy ma osoba ze zdjęcia lub czy nosi okulary.'
+const about = 'Vanilla Date jest w pełni funkcjonalnym prototypem popularnych aplikacji randkowych. Założeniem projektu było stworzenie komfortowej dla użytkownika przestrzeni sprzyjającej poznawaniu nowych ludzi. Design inspirowany motywami filmu "Kształt Wody" reż. Guillermo del Toro, nagrodzonym Złotą Palmą w Cannes.'
+const about2 = 'Zdjęcia użytkowników są poddane działaniu skryptu modyfikującego obraz. Dzięki temu animacja kilku tysięscy obiektów układa się w kształt portretu użytkownika. Nawiązanie kontaktu jest subtelniejsze i anonimowe.'
+const about3 = 'Gdy użytkownicy pulubią swoje profile mogą nawiązać ze sobą kontakt przez Chat. Dalszy scenariusz piszą użytkownicy... Zapraszam do rejestracji :)'
 
 
 
 const AboutApp = () => {
     const classes = useStyles();
-    const [isClicked, setIsClicked] = useState(false)
-    const {state, setState} = useContext(AppContext)
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const handleClick = () => {
-        setIsClicked(prevState => !prevState)
-    }
 
     return (<>
         <a className={classes.about} onClick={handleOpen}>about app</a>
@@ -88,14 +86,25 @@ const AboutApp = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
-                    <Typography id="modal-modal-title" sx={{fontFamily: "Roboto Serif", fontWeight: "bold", textAlign: "center"}} variant="h4" component="h2">
-                        Vanilla-Date
+                <div>
+                <Box sx={stylesModal.modal}>
+                    <Typography id="modal-modal-title" style={stylesModal.title} variant="h4" component="h2">
+                        About App
                     </Typography>
-                    <div>
-                        {text}
+                    <div className={classes.text}>
+                        {about}
+                    </div>
+                    <div className={classes.shapeOfWater}/>
+                    <div className={classes.text}>
+                        {about2}
+                    </div>
+                    <div className={classes.screenshot}/>
+                    <div className={classes.text}>
+                        {about3}
                     </div>
                 </Box>
+                <FancyButton bottomPosition={"2vh"} close={handleClose}/>
+                </div>
             </Modal>
         </div>
 

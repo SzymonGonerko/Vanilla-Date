@@ -74,7 +74,6 @@ const getUserAge = (dataBirth) => {
                         age: getUserAge(state.personalDataForm.birth),
                         height: state.personalDataForm.height,
                         city: state.personalDataForm.city,
-                        preferSex: state.personalDataForm.preferSex
                     },
                     likes: [],
                     UID: cred.user.uid,

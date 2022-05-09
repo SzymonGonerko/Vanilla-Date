@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useState} from "react"
 import {signOut} from "firebase/auth";
 import auth from "../../../firebase"
 import {useHistory} from "react-router-dom";
@@ -21,10 +21,10 @@ const stylesModal = {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: "90%",
-        bgcolor: 'background.paper',
+        backgroundColor: "white",
         border: '2px solid #000',
         boxShadow: 24,
-        p: 2,
+        padding: "20px"
     },
     btn: {
         boxShadow: "rgb(68 68 68 / 10%) 0px 3px 3px 0px"
@@ -33,8 +33,8 @@ const stylesModal = {
 
 const Logout = () => {
     const history = useHistory();
-    const [loading, setLoading] = React.useState(false);
-    const [open, setOpen] = React.useState(false);
+    const [loading, setLoading] = useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 

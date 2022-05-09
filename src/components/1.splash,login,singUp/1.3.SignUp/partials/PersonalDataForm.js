@@ -30,7 +30,7 @@ const theme = createTheme();
 
 
 const  PersonalDataForm = () => {
-    const [value, setValue] = React.useState(null);
+    const [value, setValue] = useState(null);
     const {setState} = useContext(AppContext)
     const [validate, setValidate] = useState(false)
 
@@ -65,8 +65,7 @@ const  PersonalDataForm = () => {
                     gender: data.get('gender'),
                     birth: data.get('birth'),
                     height: data.get('height'),
-                    city: data.get('city'),
-                    preferSex: data.get('preferSex')
+                    city: data.get('city')
             }
             }))
         }
@@ -99,10 +98,6 @@ const  PersonalDataForm = () => {
         if (data.get('gender') === null) {
             setErrors(prev => {return {...prev, gender: prev.gender = 'wybierz płeć'}})
         } else {setErrors(prev => {return {...prev, gender: prev.gender = false}})}
-
-        if (data.get('preferSex') === null) {
-            setErrors(prev => {return {...prev, preferSex: prev.preferSex = 'wybierz orientację'}})
-        } else {setErrors(prev => {return {...prev, preferSex: prev.preferSex = false}})}
 
         if (data.get('birth') === "" || getUserAge(data.get('birth')) < 18 ) {
             setErrors(prev => {return {...prev, birth: prev.birth = 'wybierz datę urodzenia (powyżej 18 lat)'}})
@@ -172,7 +167,6 @@ const  PersonalDataForm = () => {
                             label="Hasło"
                             type="password"
                             id="password"
-                            autoComplete="current-password"
                         />
                         <TextField
                             inputProps={{style: {fontSize: "1.3rem"}}}
@@ -206,23 +200,6 @@ const  PersonalDataForm = () => {
                             </RadioGroup>
                         </FormControl>
                         <FormControl
-                            margin="normal"
-                            required
-                            fullWidth>
-                            <FormLabel
-                                error={errors.preferSex? true: false}
-                                id="demo-radio-buttons-group-label">interesują mnie:</FormLabel>
-                            <RadioGroup
-                                aria-labelledby="demo-radio-buttons-group-label"
-                                name="preferSex"
-                                row
-                                margin="normal"
-                            >
-                                <FormControlLabel value="female" control={<Radio />} label="kobiety" />
-                                <FormControlLabel value="male" control={<Radio />} label="mężczyźni" />
-                            </RadioGroup>
-                        </FormControl>
-                        <FormControl
                             required
                             fullWidth>
                             <LocalizationProvider dateAdapter={AdapterDateFns} locale={plLocale}>
@@ -248,7 +225,8 @@ const  PersonalDataForm = () => {
                         />
                         <Autocomplete
                             margin="normal"
-                            disablePortal
+                            id="auto-complete"
+                            autoComplete
                             fullWidth
                             options={polishCities}
                             renderInput={(params) => <TextField {...params} helperText={errors.city} error={errors.city? true: false} name="city" required label="Miasto" />}
