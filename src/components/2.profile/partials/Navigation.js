@@ -36,6 +36,7 @@ const Navigation = ({curr}) => {
 
     const handleChange = (event, newValue) => {
        if (state.photo && state.story) {
+           console.log(state.photo, state.story)
            setValue(newValue)
            if (newValue === "Główna") {
                history.push('/Home')
@@ -56,6 +57,10 @@ const Navigation = ({curr}) => {
        } else {handleOpen()}
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+    }
+
     return (<>
         <div>
             <Modal
@@ -70,7 +75,7 @@ const Navigation = ({curr}) => {
                 </Box>
             </Modal>
         </div>
-        <form style={{position: "fixed", bottom: "0", width: "100%"}}>
+        <form onSubmit={handleSubmit} style={{position: "fixed", bottom: "0", width: "100%"}}>
         <BottomNavigation sx={{backgroundColor: "rgb(230, 230, 230)", borderRadius: "20px 20px 0 0"}} value={value} onChange={handleChange}>
             <BottomNavigationAction
                 style={style}

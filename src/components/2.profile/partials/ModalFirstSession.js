@@ -109,7 +109,7 @@ const ModalFirstSession = ({docId}) => {
 
     return (<>
             <Modal
-                open={state.openFirstSession}
+                open={state.openFirstSession === undefined ? false:state.openFirstSession }
                 aria-labelledby="modal-modal-firstSession">
                 <Box sx={stylesModal.modalFirstSession}>
                     <h1 className={classes.titleFirstSession}>Pierwszy raz...</h1>

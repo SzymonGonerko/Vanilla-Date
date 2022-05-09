@@ -9,6 +9,7 @@ const styles = {
     areaLogin: {
         display: "flex",
         flexDirection: "column",
+        gap: "20px",
         justifyContent: "space-around",
         width: "100%",
         minHeight: "50%",

@@ -190,7 +190,7 @@ const changeStatus = async (userUID) => {
 
     return (
     <ContainerGradient>
-        <ModalLoading open={state.modalLoad}/>
+        <ModalLoading isOpen={state.modalLoad}/>
         <ChatRoom  
             currUserGender={currentUser?.personalDataForm?.gender} 
             currUserUID={userF?.uid} 

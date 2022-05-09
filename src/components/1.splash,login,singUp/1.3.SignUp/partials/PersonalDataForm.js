@@ -38,8 +38,8 @@ const  PersonalDataForm = () => {
     const [errors, setErrors] = useState({
         name: false,
         email: false,
-        password: false,
-        ConfirmPassword: false,
+        newPassword: false,
+        currentPassword: false,
         gender: false,
         birth: false,
         height: false,
@@ -60,8 +60,8 @@ const  PersonalDataForm = () => {
                 personalDataForm: {
                     name: data.get('name'),
                     email: data.get('email'),
-                    password: data.get('password'),
-                    ConfirmPassword: data.get('ConfirmPassword'),
+                    newPassword: data.get('newPassword'),
+                    currentPassword: data.get('currentPassword'),
                     gender: data.get('gender'),
                     birth: data.get('birth'),
                     height: data.get('height'),
@@ -91,9 +91,9 @@ const  PersonalDataForm = () => {
             setErrors(prev => {return {...prev, email: prev.email = 'email nie zawiera "@" lub jest za krótki'}})
         } else {setErrors(prev => {return {...prev, email: prev.email = false}})}
 
-        if (data.get('password') !== data.get('ConfirmPassword') || [...data.get('password')].length < 6) {
-            setErrors(prev => {return {...prev, password: prev.password = 'hasła nie są takie same lub są za krótkie min. 6 znaków'}})
-        } else {setErrors(prev => {return {...prev, password: prev.password = false, ConfirmPassword: prev.ConfirmPassword = false}})}
+        if (data.get('newPassword') !== data.get('currentPassword') || [...data.get('newPassword')].length < 6) {
+            setErrors(prev => {return {...prev, newPassword: prev.newPassword = 'hasła nie są takie same lub są za krótkie min. 6 znaków'}})
+        } else {setErrors(prev => {return {...prev, newPassword: prev.newPassword = false, currentPassword: prev.currentPassword = false}})}
 
         if (data.get('gender') === null) {
             setErrors(prev => {return {...prev, gender: prev.gender = 'wybierz płeć'}})
@@ -163,10 +163,10 @@ const  PersonalDataForm = () => {
                             helperText={errors.password}
                             error={errors.password? true: false}
                             fullWidth
-                            name="password"
+                            name="newPassword"
                             label="Hasło"
                             type="password"
-                            id="password"
+                            id="newPassword"
                         />
                         <TextField
                             inputProps={{style: {fontSize: "1.3rem"}}}
@@ -176,10 +176,10 @@ const  PersonalDataForm = () => {
                             error={errors.password? true: false}
                             required
                             fullWidth
-                            name="ConfirmPassword"
+                            name="currentPassword"
                             label="Powtórz Hasło"
                             type="password"
-                            id="ConfirmPassword"
+                            id="currentPassword"
                         />
                         <FormControl
                             margin="normal"

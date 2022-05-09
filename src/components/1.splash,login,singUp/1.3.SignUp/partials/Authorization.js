@@ -14,12 +14,12 @@ import {
     Container,
     Box,
     createTheme,
-    ThemeProvider, TextField,
+    ThemeProvider
 } from "@material-ui/core";
 
 
 import auth from "../../../../firebase";
-import { createUserWithEmailAndPassword, signOut} from "firebase/auth";
+import { createUserWithEmailAndPassword} from "firebase/auth";
 import {getFirestore, collection, addDoc} from 'firebase/firestore'
 
 const db = getFirestore()
@@ -29,7 +29,7 @@ const colRef = collection(db, 'Users', )
 
 
 
-const rodo = 'Korzystając z Serwisu zgadzasz się z Regulaminem, Polityką Prywatności i Polityką Cookies. Szczegółowo opisaliśmy w nich zasady korzystania z Vanilla-Date oraz sposób gromadzenia, wykorzystania. Zapoznaj się z naszym komunikatem w związku realizacją obowiązku z art. 13 RODO.'
+const rodo = 'Korzystając z Serwisu zgadzasz się z Regulaminem, Polityką Prywatności. Szczegółowo opisaliśmy w nich zasady korzystania z Vanilla-Date oraz sposób gromadzenia, wykorzystania. Zapoznaj się z naszym komunikatem w związku realizacją obowiązku z art. 13 RODO.'
 
 const theme = createTheme();
 
@@ -58,9 +58,10 @@ const getUserAge = (dataBirth) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        if (!agree) return
         setLoading(prev => !prev);
         const email = state.personalDataForm.email;
-        const password = state.personalDataForm.password;
+        const password = state.personalDataForm.newPassword;
 
         try {
             const user = await createUserWithEmailAndPassword(auth, email, password).

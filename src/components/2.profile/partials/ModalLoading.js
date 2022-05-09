@@ -21,11 +21,13 @@ const stylesmodalLoad = {
         p: 4,
 }
 
-const ModalLoading = ({open}) => {
+const ModalLoading = ({isOpen}) => {
+
+useEffect(() =>{},[isOpen])
 
     return (<>
                 <Modal
-                open={open}
+                open={isOpen === undefined ? true:isOpen}
                 aria-labelledby="modal-modal-load">
                 <Box sx={stylesmodalLoad}>
                     <CircularProgress />

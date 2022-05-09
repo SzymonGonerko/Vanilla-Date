@@ -213,7 +213,7 @@ const closeUserCard = () => {
     return (<>
         <ContainerGradient>
             <div>
-            <ModalLoading open={state.modalLoad}/>
+            <ModalLoading isOpen={state.modalLoad}/>
                 <Modal
                     open={openModalDelete}
                     aria-labelledby="modal-modal-delete"

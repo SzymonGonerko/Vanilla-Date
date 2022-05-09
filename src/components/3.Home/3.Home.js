@@ -155,7 +155,7 @@ const Home = () => {
 
     return (<>
         <ContainerGradient>
-        <ModalLoading open={state.modalLoad}/>
+        <ModalLoading isOpen={state.modalLoad}/>
         <Title/>
         <div>
         <div className={classes.usersContainer}>
