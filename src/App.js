@@ -60,6 +60,7 @@ const  App = () => {
     modalLoad: true,
     selectedUser: null,
     isLike: undefined,
+    warnLogout: false,
     })
 
 const handleResize = () => {

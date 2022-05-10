@@ -57,6 +57,10 @@ const styles = {
         width: "10rem",
         textAlign: "center",
         opacity: "0.8"
+    },
+    reg: {
+        fontSize: "1.3rem",
+        paddingBottom: "20px"
     }
 }
 
@@ -64,6 +68,7 @@ const Box = ({classes}) => {
     const { state: { user: userF } } = useContext(AppContext);
     const history = useHistory();
     const {setState} = useContext(AppContext)
+    
     const [form, setForm] = useState({
         email: "",
         password: ""
@@ -132,7 +137,7 @@ const Box = ({classes}) => {
                 className={classes.button}
                 value="Zaloguj"
                 type="submit"/>
-            <Link to="/signUp">Nie masz konta? Zarejestruj się!</Link>
+            <Link to="/signUp" style={styles.reg}>Nie masz konta? Zarejestruj się!</Link>
         </form>
     </>
 

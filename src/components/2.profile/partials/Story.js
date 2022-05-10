@@ -112,7 +112,6 @@ const Story = () => {
                 question: question,
             })
                 .then(() => {
-                    console.log(story)
                     setState(prev => ({...prev, story: true, plot: story, question: question}))
                     setDisable(true)
                     setEdit(false)

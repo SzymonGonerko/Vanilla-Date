@@ -1,6 +1,8 @@
 import React, {useContext, useEffect, useState} from "react"
 
 import Modal from "@mui/material/Modal";
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import PersonIcon from '@mui/icons-material/Person';
@@ -19,8 +21,16 @@ const colRef = collection(db, 'Users')
 
 
 const stylesModal = {
+    emptyStoryAndPhoto: {
+        fontFamily: "Roboto Serif",
+        fontWeight: "bold",
+        padding: "30px",
+        textAlign: "center",
+    },
+    icon: {color: "rgb(170, 63, 236)", fontSize: "2rem", margin: "10px"},
     userCard : {    
         position: 'absolute',
+        borderRadius: "5px",
         top: '40%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
@@ -30,12 +40,16 @@ const stylesModal = {
     btn: {
         boxShadow: "rgb(68 68 68 / 10%) 0px 3px 3px 0px",
         marginTop: "10px",
-    }
+    },
+    typoName: {fontFamily: "Roboto Serif"},
+    typoAgeHeightCity: {fontFamily: "Roboto Serif"},
+    typoQuestion: {fontFamily: "Roboto Serif", fontSize: "1rem", color: "#9c27b0"},
+    typoStory: {fontFamily: "Roboto Serif", fontSize: "1rem"}
 
 };
 
 
-const ProfileCard = ({name, gender, plot, age}) => {
+const ProfileCard = ({name, gender, plot, age, height, city}) => {
 
     const {state} = useContext(AppContext)
     const [open, setOpen] = useState(false);
@@ -82,17 +96,21 @@ return (<>
             onClose={handleClose}
         >
             <Box sx={stylesModal.userCard}>
-                {state.photo && state.story ? null : <Typography id="modal-modal-title" sx={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
-                    Najpierw wstaw swoje zdjęcie i uzupełnij historię
+                {state.photo && state.story ? null : <Typography id="modal-modal-title" style={stylesModal.emptyStoryAndPhoto} variant="h6" component="h2">
+                <InsertPhotoIcon style={stylesModal.icon}/><AutoStoriesIcon style={stylesModal.icon}/><br/>
+                    Pamiętaj o wstawieniu zdjęcia i napisaniu swojej historii
                 </Typography>}
 
                 {state.photo && state.story ?
                     <Card sx={{ height: "60vh"}} style={{overflowY: "scroll", overflowX: "hidden"}}>
                     <CardActionArea>
                         <CardContent>
-                            <Typography style={{fontFamily: "Roboto Serif"}} gutterBottom variant="h4" component="div">
-                                {name}, {age} lat
-                            </Typography>
+                        <Typography style={stylesModal.typoName} gutterBottom variant="h4" component="span">
+                            {name},
+                        </Typography>
+                        <Typography style={stylesModal.typoAgeHeightCity} gutterBottom variant="h6" component="div">
+                            {" "}{age} lat, {height} cm, {city}
+                        </Typography>
                             <Typography style={{fontFamily: "Roboto Serif", fontSize: "1rem", color: "#9c27b0"}} variant="body1" color="text.secondary">
                                 {state.question? state.question: question}
                             </Typography>

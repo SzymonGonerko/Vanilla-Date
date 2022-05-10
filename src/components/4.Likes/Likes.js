@@ -9,7 +9,6 @@ import {AppContext} from "../../App";
 import ContainerGradient from "../3.Home/partials/ContainerGradient"
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import {createUseStyles} from "react-jss";
 import myDraw from "../../images/draw.png"
@@ -50,9 +49,10 @@ const itemStyles = {
 
 const useStyles = createUseStyles((theme) => ({
     textwelcomeChat: {
-        lineHeight: "9vh",
+        lineHeight: "8.5vh",
         fontFamily: "Roboto Serif",
-        fontSize: "1rem",
+        fontSize: "0.8rem",
+        overflow: "scroll"
     },
     afterUsersImg: {
         overflowY: "scroll",

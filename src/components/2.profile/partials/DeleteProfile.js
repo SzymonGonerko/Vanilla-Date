@@ -1,5 +1,6 @@
-import React from "react"
+import React, {useContext} from "react"
 import {useHistory} from "react-router-dom";
+import {signOut} from "firebase/auth";
 
 import {deleteDoc, doc} from "firebase/firestore";
 import {deleteObject, ref} from "firebase/storage"
@@ -14,6 +15,7 @@ import Modal from '@mui/material/Modal';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import {AppContext} from "../../../App";
 
 
 const stylesModal = {
@@ -41,37 +43,46 @@ const stylesModal = {
 
 const DeleteProfile = ({uid, docId}) => {
     const history = useHistory();
+    const {state, setState} = useContext(AppContext)
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
 
-    const handleClick = () => {
-
-    const desertRef = ref(storage, `Avatars/${uid}`);
-        deleteObject(desertRef).then(() => {
-            console.log("usunięto avatar")
-        }).catch((error) => {
-            console.log(error.message)
-        });
-
-
-
-    const docRef = doc(db, 'Users', docId);
-        deleteDoc(docRef)
-            .then(() => {
-                console.log("usnięto")
-            }).catch((error) => {
-            console.log(error.message)
-        })
-
+    const handleDelete = () => {
 
     const user = auth.currentUser;
         deleteUser(user).then(() => {
+
+
+            const desertRef = ref(storage, `Avatars/${uid}`);
+            deleteObject(desertRef).then(() => {
+                console.log("usunięto avatar")
+            }).catch((error) => {
+                console.log(error.message)
+            });
+    
+    
+        const docRef = doc(db, 'Users', docId);
+            deleteDoc(docRef)
+                .then(() => {
+                    console.log("usunięto")
+                }).catch((error) => {
+                console.log(error.message)
+            })
             console.log("usunięto użytkownika")
             history.push('/login')
+
         }).catch((error) => {
             console.log(error.message)
+            if (error.message.search("requires-recent-login") >= 0) {
+                setState(prev => ({...prev, warnLogout: true}))
+                signOut(auth).then(() => {
+                    history.push('/login')
+                }).catch((error) => {
+                    console.log(error.message)
+                })
+            }
         });
     }
 
@@ -107,7 +118,7 @@ const DeleteProfile = ({uid, docId}) => {
                             sx={{marginTop: "30px", width: "40%"}}
                             size="large"
                             startIcon={<CheckIcon />}
-                            onClick={handleClick}
+                            onClick={handleDelete}
                             variant="outlined"
                             color="success">
                             Tak

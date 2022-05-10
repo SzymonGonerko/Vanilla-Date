@@ -86,6 +86,8 @@ const Home = () => {
 
     const afterInteraction = () => {
         setUsers(prevState => ([...prevState].splice(0,prevState.length -1)))
+        console.log(users.length)
+        if (users.length === 1) window.location.reload()
     }
 
     const addLike =  () => {
@@ -96,7 +98,7 @@ const Home = () => {
         setTimeout(() => {      
             updateDoc(docRef, {
             likes: arrayUnion(object)
-        }).then(() => {afterInteraction()}).catch((err) => {console.log(err.message)})}, 350)
+        }).then(() => {afterInteraction()}).catch((err) => {console.log(err.message)})}, 250)
 
     }
 
@@ -111,7 +113,7 @@ const Home = () => {
             }).then(() => {
                 afterInteraction()}
             ).catch((err) => {console.log(err.message)})
-        }, 350)
+        }, 250)
     }
 
 
@@ -135,7 +137,7 @@ const Home = () => {
                 const allUsers = await getDocs(qAllUsers);
                 
                 allUsers.forEach((doc) => {
-                    if (arr.length >= 20) return
+                    if (arr.length >= 2) return
                     const isInteracted = userInteractions?.some(el => (el === doc.id))
                     if (!isInteracted && doc.data().story && doc.data().avatar64){
                         arr.push({...doc.data(), docId: doc.id})
@@ -146,7 +148,9 @@ const Home = () => {
             } catch (e) {console.log(e)}
         }
         start().then(() => {                
-            setState(prev => ({...prev, modalLoad: false}))})
+            setState(prev => ({...prev, modalLoad: false}))}
+            )
+
             setLoadedUsers(true)
 
     },[userF])

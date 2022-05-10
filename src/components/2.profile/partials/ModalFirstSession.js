@@ -20,7 +20,7 @@ const posibilityText = 'Przed Tobą kilka niespodzianek. Zobaczysz animację sk�
 const rememberText = ' Jednak przedtem, pamiętaj o kilku rzeczach...'
 const firstHintText = 'Wstaw swoje zdjęcie, najlepiej portretowe. Animacja zdjęć jest tajemnicza. Dzięki temu kluczowe w poznawaniu innych są historie, a portrety pozostają w swerze Twojej fantazji...💫'
 const secHintText = 'Napisz swoją historię. Zadbaj aby była długa i piękna. Potem przejdź do strony głównej 🏠. Życzę Ci wiele miłych chwil... '
-const PS = 'PS. Vanilla-Date jest młoda więc ma mało użytkowników. Proszę, zajrzyj tu jeszcze za jakiś czas.'
+const PS = 'PS. Vanilla-Date jest młoda więc ma mało użytkowników. Proszę, zajrzyj tu następnego dnia...'
 
 const intro = new Audio(audio)
 

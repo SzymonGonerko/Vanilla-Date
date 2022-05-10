@@ -127,7 +127,9 @@ const Profile = () => {
                 <ShowIntro/>
                 <ProfileCard
                     name={user.personalDataForm? user.personalDataForm.name: null}
+                    height={user.personalDataForm? user.personalDataForm.height: null}
                     gender={user.personalDataForm? user.personalDataForm.gender: null}
+                    city={user.personalDataForm? user.personalDataForm.city: null}
                     age={user.personalDataForm? user.personalDataForm.age: null}
                     plot={state.plot? state.plot:null}
                 />

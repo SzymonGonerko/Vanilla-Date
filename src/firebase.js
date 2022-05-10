@@ -2,7 +2,7 @@ import {initializeApp} from "firebase/app"
 import {getAuth} from "firebase/auth"
 import {getStorage} from "firebase/storage"
 
-import {getFirestore, collection, getDocs} from 'firebase/firestore'
+import {getFirestore, collection} from 'firebase/firestore'
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -20,18 +20,6 @@ const auth = getAuth(app)
 export const db = getFirestore()
 const colRef = collection(db, 'Users')
 
-// getDocs(colRef)
-//     .then(snapshot => {
-//         // console.log(snapshot.docs)
-//         let users = []
-//         snapshot.docs.forEach(doc => {
-//             users.push({ ...doc.data(), id: doc.id })
-//         })
-//         // console.log(users)
-//     })
-//     .catch(err => {
-//         console.log(err.message)
-//     })
 
 export default auth
 export const storage = getStorage(app)

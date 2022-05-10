@@ -22,7 +22,7 @@ const stylesModal = {
         width: "100%",
         height: "100%",
     },
-    typoName: {fontFamily: "Roboto Serif"},
+    typoName: {fontFamily: "Roboto Serif", textTransform: "capitalize"},
     typoAgeHeightCity: {fontFamily: "Roboto Serif"},
     typoQuestion: {fontFamily: "Roboto Serif", fontSize: "1rem", color: "#9c27b0"},
     typoStory: {fontFamily: "Roboto Serif", fontSize: "1rem"}
@@ -50,11 +50,11 @@ const useStyles = createUseStyles((theme) => ({
          }
        },
        cardLike: {
-           animation: "$like 0.4s",
+           animation: "$like 0.3s",
            animationFillMode: "forwards"
         },
         cardUnlike: {
-            animation: "$unlike 0.4s",
+            animation: "$unlike 0.3s",
             animationFillMode: "forwards"
          }
 }))

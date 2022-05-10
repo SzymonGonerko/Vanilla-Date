@@ -1,5 +1,8 @@
-import React, {useContext} from "react"
+import React, {useContext, useState} from "react"
 
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import FancyButton from "../../4.Likes/partials/FancyButton";
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -14,23 +17,38 @@ import Typography from "@mui/material/Typography";
 
 const style = {color: "rgb(170, 63, 236)"}
 
-const styles = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: "90%",
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 2,
+const stylesModal = {
+    form: {position: "fixed", bottom: "0", width: "100%"},
+    memo: {    
+        position: 'absolute',
+        top: '40%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: "90%",
+        borderRadius: "5px",
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 2,},
+    emptyStoryAndPhoto: {
+        fontFamily: "Roboto Serif",
+        fontWeight: "bold",
+        padding: "30px",
+        textAlign: "center",
+    },
+    icon: {color: "rgb(170, 63, 236)", fontSize: "2rem", margin: "10px"},
+    btnNav: {
+        backgroundColor: "rgb(230, 230, 230)",
+        borderRadius: "20px 20px 0 0"
+    }
 };
+
 
 const Navigation = ({curr}) => {
     const {state, setState} = useContext(AppContext)
-    const [value, setValue] = React.useState(curr);
+    const [value, setValue] = useState(curr);
     const history = useHistory();
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
@@ -68,15 +86,17 @@ const Navigation = ({curr}) => {
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
             >
-                <Box sx={styles}>
-                    <Typography id="modal-modal-title" sx={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
-                        Najpierw wstaw swoje zdjęcie i uzupełnij historię
+                <Box sx={stylesModal.memo}>
+                    <Typography id="modal-modal-title" style={stylesModal.emptyStoryAndPhoto} variant="h6" component="h2">
+                    <InsertPhotoIcon style={stylesModal.icon}/><AutoStoriesIcon style={stylesModal.icon}/><br/>
+                    Pamiętaj o wstawieniu zdjęcia i napisaniu swojej historii
                     </Typography>
+                    <FancyButton bottomPosition={"-30vh"} close={handleClose}/>
                 </Box>
             </Modal>
         </div>
-        <form onSubmit={handleSubmit} style={{position: "fixed", bottom: "0", width: "100%"}}>
-        <BottomNavigation sx={{backgroundColor: "rgb(230, 230, 230)", borderRadius: "20px 20px 0 0"}} value={value} onChange={handleChange}>
+        <form onSubmit={handleSubmit} style={stylesModal.form}>
+        <BottomNavigation sx={stylesModal.btnNav} value={value} onChange={handleChange}>
             <BottomNavigationAction
                 style={style}
                 type="submit"
