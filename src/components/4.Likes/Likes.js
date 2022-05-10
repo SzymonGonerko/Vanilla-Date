@@ -49,6 +49,11 @@ const itemStyles = {
     paddingLeft: "5px"}
 
 const useStyles = createUseStyles((theme) => ({
+    textwelcomeChat: {
+        lineHeight: "9vh",
+        fontFamily: "Roboto Serif",
+        fontSize: "1rem",
+    },
     afterUsersImg: {
         overflowY: "scroll",
         overflowX: "hidden",
@@ -260,6 +265,7 @@ const closeUserCard = () => {
                     {users?.map((el, index) => (couples?.some(item => item === el.docId) ?
                         <li key={index} style={itemStyles} >
                             <p className={classes.textLi}>{el.personalDataForm.name}</p>
+                            <p className={classes.textwelcomeChat}>Wejdź na Chat!</p>
                             <div className={classes.btnContainer}>
                                 <button onClick={() => handleClick(el.docId)} className={classes.button}>
                                     <PersonIcon style={{fontSize: "1.6rem"}}/>

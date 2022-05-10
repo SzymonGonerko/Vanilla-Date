@@ -1,5 +1,6 @@
 import './App.scss';
 import React, {useState, createContext, useEffect} from "react";
+import Desktop from './Desktop';
 
 import {
   getFirestore, collection, getDocs,query, orderBy, where,doc, getDoc , onSnapshot, updateDoc
@@ -37,6 +38,10 @@ export const AppContext = createContext({})
 
 
 const  App = () => {
+  const [dimensions, setDimensions] = React.useState({ 
+    height: window.innerHeight,
+    width: window.innerWidth,
+  })
   const [state, setState] = useState({
     registerPart: 1,
     personalDataForm: undefined,
@@ -57,11 +62,16 @@ const  App = () => {
     isLike: undefined,
     })
 
-
+const handleResize = () => {
+  setDimensions({
+    height: window.innerHeight,
+    width: window.innerWidth
+  })
+}
 
 useEffect(() => {
    const auth = getAuth();
-
+   window.addEventListener('resize', handleResize)
    const unsubscribe = onAuthStateChanged(auth, (user) => {
      
     if (user) {
@@ -87,6 +97,8 @@ useEffect(() => {
         <ThemeProvider theme={theme}>
           <Router>
             <Switch>
+
+            {dimensions.width> 450 && dimensions.height > 500? <Desktop/>:null}
 
               <Route exact path="/">
                 <Splash/>

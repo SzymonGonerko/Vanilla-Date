@@ -89,7 +89,6 @@ const Box = ({classes}) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
-        console.log(form)
         signInWithEmailAndPassword(auth, form.email, form.password).
         then((cred) => {
             setState(prev => ({...prev, uid: cred.user.uid}))

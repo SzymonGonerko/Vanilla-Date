@@ -92,7 +92,7 @@ const  PersonalDataForm = () => {
         } else {setErrors(prev => {return {...prev, email: prev.email = false}})}
 
         if (data.get('newPassword') !== data.get('currentPassword') || [...data.get('newPassword')].length < 6) {
-            setErrors(prev => {return {...prev, newPassword: prev.newPassword = 'hasła nie są takie same lub są za krótkie min. 6 znaków'}})
+            setErrors(prev => {return {...prev, newPassword: prev.newPassword = 'hasła nie są takie same lub są za krótkie min. 6 znaków', currentPassword: prev.currentPassword = 'hasła nie są takie same lub są za krótkie min. 6 znaków'}})
         } else {setErrors(prev => {return {...prev, newPassword: prev.newPassword = false, currentPassword: prev.currentPassword = false}})}
 
         if (data.get('gender') === null) {
@@ -129,8 +129,8 @@ const  PersonalDataForm = () => {
                     <Box component="form" onSubmit={handleSubmit} noValidate>
 
                         <TextField
-                            inputProps={{style: {fontSize: "1.3rem"}}}
-                            InputLabelProps={{style: {fontSize: "1.3rem"}}}
+                            inputProps={{style: {fontSize: "1.2rem"}}}
+                            InputLabelProps={{style: {fontSize: "1.2rem"}}}
                             margin="normal"
                             required
                             helperText={errors.name}
@@ -143,8 +143,8 @@ const  PersonalDataForm = () => {
                             autoFocus
                         />
                         <TextField
-                            inputProps={{style: {fontSize: "1.3rem"}}}
-                            InputLabelProps={{style: {fontSize: "1.3rem"}}}
+                            inputProps={{style: {fontSize: "1.2rem"}}}
+                            InputLabelProps={{style: {fontSize: "1.2rem"}}}
                             margin="normal"
                             required
                             helperText={errors.email}
@@ -156,12 +156,12 @@ const  PersonalDataForm = () => {
                             autoComplete="email"
                         />
                         <TextField
-                            inputProps={{style: {fontSize: "1.3rem"}}}
-                            InputLabelProps={{style: {fontSize: "1.3rem"}}}
+                            inputProps={{style: {fontSize: "1.2rem"}}}
+                            InputLabelProps={{style: {fontSize: "1.2rem"}}}
                             margin="normal"
                             required
-                            helperText={errors.password}
-                            error={errors.password? true: false}
+                            helperText={errors.newPassword}
+                            error={errors.newPassword? true: false}
                             fullWidth
                             name="newPassword"
                             label="Hasło"
@@ -169,11 +169,11 @@ const  PersonalDataForm = () => {
                             id="newPassword"
                         />
                         <TextField
-                            inputProps={{style: {fontSize: "1.3rem"}}}
-                            InputLabelProps={{style: {fontSize: "1.3rem"}}}
+                            inputProps={{style: {fontSize: "1.2rem"}}}
+                            InputLabelProps={{style: {fontSize: "1.2rem"}}}
                             margin="normal"
-                            helperText={errors.password}
-                            error={errors.password? true: false}
+                            helperText={errors.currentPassword}
+                            error={errors.currentPassword? true: false}
                             required
                             fullWidth
                             name="currentPassword"
@@ -186,7 +186,7 @@ const  PersonalDataForm = () => {
                             required
                             fullWidth>
                             <FormLabel
-                                style={{fontSize: "1.3rem"}}
+                                style={{fontSize: "1.2rem"}}
                                 error={errors.gender? true: false}
                                 id="demo-radio-buttons-group-label">Płeć:</FormLabel>
                             <RadioGroup
@@ -209,12 +209,13 @@ const  PersonalDataForm = () => {
                                         mask={'pl'}
                                         value={value}
                                         onChange={(newValue) => setValue(newValue)}
-                                        renderInput={(params) => <TextField {...params} helperText={errors.birth} error={errors.birth? true: false} name="birth" />}
+                                        renderInput={(params) => <TextField {...params} InputLabelProps={{style: {fontSize: "1.2rem"}}}  helperText={errors.birth} error={errors.birth? true: false} name="birth" />}
                                     />
                             </LocalizationProvider>
                         </FormControl>
                         <TextField
                             margin="normal"
+                            InputLabelProps={{style: {fontSize: "1.2rem"}}}
                             required
                             helperText={errors.height}
                             error={errors.height? true: false}
@@ -229,7 +230,7 @@ const  PersonalDataForm = () => {
                             autoComplete
                             fullWidth
                             options={polishCities}
-                            renderInput={(params) => <TextField {...params} helperText={errors.city} error={errors.city? true: false} name="city" required label="Miasto" />}
+                            renderInput={(params) => <TextField {...params}  InputLabelProps={{style: {fontSize: "1.2rem"}}} helperText={errors.city} error={errors.city? true: false} name="city" required label="Miasto" />}
                         />
                         <Button
                             type="submit"

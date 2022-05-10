@@ -10,7 +10,7 @@ const styles = {
         color: "black"
     },
     info: {
-        fontSize: "1.2rem",
+        fontSize: "1rem",
         textAlign: "center",
         fontWeight: "100",
         fontFamily: "Roboto Serif",
@@ -25,7 +25,7 @@ const Box = ({classes, part}) => {
         <h2 className={classes.part}>Część {part}/2</h2>
         {part === 1 ? <h3 className={classes.info}>Dane osobowe</h3>: null}
         {part === 2 ? <h3 className={classes.info}>Autoryzacja</h3>: null}
-        <h4 className={classes.info}>Całość zajmie ok. 10 minut</h4>
+        <h4 className={classes.info}>Całość zajmie minutę!</h4>
     </>)
 }
 
