@@ -29,7 +29,7 @@ const colRef = collection(db, 'Users')
 
 
 
-const rodo = 'Korzystając z Serwisu zgadzasz się z Regulaminem, Polityką Prywatności. Szczegółowo opisaliśmy w nich zasady korzystania z Vanilla-Date oraz sposób gromadzenia, wykorzystania. Zapoznaj się z naszym komunikatem w związku realizacją obowiązku z art. 13 RODO.'
+const rodo = 'Korzystając z Serwisu zgadzasz na przetwarzanie danych osobowych w związku realizacją obowiązku z art. 13 RODO.'
 
 const theme = createTheme();
 
@@ -113,7 +113,6 @@ const getUserAge = (dataBirth) => {
                             <FormControlLabel control={<Checkbox
                                 onChange={() => setAgree(prevState => !prevState)}
                                 color="success"
-                                style={{fontSize: "2rem"}}
                                 sx={{ '& .MuiSvgIcon-root': { fontSize: 30 } }}/>} label={rodo} />
                         </FormGroup>
                         {success? <Button fullWidth  size="large" variant="contained" color="success">Witamy w Vinilla-Date</Button>:null}
