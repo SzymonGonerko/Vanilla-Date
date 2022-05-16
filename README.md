@@ -124,6 +124,8 @@ While i was writing the implementation of a class object, I missed one obvious d
 
 During first session, the user probably not have couples. Other users have not interacted with the his/her until using the application. When useEffect is executed, the value of doc.data().couples of the current user is undefined. After rest operator [...doc.data ().couples] try itering of value undefined. The application stops working. The solution to the problem is to use the try {…} catch (e) {console.log (e)} methods. This allows you to catch the error and execute the rest of the script. Moreover, try {} catch () {} converte error into message in console browser.
 
+![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/a1974ec16656f72679bb73c2e24b4410c95d736f/src/images/iterable.jpg)
+
 # Link
 Page is is available at adress https://vanilla-date.netlify.app/
 
