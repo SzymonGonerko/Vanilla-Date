@@ -28,7 +28,7 @@ querySnapshot.forEach((doc) => {
 });
 ```
 
-The where method allows you to easily filter data on the server. It is not a deep filtering because this method works on the server side and is a provider burden. ***Unfortunately, Firebase 9.6.8 disabled the ability to implement server-side function.***
+The where method allows you to easily filter data on the server. It is not a deep filtering because this method works on the server side and is a provider burden. ***Unfortunately, Firebase 9.6.8 disabled in free version the ability to implement server-side function.***
 
 
 
