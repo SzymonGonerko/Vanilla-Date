@@ -1,4 +1,6 @@
 # Project Vanilla-Date
+
+![VD](https://github.com/SzymonGonerko/Vanilla-Date/blob/b031be018ca23b8af85c6d5b3361011bdc6364c6/src/images/screen.jpg)
 Vanilla-Date is a dating application in a mobile version, fully functional, written in a library
 React, styled with JSS and with Material-UI. During write a project, I learned how to apply functions
 asynychronical and solve the problem of server queries. I became proficient in
