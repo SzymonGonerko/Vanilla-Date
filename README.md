@@ -85,7 +85,9 @@ The navigation is based on React-Router-Home. The application consists of severa
 
 ## Optimization
 
-One of the biggest problems I faced was optimization. The application load consisted of several elements. First, firebase disabled the ability to execute server-side functions. Therefore, the pairing function for the current user must be performed on the side of the current user. The user's browser takes the interactions of all other users and compares them to the interactions of the current user. I am aware that this functionality should be performed on the server side, but with free tools it is not possible.
+One of the biggest problems I faced was optimization. The application load consisted of several elements. First, firebase disabled the ability to execute server-side functions. Therefore, the pairing function for the current user must be performed on the side of the current user. The user's browser takes the interactions of all other users and compares them to the interactions of the current user. I am aware that this functionality should be performed on the server side, but with free version of Friebase it is not possible.
+
+![FIREBASE](https://github.com/SzymonGonerko/Vanilla-Date/blob/aa9abade7afcfcd5b7b723607a2bc0658ba41b29/src/images/object.jpg)
 
 # Link
 Demo page is is available at adress https://vanilla-date.netlify.app/
