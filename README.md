@@ -1,5 +1,7 @@
 # Project Vanilla-Date
 
+https://vanilla-date.netlify.app/
+
 ![VD](https://github.com/SzymonGonerko/Vanilla-Date/blob/b031be018ca23b8af85c6d5b3361011bdc6364c6/src/images/screen.jpg)
 Vanilla-Date is dating application in mobile version, fully functional, written in a React library
 , styled with JSS and with Material-UI. During write a project, I learned how to apply functions
@@ -116,8 +118,13 @@ I am fully aware of the side effects of this solution, including page load times
 
 While i was writing the implementation of a class object, I missed one obvious detail that I hadn't thought of. It is a big functionality. I was convinced that the error was on the side of a flawed class object. I will devote a separate chapter to the Particle.js object. The animation did not work, and the console did not return any error. One solution to this problem was to use setTimeout (() => {}, 0), which is an asynchronous method that moves it to the call stack. Then I realized what the problem was. I tried to get the instance data of an object before load. The solution to this problem is to use the myImage.onload = function () {…}.
 
+![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/7180eca71573abfd89d35979f4dc25fa28cbdcf2/src/images/load.jpg)
+
+## TypeError: doc.data().couples is not iterable
+
+During first session, the user probably not have couples. Other users have not interacted with the his/her until using the application. When useEffect is executed, the value of doc.data().couples of the current user is undefined. After rest operator [...doc.data ().couples] try itering of value undefined. The application stops working. The solution to the problem is to use the try {…} catch (e) {console.log (e)} methods. This allows you to catch the error and execute the rest of the script. Moreover, try {} catch () {} converte error into message in console browser.
 
 # Link
-Demo page is is available at adress https://vanilla-date.netlify.app/
+Page is is available at adress https://vanilla-date.netlify.app/
 
 
