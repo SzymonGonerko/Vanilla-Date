@@ -110,6 +110,9 @@ The only effective solution to this problem was to execute
 
 I am fully aware of the side effects of this solution, including page load times and information loss from the global state. At the moment, this is the only possible way to ensure the application runs smoothly. I Hope to learn more about code optimization process in future work. 
 
+![FIREBASE](https://github.com/SzymonGonerko/Vanilla-Date/blob/86a3ad5ecbc7eabd4466b8404120b1d0be37668d/src/images/fetch.jpg)
+
+
 # Link
 Demo page is is available at adress https://vanilla-date.netlify.app/
 
