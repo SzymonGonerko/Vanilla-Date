@@ -89,7 +89,6 @@ const Profile = () => {
                     isFirSession = doc.data().isFirstSession
                     setDocId(doc.id)
                     setUser(doc.data());
-                    console.log(doc.data(), doc.id)
                 })
 
             } catch (e) {console.log(e)}

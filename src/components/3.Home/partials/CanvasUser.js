@@ -25,7 +25,7 @@ const CanvasUser = ({gender, avatar64, avatar64Height}) => {
         canvas.width = window.innerWidth;
         canvas.height = avatar64Height;
 
-        setTimeout(() => {
+        myImage.onload = function () {
             context.drawImage(myImage, 0, 0, canvas.width, canvas.height);
             const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
             context.clearRect(0, 0, canvas.width, canvas.height);
@@ -74,7 +74,8 @@ const CanvasUser = ({gender, avatar64, avatar64Height}) => {
             }
             animate();
 
-        }, 0)
+        }
+
 
 
     }, [])

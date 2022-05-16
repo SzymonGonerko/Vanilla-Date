@@ -112,6 +112,10 @@ I am fully aware of the side effects of this solution, including page load times
 
 ![FIREBASE](https://github.com/SzymonGonerko/Vanilla-Date/blob/86a3ad5ecbc7eabd4466b8404120b1d0be37668d/src/images/fetch.jpg)
 
+## Data before load
+
+While i was writing the implementation of a class object, I missed one obvious detail that I hadn't thought of. It is a big functionality. I was convinced that the error was on the side of a flawed class object. I will devote a separate chapter to the Particle.js object. The animation did not work, and the console did not return any error. One solution to this problem was to use setTimeout (() => {}, 0), which is an asynchronous method that moves it to the call stack. Then I realized what the problem was. I tried to get the instance data of an object before load. The solution to this problem is to use the myImage.onload = function () {…}.
+
 
 # Link
 Demo page is is available at adress https://vanilla-date.netlify.app/
