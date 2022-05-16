@@ -40,13 +40,8 @@ The where method allows you to easily filter data on the server. It is not a dee
 The navigation is based on React-Router-Home. The application consists of several main components rendered in the main root in App.js. The main structure is shown below
 
 ```
-      <AppContext.Provider value={{state, setState}}>
-        <ThemeProvider theme={theme}>
           <Router>
             <Switch>
-
-            {dimensions.width> 450 && dimensions.height > 500? <Desktop/>:null}
-
               <Route exact path="/">
                 <Splash/>
               </Route>
@@ -74,20 +69,46 @@ The navigation is based on React-Router-Home. The application consists of severa
               <Route path="/Chat">
                 <Chat/>
               </Route>
-
             </Switch>
           </Router>
-        </ThemeProvider>
-      </AppContext.Provider>
 ```
 
 # Problems and solutions
 
 ## Optimization
 
-One of the biggest problems I faced was optimization. The application load consisted of several elements. First, firebase disabled the ability to execute server-side functions. Therefore, the pairing function for the current user must be performed on the side of the current user. The user's browser takes the interactions of all other users and compares them to the interactions of the current user. I am aware that this functionality should be performed on the server side, but with free version of Friebase it is not possible.
+One of the biggest problems I faced was optimization. The application load consist of several elements. First, firebase disabled the ability to execute server-side functions. Therefore, the pairing function for the current user must be performed on the side of the current user. The user's browser takes the interactions of all other users and compares them to the interactions of the current user. I am aware that this functionality should be performed on the server side, but with free version of Friebase it is not possible. Simplified scheme of selecting partners is presented below
 
 ![FIREBASE](https://github.com/SzymonGonerko/Vanilla-Date/blob/aa9abade7afcfcd5b7b723607a2bc0658ba41b29/src/images/object.jpg)
+
+
+Of course, each user can delete couple, so the pairing function is a bit more complicated. 
+
+```
+    currUserProfile.likes?.forEach(currUser => Object.entries(currUser).forEach(([currKeycurrValue]) => (
+        users.forEach(el => el.likes?.forEach(item => Object.entries(item).forEach(([key, value]) => {
+            if (currUserProfile.docId === key && value && currKey === el.docId && currValue) {
+                setCouples(prev => [...prev, el.docId])
+                updateDoc(docRef, {
+                couples: arrayUnion(el.docId)
+                })
+                            }
+                        }
+                    )))
+                )))
+```
+
+
+Moreover, each user object contains a base64 image which is then converted to a canvas animation. 
+Finally, the number of server queries was so large that it did not allow smooth use of the application.
+I tried to transfer some of the data to the application state, but it turned out to be insufficient. 
+The only effective solution to this problem was to execute 
+
+```
+ window.location.reload()
+```
+
+I am fully aware of the side effects of this solution, including page load times and information loss from the global state. At the moment, this is the only possible way to ensure the application runs smoothly. I Hope to learn more about code optimization process in future work. 
 
 # Link
 Demo page is is available at adress https://vanilla-date.netlify.app/
