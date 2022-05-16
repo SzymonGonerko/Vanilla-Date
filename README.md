@@ -7,7 +7,9 @@ asynychronical and solve the problem of server queries. I became proficient in
 reading documentation and managing component lifecycles. App
 placed on a Google server (Firebase) along with user authentication and service
 backend. Design inspired by the movie "The Shape of Water" dir. Guillermo del Toro
+
 # Languages & technologies
+
 ![NPM](https://github.com/SzymonGonerko/Vanilla-Date/blob/b83579ffeac66a58d8fcab9dc0d70ec919d17950/src/images/npm.jpg)
 
 1. Material-UI and MaterialUI/core
@@ -20,19 +22,20 @@ One of the powerful tools of the project is Firebase 9.6.8. It is used to suppor
 
 ```
 import { collection, query, where, getDocs } from "firebase/firestore";
-const q = query(collection(db, "cities"), where("capital", "==", true));
+const q = query(collection(db, "Users"), where("UID", "==", userF.uid));
 const querySnapshot = await getDocs(q);
 querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
-});
+    isFirSession = doc.data().isFirstSession
+    setDocId(doc.id)
+    setUser(doc.data());
+})
 ```
 
 The where method allows you to easily filter data on the server. It is not a deep filtering because this method works on the server side and is a provider burden. ***Unfortunately, Firebase 9.6.8 disabled in free version the ability to implement server-side function.***
 
 ![FIREBASE](https://github.com/SzymonGonerko/Vanilla-Date/blob/c0b44ad5705ec4e250e0eda049b15d3bcf8b99f0/src/images/firebase.jpg)
 
-2. React-Router-Dom 5.2.0
+3. React-Router-Dom 5.2.0
 
 The navigation is based on React-Router-Home. The application consists of several main components rendered in the main root in App.js. The main structure is shown below
 
@@ -77,6 +80,12 @@ The navigation is based on React-Router-Home. The application consists of severa
         </ThemeProvider>
       </AppContext.Provider>
 ```
+
+# Problems and solutions
+
+## Optimization
+
+One of the biggest problems I faced was optimization. The application load consisted of several elements. First, firebase disabled the ability to execute server-side functions. Therefore, the pairing function for the current user must be performed on the side of the current user. The user's browser takes the interactions of all other users and compares them to the interactions of the current user. I am aware that this functionality should be performed on the server side, but with free tools it is not possible.
 
 # Link
 Demo page is is available at adress https://vanilla-date.netlify.app/
