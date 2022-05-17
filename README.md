@@ -167,6 +167,8 @@ const context = canvas.getContext('2d')
 
 therefore, a dependent loop with an X and Y coordinate is needed. Importantly, the loop takes all pixels vertically for Y. Then it goes to horizontally coordinate
 
+![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/14ae5c080ddbcb6692a69eb843ebd71dd8d9a9a5/src/images/loop.jpg)
+
 # Link
 Page is is available at adress https://vanilla-date.netlify.app/
 
