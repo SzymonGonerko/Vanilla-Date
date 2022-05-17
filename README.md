@@ -157,6 +157,8 @@ Before we go to the analysis, we will need a base64 photo. Base64 format allows 
 
 Directly in the MyCanvas.js component, i set to references for the canvas tag so that React can see which element is to give context using useRef(). The next step is to draw the image on the canvas, execute the getImageData () method and finally clean the canva. The getImageData () method returns an object from the data array with information about the rgba () value of each pixel.
 
+![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/adfde41e68cdcd42705c6070ac8d9afb60e2234b/src/images/getImageData.jpg)
+
 # Link
 Page is is available at adress https://vanilla-date.netlify.app/
 
