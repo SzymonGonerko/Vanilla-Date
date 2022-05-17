@@ -126,6 +126,37 @@ During first session, the user probably not have couples. Other users have not i
 
 ![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/a1974ec16656f72679bb73c2e24b4410c95d736f/src/images/iterable.jpg)
 
+
+# Canvas animation and class Particle - Logic
+
+
+Before we go to the analysis, we will need a base64 photo. Base64 format allows you to encode photo source in bit format (it can also be text). After loading the image, I created the canva element and specified its width and height. For the purposes of this project, I set the canva width to the width of the window. After that i executed drawImage() and next step is convert image to base64 using toDataURL() method and send to firebase. 
+
+```
+        reader.onload = function (event) {
+            const imgElement = document.createElement("img");
+            imgElement.src = event.target.result;
+            imgElement.onload = function (e) {
+                const canvas = document.createElement("canvas");
+                const MAX_WIDTH = window.innerWidth;
+
+                const scaleSize = MAX_WIDTH / e.target.width;
+                canvas.width = MAX_WIDTH;
+                canvas.height = e.target.height * scaleSize;
+                const ctx = canvas.getContext("2d");
+
+                ctx.drawImage(e.target, 0, 0, canvas.width, canvas.height);
+                const srcEncoded = ctx.canvas.toDataURL(e.target, "image/jpeg");
+                const docRef = doc(db, 'Users', docId)
+                updateDoc(docRef, {
+                    avatar64: srcEncoded,
+                    avatar64Height: canvas.height,
+                }).catch((err) => {console.log(err.message)})
+            };
+```
+
+Directly in the MyCanvas.js component, i set to references for the canvas tag so that React can see which element is to give context using useRef(). The next step is to draw the image on the canvas, execute the getImageData () method and finally clean the canva. The getImageData () method returns an object from the data array with information about the rgba () value of each pixel.
+
 # Link
 Page is is available at adress https://vanilla-date.netlify.app/
 
