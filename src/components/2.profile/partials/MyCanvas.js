@@ -52,7 +52,6 @@ const MyCanvas = ({gender}) => {
                 myImage.onload = function () {
                     context.drawImage(myImage, 0, 0, canvas.width, canvas.height);
                     const pixels = context.getImageData(0, 0, canvas.width, canvas.height);
-                    console.log(pixels)
                     
                     context.clearRect(0, 0, canvas.width, canvas.height);
     

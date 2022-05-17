@@ -155,9 +155,17 @@ Before we go to the analysis, we will need a base64 photo. Base64 format allows 
             };
 ```
 
-Directly in the MyCanvas.js component, i set to references for the canvas tag so that React can see which element is to give context using useRef(). The next step is to draw the image on the canvas, execute the getImageData () method and finally clean the canva. The getImageData () method returns an object from the data array with information about the rgba () value of each pixel.
+Directly in the MyCanvas.js component, i set to references for the canvas tag so that React can see which element is to give context using useRef(). The next step is to draw the image on the canvas, execute the getImageData () method and finally clean the canva. The getImageData() method returns an object from the data array with information about the rgba value of each pixel.
 
 ![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/adfde41e68cdcd42705c6070ac8d9afb60e2234b/src/images/getImageData.jpg)
+
+I would like to explain in detail how the pixel data function works. Canvas has two coordinate coordinates as seen in the notation
+
+```
+const context = canvas.getContext('2d')
+```
+
+therefore, a dependent loop with an X and Y coordinate is needed. Importantly, the loop takes all pixels vertically for Y. Then it goes to horizontally coordinate
 
 # Link
 Page is is available at adress https://vanilla-date.netlify.app/
