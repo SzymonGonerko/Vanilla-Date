@@ -1,5 +1,7 @@
+## Navigation
+
 - [Project_Vanilla-Date](#Project_Vanilla-Date)
-- [Languages&technologies](#Languages&technologies)
+- [Technologies](#Technologies)
   - [MaterialUI](#MaterialUI)
   - [Firebase](#Firebase)
   - [React_Router_Dom](#React_Router_Dom)
@@ -23,7 +25,7 @@ reading documentation and managing component lifecycles. App
 placed on a Google server (Firebase) with user authentication and service
 backend. Design inspired by the movie "The Shape of Water" dir. Guillermo del Toro
 
-# Languages&technologies
+# Technologies
 
 ![NPM](https://github.com/SzymonGonerko/Vanilla-Date/blob/b83579ffeac66a58d8fcab9dc0d70ec919d17950/src/images/npm.jpg)
 
