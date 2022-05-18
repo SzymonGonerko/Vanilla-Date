@@ -1,9 +1,9 @@
 - [Project_Vanilla-Date](#Project_Vanilla-Date)
 - [Languages_&_technologies](#Languages_&_technologies)
-  - [Material_UI_&_MaterialUI/core](#Material_UI_&_MaterialUI/core)
-  - [Firebase_9.6.8](#Firebase_9.6.8)
-  - [React_Router_Dom_5.2.0](#React_Router_Dom_5.2.0)
-- [Problems and solutions](#Problems_and_solutions)
+  - [MaterialUI/MaterialUICore](#MaterialUI/MaterialUICore)
+  - [Firebase](#Firebase)
+  - [React_Router_Dom](#React_Router_Dom)
+- [Problems_and_solutions](#Problems_and_solutions)
   - [Optimization](#Optimization)
   - [Data_before_load](#Data_before_load)
   - [TypeError_couples_is_not_iterable](#TypeError_couples_is_not_iterable)
@@ -27,11 +27,11 @@ backend. Design inspired by the movie "The Shape of Water" dir. Guillermo del To
 
 ![NPM](https://github.com/SzymonGonerko/Vanilla-Date/blob/b83579ffeac66a58d8fcab9dc0d70ec919d17950/src/images/npm.jpg)
 
-## Material_UI_&_MaterialUI/core
+## MaterialUI/MaterialUICore
 
 One of the most commonly used NPM packages were Material-UI and MaterialUI / core. I decided to install both. The design of the MaterialUI / core components is more suited to the form and the Material-UI components are more suited to the user section (for example UserCard.js). One of the problems with styling Material components is that the vast majority of them can only be styled linearly. The Material components are based on their own classes, so class styling is much more difficult. Therefore, in some parts of the project, I  use linear styling and class styling for html tags.
 
-## Firebase_9.6.8
+## Firebase
 
 One of the powerful tools of the project is Firebase 9.6.8. It is used to support the backend, including sending and downloading data and user authentication. Firebase has  own methods for handling server queries. One of the most used was the example below.
 
@@ -50,7 +50,7 @@ The where method allows you to easily filter data on the server. It is not a dee
 
 ![FIREBASE](https://github.com/SzymonGonerko/Vanilla-Date/blob/c0b44ad5705ec4e250e0eda049b15d3bcf8b99f0/src/images/firebase.jpg)
 
-## React-Router-Dom-5.2.0
+## React_Router_Dom
 
 The navigation is based on React-Router-Home. The application consists of several main components rendered in the main root in App.js. The main structure is shown below
 
