@@ -1,4 +1,17 @@
-# Project Vanilla-Date
+- [Project Vanilla-Date](#Project_Vanilla-Date)
+    - [Languages & technologies](#Languages_&_technologies)
+      - [Material-UI & MaterialUI/core](##Material-UI&MaterialUI/core)
+      - [Firebase-9.6.8](##Firebase-9.6.8)
+      - [React-Router-Dom-5.2.0](##React-Router-Dom-5.2.0)
+    - [Problems and solutions](#Problems_and_solutions)
+      - [Optimization](##Optimization)
+      - [Data_before_load](##Data_before_load)
+      - [TypeError:_doc.data().couples_is_not_iterable](##TypeError:_doc.data().couples_is_not_iterable)
+    - [Canvas_animation_and_class_Particle_-_Logic](#Canvas_animation_and_class_Particle_-_Logic)
+
+
+
+# Project_Vanilla-Date
 
 https://vanilla-date.netlify.app/
 
@@ -10,15 +23,15 @@ reading documentation and managing component lifecycles. App
 placed on a Google server (Firebase) with user authentication and service
 backend. Design inspired by the movie "The Shape of Water" dir. Guillermo del Toro
 
-# Languages & technologies
+# Languages_&_technologies
 
 ![NPM](https://github.com/SzymonGonerko/Vanilla-Date/blob/b83579ffeac66a58d8fcab9dc0d70ec919d17950/src/images/npm.jpg)
 
-1. Material-UI and MaterialUI/core
+## Material-UI & MaterialUI/core
 
 One of the most commonly used NPM packages were Material-UI and MaterialUI / core. I decided to install both. The design of the MaterialUI / core components is more suited to the form and the Material-UI components are more suited to the user section (for example UserCard.js). One of the problems with styling Material components is that the vast majority of them can only be styled linearly. The Material components are based on their own classes, so class styling is much more difficult. Therefore, in some parts of the project, I  use linear styling and class styling for html tags.
 
-2. Firebase-9.6.8
+## Firebase-9.6.8
 
 One of the powerful tools of the project is Firebase 9.6.8. It is used to support the backend, including sending and downloading data and user authentication. Firebase has  own methods for handling server queries. One of the most used was the example below.
 
@@ -37,7 +50,7 @@ The where method allows you to easily filter data on the server. It is not a dee
 
 ![FIREBASE](https://github.com/SzymonGonerko/Vanilla-Date/blob/c0b44ad5705ec4e250e0eda049b15d3bcf8b99f0/src/images/firebase.jpg)
 
-3. React-Router-Dom 5.2.0
+## React-Router-Dom-5.2.0
 
 The navigation is based on React-Router-Home. The application consists of several main components rendered in the main root in App.js. The main structure is shown below
 
@@ -75,7 +88,7 @@ The navigation is based on React-Router-Home. The application consists of severa
           </Router>
 ```
 
-# Problems and solutions
+# Problems_and_solutions
 
 ## Optimization
 
@@ -114,20 +127,20 @@ I am fully aware of the side effects of this solution, including page load times
 
 ![FIREBASE](https://github.com/SzymonGonerko/Vanilla-Date/blob/86a3ad5ecbc7eabd4466b8404120b1d0be37668d/src/images/fetch.jpg)
 
-## Data before load
+## Data_before_load
 
 While i was writing the implementation of a class object, I missed one obvious detail that I hadn't thought of. It is a big functionality. I was convinced that the error was on the side of a flawed class object. I will devote a separate chapter to the Particle.js object. The animation did not work, and the console did not return any error. One solution to this problem was to use setTimeout (() => {}, 0), which is an asynchronous method that moves it to the call stack. Then I realized what the problem was. I tried to get the instance data of an object before load. The solution to this problem is to use the myImage.onload = function () {…}.
 
 ![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/7180eca71573abfd89d35979f4dc25fa28cbdcf2/src/images/load.jpg)
 
-## TypeError: doc.data().couples is not iterable
+## TypeError:_doc.data().couples_is_not_iterable
 
 During first session, the user probably not have couples. Other users have not interacted with the his/her until using the application. When useEffect is executed, the value of doc.data().couples of the current user is undefined. After rest operator [...doc.data ().couples] try itering of value undefined. The application stops working. The solution to the problem is to use the try {…} catch (e) {console.log (e)} methods. This allows you to catch the error and execute the rest of the script. Moreover, try {} catch () {} converte error into message in console browser.
 
 ![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/a1974ec16656f72679bb73c2e24b4410c95d736f/src/images/iterable.jpg)
 
 
-# Canvas animation and class Particle - Logic
+# Canvas_animation_and_class_Particle_-_Logic
 
 
 Before we go to the analysis, we will need a base64 photo. Base64 format allows you to encode photo source in bit format (it can also be text). After loading the image, I created the canva element and specified its width and height. For the purposes of this project, I set the canva width to the width of the window. After that i executed drawImage() and next step is convert image to base64 using toDataURL() method and send to firebase. 
