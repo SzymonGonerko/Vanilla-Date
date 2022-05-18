@@ -1,12 +1,12 @@
 - [Project Vanilla-Date](#Project_Vanilla-Date)
 - [Languages & technologies](#Languages_&_technologies)
-  - [Material-UI & MaterialUI/core](##Material_UI_&_MaterialUI/core)
-  - [Firebase-9.6.8](##Firebase-9.6.8)
-  - [React-Router-Dom-5.2.0](##React-Router-Dom-5.2.0)
+  - [Material-UI & MaterialUI/core](#Material_UI_&_MaterialUI/core)
+  - [Firebase-9.6.8](#Firebase-9.6.8)
+  - [React-Router-Dom-5.2.0](#React-Router-Dom-5.2.0)
 - [Problems and solutions](#Problems_and_solutions)
-  - [Optimization](##Optimization)
-  - [Data_before_load](##Data_before_load)
-  - [TypeError_couples_is_not_iterable](##TypeError_couples_is_not_iterable)
+  - [Optimization](#Optimization)
+  - [Data_before_load](#Data_before_load)
+  - [TypeError_couples_is_not_iterable](#TypeError_couples_is_not_iterable)
 - [Canvas_animation_and_class_Particle_-_Logic](#Canvas_animation_and_class_Particle_-_Logic)
 
 
