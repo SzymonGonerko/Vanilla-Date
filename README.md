@@ -1,8 +1,8 @@
-- [Project Vanilla-Date](#Project_Vanilla-Date)
-- [Languages & technologies](#Languages_&_technologies)
-  - [Material-UI & MaterialUI/core](#Material_UI_&_MaterialUI/core)
-  - [Firebase-9.6.8](#Firebase-9.6.8)
-  - [React-Router-Dom-5.2.0](#React-Router-Dom-5.2.0)
+- [Project_Vanilla-Date](#Project_Vanilla-Date)
+- [Languages_&_technologies](#Languages_&_technologies)
+  - [Material_UI_&_MaterialUI/core](#Material_UI_&_MaterialUI/core)
+  - [Firebase_9.6.8](#Firebase_9.6.8)
+  - [React_Router_Dom_5.2.0](#React_Router_Dom_5.2.0)
 - [Problems and solutions](#Problems_and_solutions)
   - [Optimization](#Optimization)
   - [Data_before_load](#Data_before_load)
@@ -31,7 +31,7 @@ backend. Design inspired by the movie "The Shape of Water" dir. Guillermo del To
 
 One of the most commonly used NPM packages were Material-UI and MaterialUI / core. I decided to install both. The design of the MaterialUI / core components is more suited to the form and the Material-UI components are more suited to the user section (for example UserCard.js). One of the problems with styling Material components is that the vast majority of them can only be styled linearly. The Material components are based on their own classes, so class styling is much more difficult. Therefore, in some parts of the project, I  use linear styling and class styling for html tags.
 
-## Firebase-9.6.8
+## Firebase_9.6.8
 
 One of the powerful tools of the project is Firebase 9.6.8. It is used to support the backend, including sending and downloading data and user authentication. Firebase has  own methods for handling server queries. One of the most used was the example below.
 
