@@ -1,13 +1,13 @@
 - [Project Vanilla-Date](#Project_Vanilla-Date)
-    - [Languages & technologies](#Languages_&_technologies)
-      - [Material-UI & MaterialUI/core](##Material-UI&MaterialUI/core)
-      - [Firebase-9.6.8](##Firebase-9.6.8)
-      - [React-Router-Dom-5.2.0](##React-Router-Dom-5.2.0)
-    - [Problems and solutions](#Problems_and_solutions)
-      - [Optimization](##Optimization)
-      - [Data_before_load](##Data_before_load)
-      - [TypeError:_doc.data().couples_is_not_iterable](##TypeError:_doc.data().couples_is_not_iterable)
-    - [Canvas_animation_and_class_Particle_-_Logic](#Canvas_animation_and_class_Particle_-_Logic)
+- [Languages & technologies](#Languages_&_technologies)
+  - [Material-UI & MaterialUI/core](##Material_UI_&_MaterialUI/core)
+  - [Firebase-9.6.8](##Firebase-9.6.8)
+  - [React-Router-Dom-5.2.0](##React-Router-Dom-5.2.0)
+- [Problems and solutions](#Problems_and_solutions)
+  - [Optimization](##Optimization)
+  - [Data_before_load](##Data_before_load)
+  - [TypeError_couples_is_not_iterable](##TypeError_couples_is_not_iterable)
+- [Canvas_animation_and_class_Particle_-_Logic](#Canvas_animation_and_class_Particle_-_Logic)
 
 
 
@@ -27,7 +27,7 @@ backend. Design inspired by the movie "The Shape of Water" dir. Guillermo del To
 
 ![NPM](https://github.com/SzymonGonerko/Vanilla-Date/blob/b83579ffeac66a58d8fcab9dc0d70ec919d17950/src/images/npm.jpg)
 
-## Material-UI & MaterialUI/core
+## Material_UI_&_MaterialUI/core
 
 One of the most commonly used NPM packages were Material-UI and MaterialUI / core. I decided to install both. The design of the MaterialUI / core components is more suited to the form and the Material-UI components are more suited to the user section (for example UserCard.js). One of the problems with styling Material components is that the vast majority of them can only be styled linearly. The Material components are based on their own classes, so class styling is much more difficult. Therefore, in some parts of the project, I  use linear styling and class styling for html tags.
 
@@ -133,7 +133,7 @@ While i was writing the implementation of a class object, I missed one obvious d
 
 ![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/7180eca71573abfd89d35979f4dc25fa28cbdcf2/src/images/load.jpg)
 
-## TypeError:_doc.data().couples_is_not_iterable
+## TypeError_couples_is_not_iterable
 
 During first session, the user probably not have couples. Other users have not interacted with the his/her until using the application. When useEffect is executed, the value of doc.data().couples of the current user is undefined. After rest operator [...doc.data ().couples] try itering of value undefined. The application stops working. The solution to the problem is to use the try {…} catch (e) {console.log (e)} methods. This allows you to catch the error and execute the rest of the script. Moreover, try {} catch () {} converte error into message in console browser.
 
