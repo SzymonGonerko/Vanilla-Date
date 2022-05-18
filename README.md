@@ -173,6 +173,8 @@ Another function is performed in the loop. This is calculateRelativeBrightness()
 
 https://www.sciencedirect.com/science/article/pii/S0042698907000648
 
+![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/0f19e6f089699fd39e57a756b90f1daea1a6be4a/src/images/brightness.jpg)
+
 # Link
 Page is is available at adress https://vanilla-date.netlify.app/
 
