@@ -7,7 +7,7 @@ Vanilla-Date is dating application in mobile version, fully functional, written 
 , styled with JSS and with Material-UI. During write a project, I learned how to apply functions
 asynychronical and solve the problem of server queries. I became proficient in
 reading documentation and managing component lifecycles. App
-placed on a Google server (Firebase) along with user authentication and service
+placed on a Google server (Firebase) with user authentication and service
 backend. Design inspired by the movie "The Shape of Water" dir. Guillermo del Toro
 
 # Languages & technologies
@@ -165,9 +165,13 @@ I would like to explain in detail how the pixel data function works. Canvas has 
 const context = canvas.getContext('2d')
 ```
 
-therefore, a dependent loop with an X and Y coordinate is needed. Importantly, the loop takes all pixels vertically for Y. Then it goes to horizontally coordinate
+therefore, a dependent loop with an X and Y coordinate is needed. Importantly, the loop takes all pixels vertically for Y. Then it goes to horizontally coordinate. 
 
 ![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/14ae5c080ddbcb6692a69eb843ebd71dd8d9a9a5/src/images/loop.jpg)
+
+Another function is performed in the loop. This is calculateRelativeBrightness() This function adjusts the brightness of the pixels according to human perception of brightness. As humans we tend to perceive brightness through the context in which it is embedded which does not make the color lighter or darker. I am not a specialist in the theory of contrast, so below is an article about specialized physical theory.
+
+https://www.sciencedirect.com/science/article/pii/S0042698907000648
 
 # Link
 Page is is available at adress https://vanilla-date.netlify.app/
