@@ -10,6 +10,7 @@
   - [Data_before_load](#Data_before_load)
   - [TypeError_couples_is_not_iterable](#TypeError_couples_is_not_iterable)
 - [Canvas_animation_and_class_Particle_-_Logic](#Canvas_animation_and_class_Particle_-_Logic)
+- [Summary](#Summary)
 
 
 
@@ -48,7 +49,7 @@ querySnapshot.forEach((doc) => {
 })
 ```
 
-The where method allows you to easily filter data on the server. It is not a deep filtering because this method works on the server side and is a provider burden. ***Unfortunately, Firebase 9.6.8 disabled in free version the ability to implement server-side function.***
+The where method allows you to easily filter data on the server. It is not a deep filtering because this method works on the server side and is a provider burden. **Unfortunately, Firebase 9.6.8 disabled in free version the ability to implement server-side function.**
 
 ![FIREBASE](https://github.com/SzymonGonerko/Vanilla-Date/blob/c0b44ad5705ec4e250e0eda049b15d3bcf8b99f0/src/images/firebase.jpg)
 
@@ -220,6 +221,7 @@ class Particle {
 
         this.y -= 0.3;
         this.x += 0.3;
+
         if (this.y <= 0){
             this.y = this.height;
             this.x = Math.random() * this.width;
@@ -242,7 +244,21 @@ I added some chaos to this project using the Math.random () method. You have to 
 
 ![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/4d549fb81e3f8c0aa2a2dd96f87a121fa1220f69/src/images/random.jpg)
 
-# Link
-Page is is available at adress https://vanilla-date.netlify.app/
+This object has two primary methods, update () and draw (). The update () method is responsible for the speed and size of objects. The speed is equal to this.pixelsImage[this.position1][this.position2][0], which is the relative brightness values. The size is equal to the speed multiplied by 3. The Y coordinate with each execution of the method decreases the value and the X coordinate increments it. I can play with directions by adding your own functions for example Bézier curve and others. Finally, the draw method draws an object on the canva.
+
+# Summary
+
+This is my first big project. While writing it, I ran into a lot of problems and became proficient in reading documentation and solving problems. The UX project was a big problem for me, which turned out to be incomplete, so I had to spend a lot of time choosing my own styles. While writing the documentation, I did not discuss the specifics of all components such as ChatRoom.js or Message.js. In my opinion, they are much simpler and here I wanted to describe the really important problems.
+
+# Inspirations
+
+While looking for material, I came across the projects of the developer **Bruno Imbrizi** from London. He creates much more complicated projects based on the three.js library and WebGL. My level is not that high, but I was very inspired to see his work.
+
+https://github.com/brunoimbrizi/interactive-particles
+
+https://tympanus.net/Tutorials/InteractiveParticles/
+
+
+
 
 
