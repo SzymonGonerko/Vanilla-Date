@@ -190,6 +190,56 @@ https://www.sciencedirect.com/science/article/pii/S0042698907000648
 
 ![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/0f19e6f089699fd39e57a756b90f1daea1a6be4a/src/images/brightness.jpg)
 
+
+Finally, we move on to the particle class, which is the essence of animation. This class is seen as small circles that move on the animation at different speeds and sizes. This class contains some basic dependencies in the constructor. The color is depends of gender user. If the user is female it is red, if the user is male it is blue. Contex is the canvas tag element so that objects can access it. Height and width are the dimensions of the context. The X and Y coordinates are the directions in which the objects will move. The next elements are the speed and size of the objects.
+
+```
+class Particle {
+    constructor(width, height, pixelsImage, context, color){
+        this.color = color
+        this.context = context
+        this.pixelsImage = pixelsImage
+        this.height = height
+        this.width = width
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.speed = 0;
+        this.size = Math.random() * 2.5 + 0.2;
+        this.position1 = Math.floor(this.y);
+        this.position2 = Math.floor(this.x);
+
+    }
+    update(){
+        this.position1 = Math.floor(this.y);
+        this.position2 = Math.floor(this.x);
+        if ((this.pixelsImage[this.position1])&&(this.pixelsImage[this.position1][this.position2])){
+            this.speed = this.pixelsImage[this.position1][this.position2][0];
+        }
+        this.size = this.speed * 3;
+
+
+        this.y -= 0.3;
+        this.x += 0.3;
+        if (this.y <= 0){
+            this.y = this.height;
+            this.x = Math.random() * this.width;
+        }
+        if (this.x >= this.width){
+            this.x = 0;
+            this.y = Math.random() * this.height;
+        }
+    }
+    draw(){
+        this.context.beginPath();
+        this.context.fillStyle = this.color;
+        this.context.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        this.context.fill();
+    }
+}
+```
+
+I added some chaos to this project using the Math.random () method. You have to remember that the starting points of the animation are the left side of the canvas. If several thousand small objects have the same initial value, they will create one canva line.
+
 # Link
 Page is is available at adress https://vanilla-date.netlify.app/
 
