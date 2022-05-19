@@ -240,6 +240,8 @@ class Particle {
 
 I added some chaos to this project using the Math.random () method. You have to remember that the starting points of the animation are the left side of the canvas. If several thousand small objects have the same initial value, they will create one canva line.
 
+![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/4d549fb81e3f8c0aa2a2dd96f87a121fa1220f69/src/images/random.jpg)
+
 # Link
 Page is is available at adress https://vanilla-date.netlify.app/
 
