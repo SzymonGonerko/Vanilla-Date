@@ -18,7 +18,7 @@ import Typewriter from "typewriter-effect";
 const thanksText = 'Cześć! Jest mi miło, że tu jesteś...'
 const posibilityText = 'Przed Tobą kilka niespodzianek. Zobaczysz animację składającą się z 2500 małych obiektów przypominających Ciebie. Poznasz innych użytkowników, a także  nawiążesz z nimi kontakt...'
 const rememberText = ' Jednak przedtem, pamiętaj o kilku rzeczach...'
-const firstHintText = 'Wstaw swoje zdjęcie, najlepiej portretowe. Animacja zdjęć jest tajemnicza. Dzięki temu kluczowe w poznawaniu innych są historie, a portrety pozostają w swerze Twojej fantazji...💫'
+const firstHintText = 'Wstaw swoje zdjęcie, najlepiej portretowe. Animacja zdjęć jest tajemnicza. Dzięki temu kluczowe w poznawaniu innych są historie, a portrety pozostają w sferze Twojej fantazji...💫'
 const secHintText = 'Wybierz jedno z pytań i napisz swoją historię. Potem przejdź do strony głównej 🏠. Życzę Ci wiele miłych chwil... '
 const PS = 'PS. Vanilla-Date jest młoda więc ma mało użytkowników. Proszę, zajrzyj tu następnego dnia...'
 

@@ -71,7 +71,7 @@ const Logout = () => {
             >
                 <Box style={stylesModal.modalConfirm}>
                     <Typography id="modal-modal-title" sx={{fontFamily: "Roboto Serif", fontWeight: "bold"}} variant="h6" component="h2">
-                        Czy chcesz się Wylogować ?
+                        Czy chcesz się wylogować ?
                     </Typography>
                     <div style={{display: "flex", justifyContent: "space-between"}}>
                         <Button
