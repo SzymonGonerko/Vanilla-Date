@@ -10,7 +10,10 @@
   - [Data_before_load](#Data_before_load)
   - [TypeError_couples_is_not_iterable](#TypeError_couples_is_not_iterable)
 - [Canvas_animation_and_class_Particle_-_Logic](#Canvas_animation_and_class_Particle_-_Logic)
+  - [getImageData&mappedImage](##getImageData&mappedImage)
+  - [class_Particle](##class_Particle)
 - [Summary](#Summary)
+- [Inspirations](#Inspirations)
 
 
 
@@ -145,6 +148,8 @@ During first session, the user probably not have couples. Other users have not i
 
 # Canvas_animation_and_class_Particle_-_Logic
 
+## getImageData&mappedImage
+
 
 Before we go to the analysis, we will need a base64 photo. Base64 format allows you to encode photo source in bit format (it can also be text). After loading the image, I created the canva element and specified its width and height. For the purposes of this project, I set the canva width to the width of the window. After that i executed drawImage() and next step is convert image to base64 using toDataURL() method and send to firebase. 
 
@@ -191,6 +196,7 @@ https://www.sciencedirect.com/science/article/pii/S0042698907000648
 
 ![LOAD](https://github.com/SzymonGonerko/Vanilla-Date/blob/0f19e6f089699fd39e57a756b90f1daea1a6be4a/src/images/brightness.jpg)
 
+## class_Particle
 
 Finally, we move on to the particle class, which is the essence of animation. This class is seen as small circles that move on the animation at different speeds and sizes. This class contains some basic dependencies in the constructor. The color is depends of gender user. If the user is female it is red, if the user is male it is blue. Contex is the canvas tag element so that objects can access it. Height and width are the dimensions of the context. The X and Y coordinates are the directions in which the objects will move. The next elements are the speed and size of the objects.
 
@@ -252,11 +258,13 @@ This is my first big project. While writing it, I ran into a lot of problems and
 
 # Inspirations
 
-While looking for material, I came across the projects of the developer **Bruno Imbrizi** from London. He creates much more complicated projects based on the three.js library and WebGL. My level is not that high, but I was very inspired to see his work.
+While looking for material, I came across the projects of the developer **Bruno Imbrizi** from London. He creates much more advanced projects based on the three.js library and WebGL. My level is not that high, but I was very inspired to see his work.
 
 https://github.com/brunoimbrizi/interactive-particles
 
 https://tympanus.net/Tutorials/InteractiveParticles/
+
+![BrunoImbrizi](https://github.com/SzymonGonerko/Vanilla-Date/blob/2cfb6a29c8f96aeffc975cd113c634fee6934e71/src/images/BrunoImbrizi.jpg)
 
 
 
